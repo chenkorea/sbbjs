@@ -1,0 +1,6 @@
+<view class="main-view">
+  <input class="input newpwd" password placeholder="请输入新密码"/>
+  <input class="input oldpwd" password placeholder="请输入确认密码"/>
+
+   <button class="confirm_btn" bindtap="bindViewTap">确认</button>
+</view>

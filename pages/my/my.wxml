@@ -1,0 +1,25 @@
+<!-- 我的界面 -->
+  <view class="my-view">
+    <view class="my-header">
+      <image src="http://qq.5068.com/uploads/allimg/121207/104G26310-3.jpg" class="user-header"></image>
+      <view class="name-view">
+        <view class="phone-val">泷泽萝拉</view>
+        <view class="level-val">国家高级女技师</view>
+        <view class="level-val">138****2323</view>
+      </view>
+    </view>
+
+    <view class="seting-view" bindtap="toMoneyView">
+      <icon class="iconfont icon-mysss1 icon-fangwuqiuzu" />
+      <text class="my-title">未结金额</text>
+      <text class="my-title money-text">3980.89元</text>
+    </view>
+    <view class="seting-view">
+      <icon class="iconfont icon-mysss icon-kefu" />
+      <text class="my-title">客服</text>
+    </view>
+    <view class="seting-view">
+      <icon class="iconfont icon-mysss1 icon-shezhi" />
+      <text class="my-title">设置</text>
+    </view>
+  </view>

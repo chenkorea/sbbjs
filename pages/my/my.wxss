@@ -1,0 +1,65 @@
+.my-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: white;
+}
+
+.my-header {
+  display: flex;
+  height: 200rpx;
+  width: 100%;
+  border-bottom: 20rpx solid #F4F4F4;
+}
+
+.user-header {
+  border-radius: 50%;
+  width: 120rpx;
+  height: 120rpx;
+  margin: 40rpx;
+}
+
+.name-view {
+  flex: 1;
+  display: inline;
+  font-size: 32rpx;
+  color: #333333;
+}
+
+.phone-val {
+  height: 40rpx;
+  margin-top: 30rpx;
+}
+
+.level-val {
+  height: 40rpx;
+  margin-top: 20rpx;
+}
+
+.seting-view {
+  width: 100%;
+  height: 100rpx;
+  border-bottom: 2rpx solid #F0F0F0;
+  font-size: 32rpx;
+  color: #333333;
+}
+
+.icon-mysss {
+  font-size: 40rpx;
+  margin: 20rpx;
+}
+
+.icon-mysss1 {
+  font-size: 50rpx;
+  margin: 20rpx;
+}
+
+.money-text {
+  float: right;
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  padding-right: 20rpx;
+}
