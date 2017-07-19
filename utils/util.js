@@ -1,3 +1,6 @@
+/** 服务器地址 */
+var server_addr = "http://192.200.200.24:9000/sbb-web/"
+
 function formatTime(date) {
   var year = date.getFullYear()
   var month = date.getMonth() + 1
