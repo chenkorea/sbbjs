@@ -66,7 +66,7 @@ Page({
 
       // 把注册数据传给服务器
       wx.request({
-        url: app.globalData.server_addr + 'phone/js/user/reg',
+        url: app.globalData.server_addr + 'phone/js/user/login',
         data: {
           phone: $this.data.phone,
           passwd: $this.data.passwd
