@@ -23,7 +23,9 @@ App({
     }
   },
 
+
   globalData: {
-    userInfo: null
+    userInfo: null,
+    server_addr: "http://192.200.200.24:9000/sbb-web/" // 服务器地址
   }
-})
+});
