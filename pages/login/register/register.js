@@ -28,7 +28,7 @@ Page({
       checkCode: e.detail.value
     });
   },
-  bindSubmitBtnTap: function () { // 点击提交按钮
+  bindRegisterBtnTap: function () { // 点击注册按钮
     // 校验手机号
     if (!util.phoneRe.test(this.data.phone)) {
       wx.showToast({
@@ -62,7 +62,7 @@ Page({
         checkCodeFocus: true
       });
 
-      // 提交
+      // 注册
     } else {
       // 保存当前对象，非常重要！！！
       var $this = this;
@@ -77,7 +77,7 @@ Page({
         url: app.globalData.server_addr + 'phone/js/user/reg',
         data: {
           phone: $this.data.phone,
-          //passwd: $this.data.passwd,
+          passwd: $this.data.passwd,
           checkCode: $this.data.checkCode
         },
         header: {
@@ -116,7 +116,7 @@ Page({
             duration: 3000
           });
         }
-      })
+      });
     }
   },
   onLoad: function () { // 加载

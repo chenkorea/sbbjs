@@ -20,6 +20,6 @@
        <text class="law-text">我同意《锁帮帮平台服务协议》</text>
      </view>
 
-     <button class="register_btn" bindtap="bindSubmitBtnTap">提交</button>
+     <button class="register_btn" bindtap="bindRegisterBtnTap">注册</button>
   </view>
 </view>
