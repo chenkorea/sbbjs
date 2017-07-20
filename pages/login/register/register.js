@@ -77,7 +77,7 @@ Page({
         url: app.globalData.server_addr + 'phone/js/user/reg',
         data: {
           phone: $this.data.phone,
-          passwd: $this.data.passwd,
+          //passwd: $this.data.passwd,
           checkCode: $this.data.checkCode
         },
         header: {
