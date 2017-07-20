@@ -80,7 +80,8 @@ Page({
 
           // 成功
           if (res.data.code == 1) {
-            wx.navigateTo({
+            // 关闭当前页面，并跳转至首页
+            wx.redirectTo({
               url: '../index/index',
             });
 
