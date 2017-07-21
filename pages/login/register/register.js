@@ -46,7 +46,7 @@ Page({
       });
 
       // 校验密码
-    } else if ((_this.data.passwd == '') || (_this.data.passwd.length < 6)) {
+    } else if (app.isBlank(_this.data.passwd) || (_this.data.passwd.length < 6)) {
       wx.showToast({
         title: '密码至少6个字符',
         duration: 3000

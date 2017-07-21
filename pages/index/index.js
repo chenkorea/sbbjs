@@ -128,10 +128,6 @@ Page({
       animInput: animationInput.export(),
     })
   },
-  onLoad: function (options) {
-    // 判断用户是否登录，如果未登录，重定向到登录页面
-    app.toLogin();
-  },
   onShareAppMessage: function () {
     // 用户点击右上角分享  
     return {

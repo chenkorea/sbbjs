@@ -2,7 +2,7 @@
 var app = getApp();
 
 Page({
-  data: {
+  data: { // 页面的初始数据
     phone: '',
     phoneFocus: false,
     passwd: '',
@@ -47,7 +47,7 @@ Page({
       });
 
       // 校验密码
-    } else if ((_this.data.passwd == '') || (_this.data.passwd.length < 6)) {
+    } else if (app.isBlank(_this.data.passwd) || (_this.data.passwd.length < 6)) {
       wx.showToast({
         title: '密码至少6个字符',
         duration: 3000
@@ -102,16 +102,31 @@ Page({
       });
     }
   },
-  onReady: function () { // 页面加载完毕
+  onLoad: function () { // 监听页面加载
+    // 如果用户已登录，重定向到首页
+    if (app.getLoginFlag()) {
+      // 如果已完善用户信息，则重定向到首页
+      if (app.isPerfectUserInfo()) {
+        wx.redirectTo({
+          url: "../index/index"
+        });
+
+        // 否则，重定向到完善用户用户信息界面
+      } else {
+        wx.redirectTo({
+          url: "../userinfo/userinfo"
+        });
+      }
+    }
+  },
+  onReady: function () { // 监听页面初次渲染完成
     var _this = this;
     var loginInfo = app.getLoginInfo();
 
-    console.log(loginInfo);
-
     // 回显手机号和密码
     _this.setData({
-      phone: loginInfo.phone,
-      passwd: loginInfo.passwd
+      phone: app.getString(loginInfo.phone),
+      passwd: app.getString(loginInfo.passwd)
     });
   }
 });
