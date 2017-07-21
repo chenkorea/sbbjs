@@ -21,7 +21,7 @@
   border-radius: 20rpx;
 }
 
-.userinfo-title {
+.userinfo-title-view {
   color: #228b22;
   font-size: 50rpx;
   text-align: center;
