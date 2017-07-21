@@ -108,7 +108,7 @@ Page({
 
     console.log(loginInfo);
 
-    // 显示手机号和密码
+    // 回显手机号和密码
     _this.setData({
       phone: loginInfo.phone,
       passwd: loginInfo.passwd
