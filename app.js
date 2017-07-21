@@ -15,8 +15,17 @@ App({
   //----------[/常量]----------//
 
   //----------[方法]----------//
-  // 判断变量为 null
-  isNull: function(o) {
+  /**
+   * 对象为空。
+   *
+   * @param o 对象
+   * @return 是否为空：
+   * <ol>
+   *    <li>true-为空；</li>
+   *    <li>false-不为空。</li>
+   * </ol>
+   */
+  isNull: function (o) {
     try {
       if ((typeof o === "undefined") || (o == null)) {
         return true;
@@ -28,17 +37,35 @@ App({
     }
   },
 
-  // 判断变量不为空 null
-  isNotNull: function(o) {
+  /**
+   * 对象不为空。
+   *
+   * @param o 对象
+   * @return 是否为空：
+   * <ol>
+   *    <li>true-不为空；</li>
+   *    <li>false-为空。</li>
+   * </ol>
+   */
+  isNotNull: function (o) {
     var _this = this;
 
     return !_this.isNull(o);
   },
 
-  // 判断字符串为空
-  isBlank: function(str) {
+  /**
+   * 字符串为空。
+   *
+   * @param str 字符串
+   * @return 是否为空：
+   * <ol>
+   *    <li>true-为空；</li>
+   *    <li>false-不为空。</li>
+   * </ol>
+   */
+  isBlank: function (str) {
     var _this = this;
-    
+
     try {
       if ((typeof str === "undefined") || (str == null)) {
         return true;
@@ -61,14 +88,32 @@ App({
     }
   },
 
-  // 判断字符串不为空
-  isNotBlank: function(str) {
+  /**
+   * 字符串不为空。
+   *
+   * @param str 字符串
+   * @return 是否为空：
+   * <ol>
+   *    <li>true-不为空；</li>
+   *    <li>false-为空。</li>
+   * </ol>
+   */
+  isNotBlank: function (str) {
     var _this = this;
 
     return !_this.isBlank(str);
   },
 
-  // 判断变量是否为对象
+  /**
+   * 判断非空变量是否为原生对象。
+   *
+   * @param o 变量
+   * @return 是否为原生对象：
+   * <ol>
+   *    <li>true-是；</li>
+   *    <li>false-否。</li>
+   * </ol>
+   */
   isObject: function (o) {
     var _this = this;
 
@@ -79,19 +124,17 @@ App({
     }
   },
 
-  // 判断变量是否为数组
-  isArray: function(arr) {
-    var _this = this;
-
-    try {
-      return (_this.isNotNull(arr) && (arr instanceof Array));
-    } catch (e) {
-      return false;
-    }
-  },
-
-  // 判断变量是否为数字
-  isNumber: function(num) {
+  /**
+   * 判断变量是否为数字。
+   *
+   * @param num 变量
+   * @return 是否为数字：
+   * <ol>
+   *    <li>true-是；</li>
+   *    <li>false-否。</li>
+   * </ol>
+   */
+  isNumber: function (num) {
     var _this = this;
 
     try {
@@ -101,7 +144,36 @@ App({
     }
   },
 
-  // 判断变量是否为布尔值
+  /**
+   * 判断变量是否为数组。
+   *
+   * @param arr 数组
+   * @return 是否为数组：
+   * <ol>
+   *    <li>true-是；</li>
+   *    <li>false-否。</li>
+   * </ol>
+   */
+  isArray: function (arr) {
+    var _this = this;
+
+    try {
+      return (_this.isNotNull(arr) && (arr instanceof Array));
+    } catch (e) {
+      return false;
+    }
+  },
+
+  /**
+   * 判断变量是否为布尔值。
+   *
+   * @param bl 变量
+   * @return 是否为布尔值：
+   * <ol>
+   *    <li>true-是；</li>
+   *    <li>false-否。</li>
+   * </ol>
+   */
   isBoolean: function (bl) {
     try {
       return (typeof bl === "boolean");
@@ -110,8 +182,17 @@ App({
     }
   },
 
-  // 判断变量是否为函数
-  isFunction: function(fn) {
+  /**
+   * 判断变量是否为函数。
+   *
+   * @param fn 变量
+   * @return 是否为函数：
+   * <ol>
+   *    <li>true-是；</li>
+   *    <li>false-否。</li>
+   * </ol>
+   */
+  isFunction: function (fn) {
     try {
       return (typeof fn === "function");
     } catch (e) {
@@ -119,8 +200,12 @@ App({
     }
   },
 
-  // 剔除字符串前后空格
-  trim: function(str) {
+  /**
+   * 剔除字符串前后空格。
+   * 
+   * @return 剔除字符串前后空格
+   */
+  trim: function (str) {
     var _this = this;
 
     if (typeof str === "string") {
@@ -130,25 +215,48 @@ App({
     }
   },
 
-  // 获取字符串
-  getString: function(str) {
+  /**
+   * 获取安全的字符串。
+   *
+   * @param str 字符串
+   * @return {string} 安全的字符串
+   */
+  getString: function (str) {
     var _this = this;
 
     return (_this.isBlank(str) ? "" : String(str));
   },
 
-  // 获取数字
-  getNumber: function(num) {
+  /**
+   * 获取安全的数字。
+   *
+   * @param num 数字
+   * @return {number} 安全的数字
+   */
+  getNumber: function (num) {
     var _this = this;
 
     return (_this.isNumber(num) ? Number(num) : 0);
   },
 
-  // 获取布尔值
-  getBoolean: function (bl) {
+  /**
+   * 获取安全的布尔。
+   *
+   * @param blStr 布尔字符串
+   * @return 安全的布尔
+   */
+  getBoolean: function (blStr) {
     var _this = this;
 
-    return (_this.isBoolean(bl) ? Boolean(bl) : false);
+    if (_this.isBlank(blStr)) {
+      return false;
+    } else {
+      if (String(blStr) === "true") {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
 
   /**
@@ -158,7 +266,7 @@ App({
    * @param splitCount 每隔多个字符
    * @return {string} 换行后的字符串
    */
-  newlineStr: function(str, splitCount) {
+  newlineStr: function (str, splitCount) {
     var _this = this;
     // 换行后的字符串
     var newlineStr = "";
@@ -197,7 +305,7 @@ App({
    * @param arr 数字数组
    * @return {number} 和
    */
-  sumArray: function(arr) {
+  sumArray: function (arr) {
     var _this = this;
     var sum = 0;
 
@@ -217,7 +325,7 @@ App({
    * @param objField 对象字段
    * @return {number} 和
    */
-  sumObjArray: function(objArr, objField) {
+  sumObjArray: function (objArr, objField) {
     var _this = this;
     var sum = 0;
 
@@ -243,7 +351,7 @@ App({
    *
    * @param str 字符串
    * @param startsStr 开始的字符串
-   * @return {boolean}
+   * @return
    * <ol>
    *    <li>true-是；</li>
    *    <li>false-否。</li>
@@ -268,7 +376,7 @@ App({
    *
    * @param str 字符串
    * @param endsStr 结束的字符串
-   * @return {boolean}
+   * @return
    * <ol>
    *    <li>true-是；</li>
    *    <li>false-否。</li>
@@ -296,7 +404,7 @@ App({
    *    <li>desc-降序。</li>
    * </ol>
    *
-   * @return {*|Array.<T>} 排序后的数组
+   * @return 排序后的数组
    */
   sortArray: function (arr, sortBy) {
     var _this = this;
@@ -362,7 +470,7 @@ App({
    *    <li>desc-降序。</li>
    * </ol>
    *
-   * @return {*|Array.<T>} 排序后的数组
+   * @return 排序后的数组
    */
   sortObjArray: function (objArr, sortField, sortBy) {
     var _this = this;
@@ -427,7 +535,7 @@ App({
    * @param objArr 对象数组
    * @param field 字段
    * @param fieldKey 字段键，即查找对象的字段值，在 objArr 中需要保证它是唯一的才有意义
-   * @return {Object} key 对应的对象
+   * @return key 对应的对象
    */
   getObjFromObjArr: function (objArr, field, fieldKey) {
     var _this = this;
@@ -467,13 +575,22 @@ App({
   /**
    * 获取用户信息。
    * 
-   * @return {Object} 用户信息
+   * @return 用户信息
    */
   getUserInfo: function () {
     return wx.getStorageSync("userInfo");
   },
 
-  // 设置登录标志：true-已登录；false-未登录
+  /**
+   * 设置登录标志。
+   *
+   * @param loginFlag 登录标志
+   * @return
+   * <ol>
+   *    <li>true-已登录；</li>
+   *    <li>false-未登录。</li>
+   * </ol>
+   */
   setLoginFlag: function (loginFlag) {
     var _this = this;
 
@@ -482,7 +599,15 @@ App({
     return wx.setStorageSync("loginFlag", loginFlag);
   },
 
-  // 获取登录标记：true-已登录；false-未登录
+  /**
+   * 获取登录标志。
+   *
+   * @return
+   * <ol>
+   *    <li>true-已登录；</li>
+   *    <li>false-未登录。</li>
+   * </ol>
+   */
   getLoginFlag: function () {
     if (wx.getStorageSync("loginFlag") === "true") {
       return true;
@@ -491,7 +616,9 @@ App({
     }
   },
 
-  // 跳转至登录界面
+  /**
+   *  跳转至登录界面。
+   */
   toLogin: function () {
     var _this = this;
 
@@ -502,7 +629,15 @@ App({
     }
   },
 
-  // 判断是否完善了用户信息：true-已完善；false-未完善
+  /**
+   * 判断是否完善了用户信息。
+   *
+   * @return
+   * <ol>
+   *    <li>true-已完善；</li>
+   *    <li>false-未完善。</li>
+   * </ol>
+   */
   isPerfectUserInfo: function () {
     var _this = this;
     var userInfo = _this.getUserInfo();
@@ -521,8 +656,10 @@ App({
     }
   },
 
-  // 发起请求
-  request: function(o) {
+  /**
+   * 发起请求。
+   */
+  request: function (o) {
     var _this = this;
 
     o.url = (_this.isBlank(o.url) ? "" : o.url);
@@ -611,7 +748,7 @@ App({
             wx.hideLoading();
           }
         }
-        
+
         wx.showToast({
           title: "网络连接失败，稍后再试！",
           duration: 3000
