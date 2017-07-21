@@ -1,6 +1,3 @@
-// 引入工具 JS
-var util = require('../../utils/util.js')
-
 //获取应用实例
 var app = getApp();
 
@@ -33,7 +30,7 @@ Page({
   },
   bindLoginBtnTap: function () { // 点击登录按钮
     // 校验手机号
-    if (!util.phoneRe.test(this.data.phone)) {
+    if (!app.phoneRe.test(this.data.phone)) {
       wx.showToast({
         title: '手机号格式不正确',
         duration: 3000
@@ -59,23 +56,17 @@ Page({
       // 保存当前对象，非常重要！！！
       var $this = this;
 
-      wx.showLoading({
-        title: '正在登录…',
-        mask: true
-      });
-
       // 把注册数据传给服务器
-      wx.request({
-        url: app.globalData.server_addr + 'phone/js/user/login',
+      app.request({
+        url: app.serverAddr + 'phone/js/user/login',
         data: {
           phone: $this.data.phone,
           passwd: $this.data.passwd
         },
-        header: {
-          'content-type': 'application/x-www-form-urlencoded'
-        },
         method: 'POST',
-        success: function (res) {
+        loading: true,
+        loadingMsg: "正在登录",
+        successFn: function (res) {
           wx.hideLoading();
 
           // 成功
@@ -92,14 +83,6 @@ Page({
               duration: 3000
             });
           }
-        },
-        fail: function () {
-          wx.hideLoading();
-
-          wx.showToast({
-            title: '抱歉，登录失败，稍后再试！',
-            duration: 3000
-          });
         }
       });
     }

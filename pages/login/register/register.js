@@ -1,6 +1,3 @@
-// 引入工具 JS
-var util = require('../../../utils/util.js')
-
 //获取应用实例
 var app = getApp();
 
@@ -30,7 +27,7 @@ Page({
   },
   bindRegisterBtnTap: function () { // 点击注册按钮
     // 校验手机号
-    if (!util.phoneRe.test(this.data.phone)) {
+    if (!app.phoneRe.test(this.data.phone)) {
       wx.showToast({
         title: '手机号格式不正确',
         duration: 3000
@@ -52,7 +49,7 @@ Page({
       });
 
       // 校验验证码
-    } else if (!util.checkCodeRe.test(this.data.checkCode)) {
+    } else if (!app.checkCodeRe.test(this.data.checkCode)) {
       wx.showToast({
         title: '验证码由6位数字组成',
         duration: 3000
@@ -74,7 +71,7 @@ Page({
 
       // 把注册数据传给服务器
       wx.request({
-        url: app.globalData.server_addr + 'phone/js/user/reg',
+        url: app.serverAddr + 'phone/js/user/reg',
         data: {
           phone: $this.data.phone,
           passwd: $this.data.passwd,
