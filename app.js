@@ -151,6 +151,376 @@ App({
     return (_this.isBoolean(bl) ? Boolean(bl) : false);
   },
 
+  /**
+   * 字符串换行处理。
+   *
+   * @param str 字符串
+   * @param splitCount 每隔多个字符
+   * @return {string} 换行后的字符串
+   */
+  newlineStr: function(str, splitCount) {
+    var _this = this;
+    // 换行后的字符串
+    var newlineStr = "";
+
+    if (_this.isBlank(str) || !_this.isNumber(splitCount)) {
+      return "";
+    }
+
+    splitCount = Number(splitCount);
+
+    if ((splitCount <= 0) || (str.length <= splitCount)) {
+      return str;
+    } else {
+      var split = (str.length / splitCount);
+
+      for (var i = 0; i < split; i++) {
+        if (i === 0) {
+          newlineStr += str.substring((i * splitCount), ((i + 1) * splitCount));
+        } else {
+          newlineStr += ("\n" + str.substring((i * splitCount), ((i + 1) * splitCount)));
+        }
+      }
+
+      // 非整除
+      if ((str.length % splitCount) !== 0) {
+        newlineStr += ("\n" + str.substring((split * splitCount)));
+      }
+    }
+
+    return newlineStr;
+  },
+
+  /**
+   * 数组求和。
+   *
+   * @param arr 数字数组
+   * @return {number} 和
+   */
+  sumArray: function(arr) {
+    var _this = this;
+    var sum = 0;
+
+    if (_this.isArray(arr)) {
+      for (var i = 0; i < arr.length; i++) {
+        sum += _this.getNumber(arr[i]);
+      }
+    }
+
+    return sum;
+  },
+
+  /**
+   * 给对象数组中对象的某个字段求和。
+   *
+   * @param objArr 对象数组
+   * @param objField 对象字段
+   * @return {number} 和
+   */
+  sumObjArray: function(objArr, objField) {
+    var _this = this;
+    var sum = 0;
+
+    if (_this.isArray(objArr) && _this.isNotBlank(objField) && !_this.isNumber(objField)) {
+      for (var i = 0; i < objArr.length; i++) {
+        var e = objArr[i];
+
+        if (_this.isObject(e)) {
+          var value = e[objField];
+
+          if (_this.isNumber(value)) {
+            sum += _this.getNumber(value);
+          }
+        }
+      }
+    }
+
+    return sum;
+  },
+
+  /**
+   * 判断 str 是否以 startsStr 开始。
+   *
+   * @param str 字符串
+   * @param startsStr 开始的字符串
+   * @return {boolean}
+   * <ol>
+   *    <li>true-是；</li>
+   *    <li>false-否。</li>
+   * </ol>
+   */
+  startsWithStr: function (str, startsStr) {
+    var _this = this;
+
+    if (_this.isBlank(str) || _this.isBlank(startsStr)) {
+      return false;
+    }
+
+    if (str.indexOf(startsStr) === 0) {
+      return true
+    } else {
+      return false;
+    }
+  },
+
+  /**
+   * 判断 str 是否以 endsStr 结束。
+   *
+   * @param str 字符串
+   * @param endsStr 结束的字符串
+   * @return {boolean}
+   * <ol>
+   *    <li>true-是；</li>
+   *    <li>false-否。</li>
+   * </ol>
+   */
+  endsWithStr: function (str, endsStr) {
+    if (_this.isBlank(str) || _this.isBlank(endsStr)) {
+      return false;
+    }
+
+    if ((str.lastIndexOf(endsStr) + endsStr.length) === str.length) {
+      return true
+    } else {
+      return false;
+    }
+  },
+
+  /**
+   * 给基本类型数组排序。
+   *
+   * @param arr 数组
+   * @param sortBy 排序方式：
+   * <ol>
+   *    <li>asc-升序；</li>
+   *    <li>desc-降序。</li>
+   * </ol>
+   *
+   * @return {*|Array.<T>} 排序后的数组
+   */
+  sortArray: function (arr, sortBy) {
+    var _this = this;
+
+    if (!_this.isArray(arr)) {
+      return new Array();
+    }
+
+    if (_this.isBlank(sortBy)) {
+      return arr;
+    }
+
+    sortBy = String(sortBy).toLowerCase();
+
+    if (("asc" !== sortBy) && ("desc" !== sortBy)) {
+      return arr;
+    }
+
+    // 比较器
+    var compare = function (v1, v2) {
+      // v1 和 v2 其中一个为空，禁止排序
+      if (_this.isBlank(v1) || _this.isBlank(v2)) {
+        return 0;
+      }
+
+      // 升序
+      if (sortBy === "asc") {
+        if (v1 > v2) {
+          return 1;
+        } else if (v1 < v2) {
+          return -1;
+        } else {
+          return 0;
+        }
+
+        // 降序
+      } else if (sortBy === "desc") {
+        if (v1 > v2) {
+          return -1;
+        } else if (v1 < v2) {
+          return 1;
+        } else {
+          return 0;
+        }
+
+        // 什么玩意？
+      } else {
+        return 0;
+      }
+    }
+
+    return arr.sort(compare);
+  },
+
+  /**
+   * 给对象数组排序。
+   *
+   * @param objArr 对象数组
+   * @param sortField 排序字段
+   * @param sortBy 排序方式：
+   * <ol>
+   *    <li>asc-升序；</li>
+   *    <li>desc-降序。</li>
+   * </ol>
+   *
+   * @return {*|Array.<T>} 排序后的数组
+   */
+  sortObjArray: function (objArr, sortField, sortBy) {
+    var _this = this;
+
+    if (!_this.isArray(objArr)) {
+      return new Array();
+    }
+
+    if (_this.isBlank(sortField) || _this.isNumber(sortField) || _this.isBlank(sortBy)) {
+      return objArr;
+    }
+
+    sortField = String(sortField);
+    sortBy = String(sortBy).toLowerCase();
+
+    if (("asc" !== sortBy) && ("desc" !== sortBy)) {
+      return objArr;
+    }
+
+    // 比较器
+    var compare = function (o1, o2) {
+      // o1 和 o2 其中一个不为对象，禁止排序
+      if (!_this.isObject(o1) || !_this.isObject(o2)) {
+        return 0;
+      }
+
+      var v1 = (_this.isNumber(o1[sortField]) ? Number(o1[sortField]) : 0);
+      var v2 = (_this.isNumber(o2[sortField]) ? Number(o2[sortField]) : 0);
+
+      // 升序
+      if (sortBy === "asc") {
+        if (v1 > v2) {
+          return 1;
+        } else if (v1 < v2) {
+          return -1;
+        } else {
+          return 0;
+        }
+
+        // 降序
+      } else if (sortBy === "desc") {
+        if (v1 > v2) {
+          return -1;
+        } else if (v1 < v2) {
+          return 1;
+        } else {
+          return 0;
+        }
+
+        // 什么玩意？
+      } else {
+        return 0;
+      }
+    }
+
+    return objArr.sort(compare);
+  },
+
+  /**
+   * 根据 fieldKey 在 field 上从 objArr 中查找对象。
+   *
+   * @param objArr 对象数组
+   * @param field 字段
+   * @param fieldKey 字段键，即查找对象的字段值，在 objArr 中需要保证它是唯一的才有意义
+   * @return {Object} key 对应的对象
+   */
+  getObjFromObjArr: function (objArr, field, fieldKey) {
+    var _this = this;
+    var obj = null;
+
+    if (_this.isArray(objArr) && _this.isNotBlank(field) && !_this.isNumber(field) && _this.isNotBlank(fieldKey)) {
+      for (var i = 0; i < objArr.length; i++) {
+        var e = objArr[i];
+
+        if (_this.isObject(e)) {
+          if (e[field] == fieldKey) {
+            obj = e;
+
+            // 终止循环
+            break;
+          }
+        }
+      }
+    }
+
+    return obj;
+  },
+
+  /**
+   * 设置用户信息。
+   * 
+   * @param userInfo 用户信息
+   */
+  setUserInfo: function (userInfo) {
+    var _this = this;
+
+    if (_this.isObject(userInfo)) {
+      wx.setStorageSync("userInfo", userInfo);
+    }
+  },
+
+  /**
+   * 获取用户信息。
+   * 
+   * @return {Object} 用户信息
+   */
+  getUserInfo: function () {
+    return wx.getStorageSync("userInfo");
+  },
+
+  // 设置登录标志：true-已登录；false-未登录
+  setLoginFlag: function (loginFlag) {
+    var _this = this;
+
+    loginFlag = String(_this.isBoolean(loginFlag) ? loginFlag : false);
+
+    return wx.setStorageSync("loginFlag", loginFlag);
+  },
+
+  // 获取登录标记：true-已登录；false-未登录
+  getLoginFlag: function () {
+    if (wx.getStorageSync("loginFlag") === "true") {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  // 跳转至登录界面
+  toLogin: function () {
+    var _this = this;
+
+    if (!_this.getLoginFlag()) {
+      wx.redirectTo({
+        url: "/pages/login/login",
+      })
+    }
+  },
+
+  // 判断是否完善了用户信息：true-已完善；false-未完善
+  isPerfectUserInfo: function () {
+    var _this = this;
+    var userInfo = _this.getUserInfo();
+
+    if (_this.isBlank(userInfo.id) ||
+      _this.isBlank(userInfo.user_type) ||
+      _this.isBlank(userInfo.source_type) ||
+      _this.isBlank(userInfo.phone) ||
+      _this.isBlank(userInfo.name) ||
+      _this.isBlank(userInfo.id_number) ||
+      _this.isBlank(userInfo.grade) ||
+      _this.isBlank(userInfo.city)) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+
   // 发起请求
   request: function(o) {
     var _this = this;
@@ -252,68 +622,6 @@ App({
         }
       }
     })
-  },
-
-  // 设置用户信息
-  setUserInfo: function(userInfo) {
-    var _this = this;
-
-    if (_this.isObject(userInfo)) {
-      wx.setStorageSync("userInfo", userInfo);
-    }
-  },
-
-  // 获取用户信息
-  getUserInfo: function() {
-    return wx.getStorageSync("userInfo");
-  },
-
-  // 设置登录标志：true-已登录；false-未登录
-  setLoginFlag: function (loginFlag) {
-    var _this = this;
-
-    loginFlag = String(_this.isBoolean(loginFlag) ? loginFlag : false);
-
-    return wx.setStorageSync("loginFlag", loginFlag);
-  },
-
-  // 获取登录标记：true-已登录；false-未登录
-  getLoginFlag: function() {
-    if (wx.getStorageSync("loginFlag") === "true") {
-      return true;
-    } else {
-      return false;
-    }
-  },
-
-  // 跳转至登录界面
-  toLogin: function() {
-    var _this = this;
-
-    if (!_this.getLoginFlag()) {
-      wx.redirectTo({
-        url: "/pages/login/login",
-      })
-    }
-  },
-
-  // 判断是否完善了用户信息：true-已完善；false-未完善
-  isPerfectUserInfo: function() {
-    var _this = this;
-    var userInfo = _this.getUserInfo();
-
-    if (_this.isBlank(userInfo.id) ||
-      _this.isBlank(userInfo.user_type) ||
-      _this.isBlank(userInfo.source_type) ||
-      _this.isBlank(userInfo.phone) ||
-      _this.isBlank(userInfo.name) ||
-      _this.isBlank(userInfo.id_number) ||
-      _this.isBlank(userInfo.grade) ||
-      _this.isBlank(userInfo.city)) {
-        return false;
-    } else {
-      return true;
-    }
   }
   //----------[/方法]----------//
 });
