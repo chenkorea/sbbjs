@@ -9,12 +9,16 @@ Page({
     passwdFocus: false
   },
   bindPhoneInput: function (e) { // 设置手机号
-    this.setData({
+    var _this = this;
+
+    _this.setData({
       phone: e.detail.value
     });
   },
   bindPasswdInput: function (e) { // 设置密码
-    this.setData({
+    var _this = this;
+
+    _this.setData({
       passwd: e.detail.value
     });
   },
@@ -29,44 +33,50 @@ Page({
     })
   },
   bindLoginBtnTap: function () { // 点击登录按钮
+    var _this = this;
+
     // 校验手机号
-    if (!app.phoneRe.test(this.data.phone)) {
+    if (!app.phoneRe.test(_this.data.phone)) {
       wx.showToast({
         title: '手机号格式不正确',
         duration: 3000
       });
 
-      this.setData({
+      _this.setData({
         phoneFocus: true
       });
 
       // 校验密码
-    } else if ((this.data.passwd == '') || (this.data.passwd.length < 6)) {
+    } else if ((_this.data.passwd == '') || (_this.data.passwd.length < 6)) {
       wx.showToast({
         title: '密码至少6个字符',
         duration: 3000
       });
 
-      this.setData({
+      _this.setData({
         passwdFocus: true
       });
 
       // 登录
     } else {
-      // 保存当前对象，非常重要！！！
-      var $this = this;
+      var _this = this;
 
-      // 把注册数据传给服务器
+      // 登录
       app.request({
-        url: app.serverAddr + 'phone/js/user/login',
+        url: "phone/js/user/login",
         data: {
-          phone: $this.data.phone,
-          passwd: $this.data.passwd
+          phone: _this.data.phone,
+          passwd: _this.data.passwd
         },
         method: 'POST',
         loading: true,
         loadingMsg: "正在登录",
         successFn: function (res) {
+          // 设置登录信息
+          app.setLoginInfo({
+            phone: _this.data.phone,
+            passwd: _this.data.passwd
+          });
           // 设置用户信息
           app.setUserInfo(res.data.content[0]);
           // 设置已登录
@@ -76,11 +86,20 @@ Page({
           wx.redirectTo({
             url: '../index/index',
           });
+        },
+        successFailFn: function () {
+          // 清空所有数据
+          app.clearAll();
+          // 设置未登录
+          app.setLoginFlag(false);
+        },
+        failFn: function () {
+          // 清空所有数据
+          app.clearAll();
+          // 设置未登录
+          app.setLoginFlag(false);
         }
       });
     }
-  },
-  onLoad: function () { // 加载
-    var $that = this;
   }
 });

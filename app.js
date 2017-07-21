@@ -560,6 +560,28 @@ App({
   },
 
   /**
+   * 设置登录信息（包含账号和密码）。
+   * 
+   * @param loginInfo 登录信息
+   */
+  setLoginInfo: function (loginInfo) {
+    var _this = this;
+
+    if (_this.isObject(loginInfo)) {
+      wx.setStorageSync("loginInfo", loginInfo);
+    }
+  },
+
+  /**
+   * 获取登录信息（包含账号和密码）。
+   */
+  getLoginInfo: function () {
+    var _this = this;
+
+    return wx.getStorageSync("loginInfo");
+  },
+
+  /**
    * 设置用户信息。
    * 
    * @param userInfo 用户信息
@@ -657,6 +679,20 @@ App({
   },
 
   /**
+   * 清空用户信息。
+   */
+  clearUserInfo: function () {
+    wx.removeStorageSync("userInfo");
+  },
+
+  /**
+   * 清空所有数据。
+   */
+  clearAll: function () {
+    wx.clearStorageSync();
+  },
+
+  /**
    * 发起请求。
    */
   request: function (o) {
@@ -665,11 +701,16 @@ App({
     o.url = (_this.isBlank(o.url) ? "" : o.url);
     o.data = (_this.isNull(o.data) ? {} : o.data);
     o.method = (_this.isBlank(o.method) ? "GET" : o.method.toUpperCase());
-    o.dataType = (_this.isBlank(o.dataType) ? "json" : o.dataType.toLowerCase());
     o.header = (_this.isNull(o.header) ? { "content-type": "application/x-www-form-urlencoded" } : o.header);
+    o.fullUrl = (_this.isBoolean(o.fullUrl) ? o.fullUrl : false);
     o.loading = (_this.isBoolean(o.loading) ? o.loading : false);
+    o.dataType = (_this.isBlank(o.dataType) ? "json" : o.dataType.toLowerCase());
     o.loadingMsg = (_this.isBlank(o.loadingMsg) ? "" : (o.loadingMsg + "…"));
     o.loadingMask = (_this.isBoolean(o.loadingMask) ? o.loadingMask : true);
+
+    if (!o.fullUrl) {
+      o.url = (_this.serverAddr + o.url);
+    }
 
     _this.ajaxCount++;
 

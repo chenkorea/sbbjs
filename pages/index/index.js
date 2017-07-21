@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
-var app = getApp()
+var app = getApp();
+
 Page({
   data: {
     isPopping: true,//是否已经弹出  
@@ -51,7 +52,7 @@ Page({
   input: function () {
     console.log("input")
     // 做单
-    this.setData({ userstatus: '2', userstatusname: '做单中'})
+    this.setData({ userstatus: '2', userstatusname: '做单中' })
     this.plus();
   },
   transpond: function () {
@@ -127,28 +128,9 @@ Page({
       animInput: animationInput.export(),
     })
   },
-
-
   onLoad: function (options) {
-    // 生命周期函数--监听页面加载  
-  },
-  onReady: function () {
-    // 生命周期函数--监听页面初次渲染完成  
-  },
-  onShow: function () {
-    // 生命周期函数--监听页面显示  
-  },
-  onHide: function () {
-    // 生命周期函数--监听页面隐藏  
-  },
-  onUnload: function () {
-    // 生命周期函数--监听页面卸载  
-  },
-  onPullDownRefresh: function () {
-    // 页面相关事件处理函数--监听用户下拉动作  
-  },
-  onReachBottom: function () {
-    // 页面上拉触底事件的处理函数  
+    // 判断用户是否登录，如果未登录，重定向到登录页面
+    app.toLogin();
   },
   onShareAppMessage: function () {
     // 用户点击右上角分享  
