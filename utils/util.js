@@ -1,9 +1,4 @@
 
-/** 手机号正则表达式 */
-var phoneRe = /^1[3-9]\d{9}$/i;
-/** 验证码正则表达式 */
-var checkCodeRe = /^\d{6}$/i;
-
 /**
  * 格式化时间。
  */
@@ -29,7 +24,5 @@ function formatNumber(n) {
 }
 
 module.exports = {
-  formatTime: formatTime,
-  phoneRe: phoneRe,
-  checkCodeRe: checkCodeRe
+  formatTime: formatTime
 };

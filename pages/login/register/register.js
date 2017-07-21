@@ -64,46 +64,28 @@ Page({
       // 保存当前对象，非常重要！！！
       var $this = this;
 
-      wx.showLoading({
-        title: '正在注册…',
-        mask: true
-      });
-
       // 把注册数据传给服务器
-      wx.request({
+      app.request({
         url: app.serverAddr + 'phone/js/user/reg',
         data: {
           phone: $this.data.phone,
           passwd: $this.data.passwd,
           checkCode: $this.data.checkCode
         },
-        header: {
-          'content-type': 'application/x-www-form-urlencoded'
-        },
+        loading: true,
+        loadingMsg: "正在注册",
         method: 'POST',
-        success: function(res) {
-          wx.hideLoading();
-
-          // 成功
-          if (res.data.code == 1) {
-            wx.showToast({
-              title: '恭喜，注册成功！',
-              duration: 3000,
-              complete: function() {
-                // 返回登录页面
-                wx.navigateBack({
-                  delta: 1
-                });
-              }
-            });
-
-            // 失败
-          } else {
-            wx.showToast({
-              title: res.data.errmsg,
-              duration: 3000
-            });
-          }
+        successFn: function(res) {
+          wx.showToast({
+            title: '恭喜，注册成功！',
+            duration: 3000,
+            complete: function () {
+              // 返回登录页面
+              wx.navigateBack({
+                delta: 1
+              });
+            }
+          });
         },
         fail: function() {
           wx.hideLoading();

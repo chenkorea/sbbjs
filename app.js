@@ -275,6 +275,49 @@ App({
         }
       }
     })
+  },
+
+  // 设置用户信息
+  setUserInfo: function(userInfo) {
+    var _this = this;
+
+    if (_this.isObject(userInfo)) {
+      wx.setStorageSync("userInfo", userInfo);
+    }
+  },
+
+  // 获取用户信息
+  getUserInfo: function() {
+    return wx.getStorageSync("userInfo");
+  },
+
+  // 设置登录标志：true-已登录；false-未登录
+  setLoginFlag: function (loginFlag) {
+    var _this = this;
+
+    loginFlag = String(_this.isBoolean(loginFlag) ? loginFlag : false);
+
+    return wx.setStorageSync("loginFlag", loginFlag);
+  },
+
+  // 获取登录标记：true-已登录；false-未登录
+  getLoginFlag: function() {
+    if (wx.getStorageSync("loginFlag") === "true") {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  // 跳转至登录界面
+  toLogin: function() {
+    var _this = this;
+
+    if (!_this.getLoginFlag()) {
+      wx.redirectTo({
+        url: "/pages/login/login",
+      })
+    }
   }
   //----------[/方法]----------//
 });

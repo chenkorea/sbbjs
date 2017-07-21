@@ -67,22 +67,15 @@ Page({
         loading: true,
         loadingMsg: "正在登录",
         successFn: function (res) {
-          wx.hideLoading();
+          // 设置用户信息
+          app.setUserInfo(res.data.content[0]);
+          // 设置已登录
+          app.setLoginFlag(true);
 
-          // 成功
-          if (res.data.code == 1) {
-            // 关闭当前页面，并跳转至首页
-            wx.redirectTo({
-              url: '../index/index',
-            });
-
-            // 失败
-          } else {
-            wx.showToast({
-              title: res.data.errmsg,
-              duration: 3000
-            });
-          }
+          // 关闭当前页面，并跳转至首页
+          wx.redirectTo({
+            url: '../index/index',
+          });
         }
       });
     }
