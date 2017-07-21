@@ -82,10 +82,21 @@ Page({
           // 设置已登录
           app.setLoginFlag(true);
 
-          // 关闭当前页面，并跳转至首页
-          wx.redirectTo({
-            url: '../index/index',
-          });
+          // 如果用户已登录，重定向到首页
+          if (app.getLoginFlag()) {
+            // 如果已完善用户信息，则重定向到首页
+            if (app.isPerfectUserInfo()) {
+              wx.redirectTo({
+                url: "../index/index"
+              });
+
+              // 否则，重定向到完善用户用户信息界面
+            } else {
+              wx.redirectTo({
+                url: "../userinfo/userinfo"
+              });
+            }
+          }
         },
         successFailFn: function () {
           // 清空所有数据
@@ -103,6 +114,8 @@ Page({
     }
   },
   onLoad: function () { // 监听页面加载
+    //app.setLoginFlag(false);
+
     // 如果用户已登录，重定向到首页
     if (app.getLoginFlag()) {
       // 如果已完善用户信息，则重定向到首页
