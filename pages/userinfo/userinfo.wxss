@@ -1,0 +1,41 @@
+.main-view {
+  top: 0rpx;
+  left: 0rpx;
+  right: 0rpx;
+  bottom: 0rpx;
+  margin: 0rpx;
+  padding: 0rpx;
+  position: absolute;
+  overflow-y: auto;
+  background: #b2be7e;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.userinfo-view-bg {
+  margin: 50rpx 30rpx;
+  padding: 50rpx 30rpx;
+  min-height: 800rpx;
+  background: #cfd6af;
+  border-radius: 20rpx;
+}
+
+.userinfo-title {
+  color: #228b22;
+  font-size: 50rpx;
+  text-align: center;
+}
+
+.userinfo-view {
+  margin-top: 30rpx;
+}
+
+.userinfo-text {
+  color: white;
+  font-size: 45rpx;
+}
+
+.userinfo-input {
+  background: white;
+}

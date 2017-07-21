@@ -1,0 +1,11 @@
+<view class="main-view">
+  <view class="userinfo-view-bg">
+    <text class="userinfo-title">完善个人信息</text>
+
+    <view class="userinfo-view">
+      <text class="userinfo-text">姓名：</text>
+
+      <input class="userinfo-input" type="text" bindinput="bindNameInput"/>
+    </view>
+  </view>
+</view>
