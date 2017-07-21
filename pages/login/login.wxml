@@ -7,12 +7,12 @@
    <text class="login-title">锁帮帮-技师版</text>
    <view class="user-view">
      <icon class="iconfont icon-wode" />
-     <input class="user-text" type="number" focus="{{phoneFocus}}" maxlength="11" bindinput="bindPhoneInput" placeholder="手机号码"/>
+     <input class="user-text" type="number" focus="{{phoneFocus}}" value="{{phone}}" maxlength="11" bindinput="bindPhoneInput" placeholder="手机号码"/>
    </view>
 
    <view class="pwd-view">
      <icon class="iconfont icon-yaochi" />
-     <input class="pwd-text" type="password" focus="{{passwdFocus}}" bindinput="bindPasswdInput" placeholder="密码"/>
+     <input class="pwd-text" type="password" focus="{{passwdFocus}}" value="{{passwd}}" bindinput="bindPasswdInput" placeholder="密码"/>
    </view>
 
    <button class="login_btn" bindtap="bindLoginBtnTap">登录</button>

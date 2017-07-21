@@ -101,5 +101,17 @@ Page({
         }
       });
     }
+  },
+  onReady: function () { // 页面加载完毕
+    var _this = this;
+    var loginInfo = app.getLoginInfo();
+
+    console.log(loginInfo);
+
+    // 显示手机号和密码
+    _this.setData({
+      phone: loginInfo.phone,
+      passwd: loginInfo.passwd
+    });
   }
 });
