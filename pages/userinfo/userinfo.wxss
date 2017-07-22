@@ -33,6 +33,11 @@
   margin-top: 20rpx;
 }
 
+.userinfo-view-save {
+  clear: left;
+  padding: 30rpx;
+}
+
 .userinfo-view .userinfo-text {
   width: 100%;
   color: white;
@@ -48,10 +53,29 @@
   background: white;
 }
 
-.userinfo-image-list .userinfo-image {
+.userinfo-image-list .userinfo-image, .userinfo-image-list .userinfo-image-plus {
+  float: left;
   width: 140rpx;
   height: 140rpx;
   margin: 5rpx;
   padding: 0rpx;
-  display: inline-block;
+  text-align: center;
+}
+
+.userinfo-image-list .userinfo-image {
+  background: url("http://www.463000.com.cn/UploadFile/news/201706/27/zmd219524271954342.jpg");
+  background-size: 140rpx 140rpx;
+}
+
+.userinfo-image-list .userinfo-image-plus {
+  border: 1px solid white;
+  line-height: 140rpx;
+}
+
+.userinfo-image-list .userinfo-image .userinfo-image-minus {
+  float: right;
+  width: 40rpx;
+  height: 40rpx;
+  z-index: 100;
+  vertical-align: top;
 }

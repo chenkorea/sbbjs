@@ -38,11 +38,49 @@
       <text class="userinfo-text">上传身份证图片（可上传多张）：</text>
 
       <view class="userinfo-image-list">
-        <view class="userinfo-image">1</view>
+        <view class="userinfo-image">
+          <view class="userinfo-image-minus">
+            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
+          </view>
+        </view>
+
+        <view class="userinfo-image">
+          <view class="userinfo-image-minus">
+            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
+          </view>
+        </view>
+
+        <view class="userinfo-image">
+          <view class="userinfo-image-minus">
+            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
+          </view>
+        </view>
+
+        <view class="userinfo-image">
+          <view class="userinfo-image-minus">
+            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
+          </view>
+        </view>
+
+        <view class="userinfo-image">
+          <view class="userinfo-image-minus">
+            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
+          </view>
+        </view>
+
+        <view class="userinfo-image">
+          <view class="userinfo-image-minus">
+            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
+          </view>
+        </view>
+
+        <view class="userinfo-image-plus">
+          <icon class="iconfont icon-plus f-s-40 c-white" />
+        </view>
       </view>
     </view>
 
-    <view class="userinfo-view">
+    <view class="userinfo-view-save">
       <button type="primary" loading="{{loading}}" disabled="{{disabled}}" bindtap="primary">保存</button>
     </view>
   </view>

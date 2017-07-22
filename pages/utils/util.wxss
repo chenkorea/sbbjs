@@ -1,5 +1,17 @@
+.c-red {
+  color: #E64240;
+}
+
 .c-white {
   color: white;
+}
+
+.f-s-20 {
+  font-size: 20rpx;
+}
+
+.f-s-30 {
+  font-size: 30rpx;
 }
 
 .f-s-32 {
@@ -8,6 +20,10 @@
 
 .f-s-35 {
   font-size: 35rpx;
+}
+
+.f-s-40 {
+  font-size: 40rpx;
 }
 
 .m-r-20 {
