@@ -8,6 +8,8 @@ Page({
     idNumber: '',
     idNumberFocus: false,
     city: '',
+    test: '',
+    size140: '',
     serviceTypesItems: [],
     myFlag: 1, // 获取个人信息的标记：1-获取中；2-获取成功；3-获取失败
     serviceTypesFlag: 1 // 获取服务项目的标记：1-获取中；2-获取成功；3-获取失败
@@ -37,8 +39,14 @@ Page({
 
   },
   bindUploadIdNumberImageTap: function(e) { // 上传身份证图片
+    var _this = this;
+
     console.log(JSON.stringify(e));
-    
+
+    _this.setData({
+      test: "http://www.463000.com.cn/UploadFile/news/201706/27/zmd219524271954342.jpg",
+      size140: '140rpx'
+    });
     /*
     wx.chooseImage({
       count: 9,
