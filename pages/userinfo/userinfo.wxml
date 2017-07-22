@@ -75,7 +75,7 @@
         </view>
 
         <view class="userinfo-image-plus">
-          <icon class="iconfont icon-plus f-s-40 c-white" />
+          <icon class="iconfont icon-plus f-s-50 c-white" />
         </view>
       </view>
     </view>

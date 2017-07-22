@@ -26,6 +26,15 @@
   font-size: 40rpx;
 }
 
+.f-s-50 {
+  font-size: 50rpx;
+}
+
+.f-s-80 {
+  font-size: 80rpx;
+}
+
+
 .m-r-20 {
   margin-right: 20rpx;
 }
