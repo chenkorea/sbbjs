@@ -1,5 +1,3 @@
-// 获取工具实例
-var util = require('../utils/util.js');
 // 获取应用实例
 var app = getApp();
 
@@ -57,9 +55,10 @@ Page({
         _this.myFlag = 1;
       },
       successFn: function (res) {
-        console.log("getMy--->" + JSON.stringify(res));
-
         _this.myFlag = 2;
+
+        console.log("getMy--->" + JSON.stringify(res.data.content[0]));
+
 
         // 设置用户信息
         app.setUserInfo(res.data.content[0]);
@@ -88,9 +87,25 @@ Page({
         _this.serviceTypesFlag = 1;
       },
       successFn: function (res) {
-        console.log("getServiceTypes--->" + JSON.stringify(res));
-
         _this.serviceTypesFlag = 2;
+
+        var data = new Array();
+
+        for (var i = 0; i < res.data.content.length; i++) {
+          var e = res.data.content[i];
+
+          data.push({
+            name: e.data_name,
+            value: e.data_code,
+            order: e.data_order
+          });
+        }
+
+        data = app.sortObjArray(data, "order", "asc");
+
+        _this.setData({
+          serviceTypesItems: data
+        });
       },
       successFailFn: function () {
         _this.serviceTypesFlag = 3;

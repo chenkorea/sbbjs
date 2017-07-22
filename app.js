@@ -1,4 +1,4 @@
-// 核心工具。
+// 核心工具（本人一生心血）。
 
 App({
   //----------[常量]----------//
@@ -6,13 +6,18 @@ App({
   serverAddr: "http://192.200.200.24:9000/sbb-web/",
   // 手机号正则表达式
   phoneRe: /^1[3-9]\d{9}$/i,
+  /** 数字的正则表达式 */
+  numberRE: /^\d+$/i,
   // 验证码正则表达式
   checkCodeRe: /^\d{6}$/i,
+  //----------[/常量]----------//
+
+  //----------[变量]----------//
   // 发送的 Ajax 总个数
   ajaxCount: 0,
   // 发送的显示等待框的 Ajax 总个数
   loadingAjaxCount: 0,
-  //----------[/常量]----------//
+  //----------[/变量]----------//
 
   //----------[方法]----------//
   /**
@@ -138,7 +143,13 @@ App({
     var _this = this;
 
     try {
-      return (typeof num === "number");
+      var numStr = String(num);
+
+      if (_this.numberRE.test(numStr)) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       return false;
     }
@@ -176,7 +187,13 @@ App({
    */
   isBoolean: function (bl) {
     try {
-      return (typeof bl === "boolean");
+      var blStr = String(bl);
+
+      if ((blStr === "true") || (blStr === "false")) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       return false;
     }
@@ -242,20 +259,20 @@ App({
   /**
    * 获取安全的布尔。
    *
-   * @param blStr 布尔字符串
+   * @param str 布尔字符串
    * @return 安全的布尔
    */
-  getBoolean: function (blStr) {
-    var _this = this;
+  getBoolean: function (str) {
+    try {
+      var blStr = String(str);
 
-    if (_this.isBlank(blStr)) {
-      return false;
-    } else {
-      if (String(blStr) === "true") {
+      if (blStr === "true") {
         return true;
       } else {
         return false;
       }
+    } catch (e) {
+      return false;
     }
   },
 

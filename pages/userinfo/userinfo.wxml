@@ -27,9 +27,9 @@
 
       <checkbox-group bindchange="bindServiceTypesChange">
         <label class="checkbox m-r-20" wx:for="{{serviceTypesItems}}">
-          <checkbox value="{{serviceTypesItem.name}}" checked="{{serviceTypesItem.checked}}"/>
+          <checkbox value="{{item.value}}" checked="{{item.checked}}"/>
           
-          <text class="c-white f-s-32">{{serviceTypesItem.value}}</text>
+          <text class="c-white f-s-32">{{item.name}}</text>
         </label>
       </checkbox-group>
     </view>
