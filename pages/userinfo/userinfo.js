@@ -63,8 +63,6 @@ Page({
           myServiceTypes = app.getUserInfo().service_types.split(",");
         }
 
-        myServiceTypes = ["01" , "05"];
-
         // 构建所有的服务项目，用于显示
         for (var i = 0; i < res.data.content.length; i++) {
           var e = res.data.content[i];
