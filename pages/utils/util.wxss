@@ -1,0 +1,19 @@
+.c-white {
+  color: white;
+}
+
+.f-s-32 {
+  font-size: 32rpx;
+}
+
+.f-s-35 {
+  font-size: 35rpx;
+}
+
+.m-r-20 {
+  margin-right: 20rpx;
+}
+
+.m-b-10 {
+  margin-bottom: 10rpx;
+}
