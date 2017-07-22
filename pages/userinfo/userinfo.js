@@ -36,6 +36,20 @@ Page({
   bindServiceTypesChange: function (e) {
 
   },
+  bindUploadIdNumberImageTap: function(e) { // 上传身份证图片
+    console.log(JSON.stringify(e));
+    
+    /*
+    wx.chooseImage({
+      count: 9,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        console.log(JSON.stringify(res));
+      }
+    });
+    */
+  },
 
   /**
    * 获取服务项目。

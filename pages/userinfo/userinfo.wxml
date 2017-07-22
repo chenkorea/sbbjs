@@ -74,7 +74,7 @@
           </view>
         </view>
 
-        <view class="userinfo-image-plus">
+        <view class="userinfo-image-plus" bindtap="bindUploadIdNumberImageTap">
           <icon class="iconfont icon-plus f-s-50 c-white" />
         </view>
       </view>
