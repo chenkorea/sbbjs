@@ -1,3 +1,5 @@
+@import "../utils/util.wxss";
+
 .main-view {
   top: 0rpx;
   left: 0rpx;
@@ -14,28 +16,34 @@
 }
 
 .userinfo-view-bg {
-  margin: 50rpx 30rpx;
-  padding: 50rpx 30rpx;
-  min-height: 800rpx;
+  margin: 30rpx;
+  padding: 30rpx 0rpx;
   background: #cfd6af;
   border-radius: 20rpx;
 }
 
 .userinfo-title-view {
   color: #228b22;
-  font-size: 50rpx;
+  font-size: 36rpx;
   text-align: center;
 }
 
 .userinfo-view {
-  margin-top: 30rpx;
+  margin-top: 20rpx;
+  padding: 0rpx 30rpx;
 }
 
 .userinfo-text {
+  width: 100%;
   color: white;
-  font-size: 45rpx;
+  padding: 10rpx 0rpx;
+  display: block;
+  font-size: 32rpx;
 }
 
 .userinfo-input {
+  width: 95%;
+  padding: 20rpx;
+  font-size: 32rpx;
   background: white;
 }

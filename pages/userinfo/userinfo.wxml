@@ -7,7 +7,35 @@
     <view class="userinfo-view">
       <text class="userinfo-text">姓名：</text>
 
-      <input class="userinfo-input" type="text" bindinput="bindNameInput" />
+      <input class="userinfo-input" type="text" focus="{{nameFocus}}" bindinput="bindNameInput" placeholder="输入姓名" />
+    </view>
+
+    <view class="userinfo-view">
+      <text class="userinfo-text">身份证号：</text>
+
+      <input class="userinfo-input" type="idcard" bindinput="bindIdNumberInput" placeholder="输入身份证号" />
+    </view>
+
+    <view class="userinfo-view">
+      <text class="userinfo-text">所在城市：</text>
+
+      <input class="userinfo-input" type="text" value="{{city}}" disabled="disabled" bindinput="bindCityInput" placeholder="自动定位" />
+    </view>
+
+    <view class="userinfo-view">
+      <text class="userinfo-text">服务项目（可选多个）：</text>
+
+      <checkbox-group bindchange="bindServiceTypesChange">
+        <label class="checkbox m-r-20" wx:for="{{serviceTypesItems}}">
+          <checkbox value="{{serviceTypesItem.name}}" checked="{{serviceTypesItem.checked}}"/>
+          
+          <text class="c-white f-s-32">{{serviceTypesItem.value}}</text>
+        </label>
+      </checkbox-group>
+    </view>
+
+    <view class="userinfo-view">
+      <button type="primary" loading="{{loading}}" disabled="{{disabled}}" bindtap="primary">保存</button>
     </view>
   </view>
 </view>

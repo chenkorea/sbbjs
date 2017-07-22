@@ -665,13 +665,12 @@ App({
     var userInfo = _this.getUserInfo();
 
     if (_this.isBlank(userInfo.id) ||
-      _this.isBlank(userInfo.user_type) ||
-      _this.isBlank(userInfo.source_type) ||
-      _this.isBlank(userInfo.phone) ||
       _this.isBlank(userInfo.name) ||
+      _this.isBlank(userInfo.city) ||
+      _this.isBlank(userInfo.phone) ||
+      _this.isBlank(userInfo.user_type) ||
       _this.isBlank(userInfo.id_number) ||
-      _this.isBlank(userInfo.grade) ||
-      _this.isBlank(userInfo.city)) {
+      _this.isBlank(userInfo.service_types)) {
       return false;
     } else {
       return true;
