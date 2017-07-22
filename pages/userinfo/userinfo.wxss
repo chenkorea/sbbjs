@@ -29,11 +29,11 @@
 }
 
 .userinfo-view {
-  margin-top: 20rpx;
   padding: 0rpx 30rpx;
+  margin-top: 20rpx;
 }
 
-.userinfo-text {
+.userinfo-view .userinfo-text {
   width: 100%;
   color: white;
   padding: 10rpx 0rpx;
@@ -41,9 +41,17 @@
   font-size: 32rpx;
 }
 
-.userinfo-input {
+.userinfo-view .userinfo-input {
   width: 95%;
   padding: 20rpx;
   font-size: 32rpx;
   background: white;
+}
+
+.userinfo-image-list .userinfo-image {
+  width: 140rpx;
+  height: 140rpx;
+  margin: 5rpx;
+  padding: 0rpx;
+  display: inline-block;
 }

@@ -7,13 +7,13 @@
     <view class="userinfo-view">
       <text class="userinfo-text">姓名：</text>
 
-      <input class="userinfo-input" type="text" focus="{{nameFocus}}" bindinput="bindNameInput" placeholder="输入姓名" />
+      <input class="userinfo-input" type="text" focus="{{nameFocus}}" value="{{name}}" bindinput="bindNameInput" placeholder="姓名" />
     </view>
 
     <view class="userinfo-view">
       <text class="userinfo-text">身份证号：</text>
 
-      <input class="userinfo-input" type="idcard" bindinput="bindIdNumberInput" placeholder="输入身份证号" />
+      <input class="userinfo-input" type="idcard" focus="{{idNumberFocus}}" value="{{idNumber}}" bindinput="bindIdNumberInput" placeholder="身份证号" />
     </view>
 
     <view class="userinfo-view">
@@ -32,6 +32,14 @@
           <text class="c-white f-s-32">{{item.name}}</text>
         </label>
       </checkbox-group>
+    </view>
+
+    <view class="userinfo-view">
+      <text class="userinfo-text">上传身份证图片（可上传多张）：</text>
+
+      <view class="userinfo-image-list">
+        <view class="userinfo-image">1</view>
+      </view>
     </view>
 
     <view class="userinfo-view">
