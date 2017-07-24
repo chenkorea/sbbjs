@@ -42,7 +42,7 @@
           <template is="idNumberImageItem" data="{{item}}" />
         </block>
 
-        <view class="userinfo-image-plus" bindtap="bindUploadIdNumberImageTap">
+        <view class="userinfo-image-plus" bindtap="bindChooseIdNumberImageTap">
           <icon class="iconfont icon-plus f-s-50 c-white" />
         </view>
       </view>
