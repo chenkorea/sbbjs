@@ -45,19 +45,19 @@ Page({
   },
   bindDeleteIdNumberImageTap: function (e) { // 删除身份证照片
     var _this = this;
-    var idNumberImageItemsTmp1 = _this.data.idNumberImageItems;
-
     // 取出数组索引
     var index = e.currentTarget.dataset.index;
+    var idNumberImageItemsTmp1 = _this.data.idNumberImageItems;
+    var deletedIdNumberImageIdsTmp = _this.data.deletedIdNumberImageIds;
+
+    // 删除 index 指定的元素，并返回
+    var idNumberImageTmp = idNumberImageItemsTmp1.splice(index, 1)[0];
 
     // 如果身份证照片的 ID 不为空
-    if (app.isNotBlank(idNumberImageItemsTmp1[index].id)) {
+    if (app.isNotBlank(idNumberImageTmp.id)) {
       // 存入被删除的身份证照片 ID 数组中
-      _this.data.deletedIdNumberImageIds.push(idNumberImageItemsTmp1[index].id);
+      deletedIdNumberImageIdsTmp.push(app.getString(idNumberImageTmp.id));
     }
-
-    // 删除 index 指定的元素
-    idNumberImageItemsTmp1.splice(index, 1);
 
     // 从新整理数组
     var idNumberImageItemsTmp2 = [];
@@ -66,14 +66,15 @@ Page({
       var eTmp = idNumberImageItemsTmp1[i];
 
       idNumberImageItemsTmp2.push({
-        id: "",
-        path: eTmp.path,
+        id: app.getString(eTmp.id),
+        path: app.getString(eTmp.path),
         index: idNumberImageItemsTmp2.length
       });
     }
 
     _this.setData({
-      idNumberImageItems: idNumberImageItemsTmp2
+      idNumberImageItems: idNumberImageItemsTmp2,
+      deletedIdNumberImageIds: deletedIdNumberImageIdsTmp
     });
   },
   bindChooseIdNumberImageTap: function (e) { // 选择身份证照片
@@ -318,13 +319,13 @@ Page({
 
         // 判断是否已上传过身份证照片
         if (app.isNotBlank(app.getUserInfo().file_number_id)) {
-          var idNumberImageIds = app.getUserInfo().file_number_id.split("|");
-          var idNumberImagePaths = app.getUserInfo().id_number_url.split("|");
+          var idNumberImageIdsTmp = app.getUserInfo().file_number_id.split("|");
+          var idNumberImagePathsTmp = app.getUserInfo().id_number_url.split("|");
 
-          for (var i = 0; i < idNumberImageIds.length; i++) {
+          for (var i = 0; i < idNumberImageIdsTmp.length; i++) {
             idNumberImageItemsTmp.push({
-              id: idNumberImageIds[i],
-              path: (app.serverAddr + idNumberImagePaths[i]),
+              id: idNumberImageIdsTmp[i],
+              path: (app.serverAddr + idNumberImagePathsTmp[i]),
               index: idNumberImageItemsTmp.length
             });
           }
