@@ -267,35 +267,6 @@ Page({
   onReady: function () { // 初始化
     var _this = this;
 
-    _this.setData({
-      city: "正在定位……"
-    });
-
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-
-        wx.showModal({
-          title: '提示',
-          content: JSON.stringify(res),
-          showCancel: false
-        });
-        
-        var latitude = res.latitude
-        var longitude = res.longitude
-        var speed = res.speed
-        var accuracy = res.accuracy
-
-        wx.openLocation({
-          latitude: latitude,
-          longitude: longitude,
-          scale: 28
-        })
-      }
-    });
-
-    
-
     _this.getMy();
   }
 });
