@@ -299,6 +299,8 @@ Page({
         });
       },
       successFn: function (res) {
+        console.log("------------------->" + JSON.stringify(res));
+        
         _this.setData({
           myFlag: 2
         });

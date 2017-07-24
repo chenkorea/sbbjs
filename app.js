@@ -88,7 +88,6 @@ App({
 
       return true;
     } catch (e) {
-      console.log(e);
       return true;
     }
   },
@@ -777,8 +776,6 @@ App({
     o.dataType = (_this.isBlank(o.dataType) ? "json" : o.dataType.toLowerCase());
     o.loadingMsg = (_this.isBlank(o.loadingMsg) ? "" : (o.loadingMsg + "…"));
     o.loadingMask = (_this.isBoolean(o.loadingMask) ? o.loadingMask : true);
-
-    console.log(JSON.stringify(o));
 
     if (!o.fullUrl) {
       o.url = (_this.serverAddr + o.url);
