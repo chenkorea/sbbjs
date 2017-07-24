@@ -187,6 +187,7 @@ Page({
       } else {
         var idNumberImagesTmp1 = _this.data.idNumberImageItems;
         var idNumberImagesTmp2 = [];
+        var serviceTypesItemsStrTmp = _this.data.serviceTypesItems.join(",");
 
         // 如果身份证照片有 ID 的话，表示已经上传过了，不需要在上传
         for (var i = 0; i < idNumberImagesTmp1.length; i++) {
