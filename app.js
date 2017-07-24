@@ -88,7 +88,6 @@ App({
 
       return true;
     } catch (e) {
-      console.log(e);
       return true;
     }
   },
@@ -778,8 +777,6 @@ App({
     o.loadingMsg = (_this.isBlank(o.loadingMsg) ? "" : (o.loadingMsg + "…"));
     o.loadingMask = (_this.isBoolean(o.loadingMask) ? o.loadingMask : true);
 
-    console.log(JSON.stringify(o));
-
     if (!o.fullUrl) {
       o.url = (_this.serverAddr + o.url);
     }
@@ -821,6 +818,10 @@ App({
           if (_this.loadingAjaxCount === 0) {
             wx.hideLoading();
           }
+        }
+
+        if (typeof res.data === "string") {
+          res.data = JSON.parse(res.data);
         }
 
         // 成功
@@ -944,6 +945,10 @@ App({
           }
         }
 
+        if (typeof res.data === "string") {
+          res.data = JSON.parse(res.data);
+        }
+
         // 成功
         if (res.data.code == 1) {
           if (_this.isFunction(o.successFn)) {
@@ -953,7 +958,7 @@ App({
           // 失败
         } else {
           wx.showToast({
-            title: (_this.isBlank(res.data.errmsg) ? "上传失败，稍后再试！" : _this.getString(res.data.errmsg)),
+            title: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
             duration: 3000
           });
 

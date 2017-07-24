@@ -42,7 +42,7 @@ Page({
       serviceTypesItems: e.detail.value
     });
   },
-  bindIdNumberImageIconTap: function (e) { // 删除身份证照片
+  bindDeleteIdNumberImageTap: function (e) { // 删除身份证照片
     var _this = this;
     var idNumberImageItemsTmp1 = _this.data.idNumberImageItems;
     // 取出数组索引
@@ -60,9 +60,7 @@ Page({
       idNumberImageItemsTmp2.push({
         id: "",
         path: eTmp.path,
-        size: eTmp.size,
-        index: (i + 1),
-        pathSize: "140rpx"
+        index: (i + 1)
       });
     }
 
@@ -70,7 +68,7 @@ Page({
       idNumberImageItems: idNumberImageItemsTmp2
     });
   },
-  bindUploadIdNumberImageTap: function (e) { // 上传身份证照片
+  bindChooseIdNumberImageTap: function (e) { // 选择身份证照片
     var _this = this;
 
     wx.chooseImage({
@@ -85,9 +83,7 @@ Page({
           idNumberImageItemsTmp.push({
             id: "",
             path: file.path,
-            size: file.size,
-            index: (idNumberImageItemsTmp.length + 1),
-            pathSize: "140rpx"
+            index: (idNumberImageItemsTmp.length + 1)
           });
         }
 
@@ -180,17 +176,17 @@ Page({
           showCancel: false
         });
       } else {
-        // 上传身份证照片
-        for (var i = 0; _this.data.idNumberImageItems.length; i++) {
-          var idNumberImage = _this.data.idNumberImageItems[i];
+        var images = _this.data.idNumberImageItems;
 
-          console.log(idNumberImage.path);
+        // 上传身份证照片
+        for (var i = 0; i < images.length; i++) {
+          var image = images[i];
 
           app.uploadFile({
-            url: "/phone/openkeyuploadMobileFile",
+            url: "phone/openkey/uploadMobileFile",
             name: "file",
             loading: true,
-            filePath: idNumberImage.path,
+            filePath: image.path,
             formData: {
               parent_id: app.getUserInfo().id,
               file_type: "2"
@@ -310,9 +306,26 @@ Page({
         // 获取所有服务项目
         _this.getServiceTypes();
 
+        var idNumberImageItemsTmp = [];
+
+        // 判断是否已上传过身份证照片
+        if (app.isNotBlank(app.getUserInfo().file_number_id)) {
+          var idNumberImageIds = app.getUserInfo().file_number_id.split("|");
+          var idNumberImagePaths = app.getUserInfo().id_number_url.split("|");
+
+          for (var i = 0; i < idNumberImageIds.length; i++) {
+            idNumberImageItemsTmp.push({
+              id: idNumberImageIds[i],
+              path: (app.serverAddr + idNumberImagePaths[i]),
+              index: (idNumberImageItemsTmp.length + 1)
+            });
+          }
+        }
+
         _this.setData({
           name: app.getUserInfo().name,
-          idNumber: app.getUserInfo().id_number
+          idNumber: app.getUserInfo().id_number,
+          idNumberImageItems: idNumberImageItemsTmp
         });
       },
       successFailFn: function () {
