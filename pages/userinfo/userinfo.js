@@ -155,25 +155,25 @@ Page({
         showCancel: false
       });
     } else {
-      if (myFlag == 1) {
+      if (_this.data.myFlag == 1) {
         wx.showModal({
           title: '提示',
           content: '正在获取个人信息…',
           showCancel: false
         });
-      } else if (myFlag == 3) {
+      } else if (_this.data.myFlag == 3) {
         wx.showModal({
           title: '提示',
           content: '获取个人信息失败，稍后再试！',
           showCancel: false
         });
-      } else if (serviceTypesFlag == 1) {
+      } else if (_this.data.serviceTypesFlag == 1) {
         wx.showModal({
           title: '提示',
           content: '正在获取服务项目…',
           showCancel: false
         });
-      } else if (serviceTypesFlag == 3) {
+      } else if (_this.data.serviceTypesFlag == 3) {
         wx.showModal({
           title: '提示',
           content: '获取服务项目失败，稍后再试！',
@@ -216,10 +216,14 @@ Page({
       loading: true,
       loadingMsg: "正在加载个人信息",
       beforSendFn: function () {
-        _this.serviceTypesFlag = 1;
+        _this.setData({
+          serviceTypesFlag: 1
+        });
       },
       successFn: function (res) {
-        _this.serviceTypesFlag = 2;
+        _this.setData({
+          serviceTypesFlag: 2
+        });
 
         // 所有的服务项目
         var serviceTypes = [];
@@ -263,10 +267,14 @@ Page({
         });
       },
       successFailFn: function () {
-        _this.serviceTypesFlag = 3;
+        _this.setData({
+          serviceTypesFlag: 3
+        });
       },
       failFn: function () {
-        _this.serviceTypesFlag = 3;
+        _this.setData({
+          serviceTypesFlag: 3
+        });
       }
     });
   },
@@ -286,10 +294,14 @@ Page({
       loading: true,
       loadingMsg: "正在加载个人信息",
       beforSendFn: function () {
-        _this.myFlag = 1;
+        _this.setData({
+          myFlag: 1
+        });
       },
       successFn: function (res) {
-        _this.myFlag = 2;
+        _this.setData({
+          myFlag: 2
+        });
 
         // 设置用户信息
         app.setUserInfo(res.data.content[0]);
@@ -302,10 +314,14 @@ Page({
         });
       },
       successFailFn: function () {
-        _this.myFlag = 3;
+        _this.setData({
+          myFlag: 3
+        });
       },
       failFn: function () {
-        _this.myFlag = 3;
+        _this.setData({
+          myFlag: 3
+        });
       }
     });
   },
