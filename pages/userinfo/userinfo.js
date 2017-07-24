@@ -9,6 +9,7 @@ Page({
     idNumberFocus: false,
     city: '',
     serviceTypesItems: [],
+    serviceTypesItemsTmp: [],
     idNumberImageItems: [],
     myFlag: 1, // 获取个人信息的标记：1-获取中；2-获取成功；3-获取失败
     serviceTypesFlag: 1 // 获取服务项目的标记：1-获取中；2-获取成功；3-获取失败
@@ -138,6 +139,14 @@ Page({
         }
       });
 
+      // 校验是否选择服务项目
+    } else if (!app.isArray(_this.data.serviceTypesItems) || (_this.data.serviceTypesItems.length == 0)) {
+      wx.showModal({
+        title: '提示',
+        content: '至少选择一个服务项目！',
+        showCancel: false
+      });
+
       // 校验是否上传身份证照片
     } else if (!app.isArray(_this.data.idNumberImageItems) || (_this.data.idNumberImageItems.length == 0)) {
       wx.showModal({
@@ -205,7 +214,7 @@ Page({
         serviceTypes = app.sortObjArray(serviceTypes, "order", "asc");
 
         _this.setData({
-          serviceTypesItems: serviceTypes
+          serviceTypesItemsTmp: serviceTypes
         });
       },
       successFailFn: function () {
