@@ -7,7 +7,7 @@
     <view class="userinfo-view">
       <text class="userinfo-text">姓名：</text>
 
-      <input class="userinfo-input" type="text" focus="{{nameFocus}}" value="{{name}}" maxlength="10" bindinput="bindNameInput" placeholder="姓名" />
+      <input class="userinfo-input" type="text" focus="{{nameFocus}}" value="{{name}}" maxlength="20" bindinput="bindNameInput" placeholder="姓名" />
     </view>
 
     <view class="userinfo-view">
