@@ -105,22 +105,23 @@
 
 .left-status-view {
   display: inline-block;
-  width: 33%;
+  width: 20%;
   height: 120rpx;
   align-items: center;
   justify-content: center;
+  text-align: center;
   margin-top: 20rpx;
   color: #666666;
 }
 
 .iconfont {
-  margin-left: 49%;
+  /* margin-left: 49%; */
   font-size: 40rpx;
   margin-top: 15rpx;
 }
 
 .status-text {
-  margin-left: 39%;
+  /* margin-left: 10%; */
   font-size: 28rpx;
 }
 

@@ -6,14 +6,14 @@
   </view>
   <view class="head-view">
     <view class="total-text">共接单：3</view>
-    <view class="time-text">在线时长：3天12小时4分</view>
-    <view class="success-text">成交率：98%</view>
+    <!-- <view class="time-text">在线时长：3天12小时4分</view>
+    <view class="success-text">成交率：98%</view> -->
 
     <view>  
       <!--菜单子健-->
-      <text class="img-style-1 img-style" animation="{{animCollect}}" bindtap="collect">停单</text>
-      <text class="img-style-2 img-style" animation="{{animTranspond}}" bindtap="transpond">可接单</text>
-      <text class="img-style-3 img-style" animation="{{animInput}}" bindtap="input">做单中</text>
+      <!-- <text class="img-style-1 img-style" animation="{{animCollect}}" bindtap="collect">停单</text> -->
+      <text class="img-style-1 img-style" animation="{{animTranspond}}" bindtap="transpond">停单</text>
+      <text class="img-style-3 img-style" animation="{{animInput}}" bindtap="input">接单中</text>
       <!--菜单键-->
       <text class="img-plus-style" animation="{{animPlus}}" bindtap="plus">{{userstatusname}}</text>
     </view>  
@@ -23,35 +23,35 @@
     <view class="top-view">
       <view class="left-status-view {{classone}}" data-id="1" bindtap="bindStatusViewTap">
         <view class="status-mm">
-          <icon class="iconfont icon-fahuo" />
+          <icon class="iconfont icon-shijian" text=""/>
         </view>
           <text class="status-text">待接单</text>
       </view>
 
       <view class="left-status-view {{classtwo}}" data-id="2" bindtap="bindStatusViewTap">
         <view class="status-mm">
-          <icon class="iconfont icon-gongzuokaizhanqingkuang" />
+          <icon class="iconfont icon-renminbi" />
         </view>
         <text class="status-text">已接单</text>
       </view>
 
       <view class="left-status-view {{classThree}}" data-id="3" bindtap="bindStatusViewTap">
         <view class="status-mm">
-          <icon class="iconfont icon-qiangdan2" />
+          <icon class="iconfont icon-renminbi" />
         </view>
         <text class="status-text">开工中</text>
       </view>
 
-      <view class="left-status-view {{classThree}}" data-id="3" bindtap="bindStatusViewTap">
+      <view class="left-status-view {{classFour}}" data-id="4" bindtap="bindStatusViewTap">
         <view class="status-mm">
-          <icon class="iconfont icon-qiangdan2" />
+          <icon class="iconfont icon-renminbi" />
         </view>
         <text class="status-text">待支付</text>
       </view>
 
-      <view class="left-status-view {{classThree}}" data-id="3" bindtap="bindStatusViewTap">
+      <view class="left-status-view {{classFive}}" data-id="5" bindtap="bindStatusViewTap">
         <view class="status-mm">
-          <icon class="iconfont icon-qiangdan2" />
+          <icon class="iconfont icon-renminbi" />
         </view>
         <text class="status-text">已完成</text>
       </view>
