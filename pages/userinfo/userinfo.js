@@ -184,6 +184,8 @@ Page({
         for (var i = 0; _this.data.idNumberImageItems.length; i++) {
           var idNumberImage = _this.data.idNumberImageItems[i];
 
+          console.log(idNumberImage.path);
+
           app.uploadFile({
             url: "/phone/openkeyuploadMobileFile",
             name: "file",
