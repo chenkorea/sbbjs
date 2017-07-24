@@ -38,43 +38,11 @@
       <text class="userinfo-text">上传身份证图片（可上传多张）：</text>
 
       <view class="userinfo-image-list">
-        <view class="userinfo-image">
-          <view class="userinfo-image-minus">
-            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
-          </view>
-        </view>
+        <block wx:for="{{idNumberImageItems}}">
+          <template is="idNumberImageItem" data="{{item}}" />
+        </block>
 
-        <view class="userinfo-image">
-          <view class="userinfo-image-minus">
-            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
-          </view>
-        </view>
-
-        <view class="userinfo-image">
-          <view class="userinfo-image-minus">
-            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
-          </view>
-        </view>
-
-        <view class="userinfo-image">
-          <view class="userinfo-image-minus">
-            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
-          </view>
-        </view>
-
-        <view class="userinfo-image">
-          <view class="userinfo-image-minus">
-            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
-          </view>
-        </view>
-
-        <view class="userinfo-image">
-          <view class="userinfo-image-minus">
-            <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
-          </view>
-        </view>
-
-        <view class="userinfo-image-plus" bindtap="bindUploadIdNumberImageTap" style="background: url('{{test}}'); background-size: {{size140}} {{size140}};">
+        <view class="userinfo-image-plus" bindtap="bindUploadIdNumberImageTap">
           <icon class="iconfont icon-plus f-s-50 c-white" />
         </view>
       </view>
@@ -85,3 +53,11 @@
     </view>
   </view>
 </view>
+
+<template name="idNumberImageItem">
+  <view class="userinfo-image" style="background: url('{{item.path}}'); background-size: {{item.pathSize}} {{item.pathSize}};">
+    <view class="userinfo-image-minus" data-index="{{item.index}}" bindtap="bindIdNumberImageIconTap">
+      <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
+    </view>
+  </view>
+</template>

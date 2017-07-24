@@ -8,9 +8,8 @@ Page({
     idNumber: '',
     idNumberFocus: false,
     city: '',
-    test: '',
-    size140: '',
     serviceTypesItems: [],
+    idNumberImageItems: [],
     myFlag: 1, // 获取个人信息的标记：1-获取中；2-获取成功；3-获取失败
     serviceTypesFlag: 1 // 获取服务项目的标记：1-获取中；2-获取成功；3-获取失败
   },
@@ -38,25 +37,60 @@ Page({
   bindServiceTypesChange: function (e) {
 
   },
-  bindUploadIdNumberImageTap: function(e) { // 上传身份证图片
+  bindIdNumberImageIconTap: function (e) { // 删除图片
     var _this = this;
+    var idNumberImageItemsTmp1 = _this.data.idNumberImageItems;
+    // 取出数组索引
+    var index = (e.currentTarget.dataset.index - 1);
+    
+    // 删除 index 指定的元素
+    idNumberImageItemsTmp1.splice(index, 1);
 
-    console.log(JSON.stringify(e));
+    // 从新整理数组
+    var idNumberImageItemsTmp2 = [];
+
+    for (var i = 0; i < idNumberImageItemsTmp1.length; i++) {
+      var eTmp = idNumberImageItemsTmp1[i];
+
+      idNumberImageItemsTmp2.push({
+        id: "",
+        path: eTmp.path,
+        size: eTmp.size,
+        index: (i + 1),
+        pathSize: "140rpx"
+      });
+    }
 
     _this.setData({
-      test: "http://www.463000.com.cn/UploadFile/news/201706/27/zmd219524271954342.jpg",
-      size140: '140rpx'
+      idNumberImageItems: idNumberImageItemsTmp2
     });
-    /*
+  },
+  bindUploadIdNumberImageTap: function (e) { // 上传身份证图片
+    var _this = this;
+
     wx.chooseImage({
       count: 9,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
+      sizeType: ["original"],
       success: function (res) {
-        console.log(JSON.stringify(res));
+        var idNumberImageItemsTmp = _this.data.idNumberImageItems;
+
+        for (var i = 0; i < res.tempFiles.length; i++) {
+          var file = res.tempFiles[i];
+
+          idNumberImageItemsTmp.push({
+            id: "",
+            path: file.path,
+            size: file.size,
+            index: (idNumberImageItemsTmp.length + 1),
+            pathSize: "140rpx"
+          });
+        }
+
+        _this.setData({
+          idNumberImageItems: idNumberImageItemsTmp
+        });
       }
     });
-    */
   },
 
   /**

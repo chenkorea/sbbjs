@@ -63,7 +63,7 @@
 }
 
 .userinfo-image-list .userinfo-image {
-  background: url("http://www.463000.com.cn/UploadFile/news/201706/27/zmd219524271954342.jpg");
+  background: url("");
   background-size: 140rpx 140rpx;
 }
 
