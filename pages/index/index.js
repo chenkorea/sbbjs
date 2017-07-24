@@ -16,7 +16,8 @@ Page({
     classFive:'',
     orderstatus: '1',   // 1待接单  2 开工中  3完工
     userstatus: '1',  // 1待接单 2做单中  3停单中
-    userstatusname: '接单中'
+    userstatusname: '接单中',
+    showClass: 'img-plus-style'
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -59,13 +60,13 @@ Page({
   input: function () {
     console.log("input")
     // 接单中
-    this.setData({ userstatus: '1', userstatusname: '接单中' })
+    this.setData({ userstatus: '1', userstatusname: '接单中', showClass: 'img-plus-style' })
     this.plus();
   },
   transpond: function () {
     console.log("transpond")
     // 待接单
-    this.setData({ userstatus: '2', userstatusname: '停单中' })
+    this.setData({ userstatus: '2', userstatusname: '停单中', showClass: 'img-plus-style img-style-2'})
     this.plus();
   },
   // collect: function () {
