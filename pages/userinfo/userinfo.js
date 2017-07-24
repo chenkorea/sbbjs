@@ -8,9 +8,9 @@ Page({
     idNumber: '',
     idNumberFocus: false,
     city: '',
-    serviceTypesItems: [],
-    serviceTypesItemsTmp: [],
-    idNumberImageItems: [],
+    serviceTypesItems: [], // 服务项目数组
+    serviceTypesItemsTmp: [], // 临时服务项目数组
+    idNumberImageItems: [], // 身份证照片
     deletedIdNumberImageIds: [], // 被删除的身份证照片 ID 数组
     myFlag: 1, // 获取个人信息的标记：1-获取中；2-获取成功；3-获取失败
     serviceTypesFlag: 1 // 获取服务项目的标记：1-获取中；2-获取成功；3-获取失败
@@ -185,27 +185,43 @@ Page({
           showCancel: false
         });
       } else {
-        var images = _this.data.idNumberImageItems;
+        var idNumberImagesTmp1 = _this.data.idNumberImageItems;
+        var idNumberImagesTmp2 = [];
 
-        // 上传身份证照片
-        for (var i = 0; i < images.length; i++) {
-          var image = images[i];
+        // 如果身份证照片有 ID 的话，表示已经上传过了，不需要在上传
+        for (var i = 0; i < idNumberImagesTmp1.length; i++) {
+          var eTmp = idNumberImagesTmp1[i];
 
-          app.uploadFile({
-            url: "phone/openkey/uploadMobileFile",
-            name: "file",
-            loading: true,
-            filePath: image.path,
-            formData: {
-              parent_id: app.getUserInfo().id,
-              file_type: "2"
-            },
-            loadingMsg: "正在上传身份证照片",
-            completeAllFn: function () {
-              // 保存
-              console.log("保存");
-            }
-          });
+          if (app.isBlank(eTmp.id)) {
+            idNumberImagesTmp2.push(eTmp);
+          }
+        }
+
+        if (idNumberImagesTmp2.length == 0) {
+          // 保存
+          console.log("保存1");
+
+          // 上传身份证照片
+        } else {
+          for (var i = 0; i < idNumberImagesTmp2.length; i++) {
+            var eTmp = idNumberImagesTmp2[i];
+
+            app.uploadFile({
+              url: "phone/openkey/uploadMobileFile",
+              name: "file",
+              loading: true,
+              filePath: eTmp.path,
+              formData: {
+                parent_id: app.getUserInfo().id,
+                file_type: "2"
+              },
+              loadingMsg: "正在上传身份证照片",
+              completeAllFn: function () {
+                // 保存
+                console.log("保存2");
+              }
+            });
+          }
         }
       }
     }
