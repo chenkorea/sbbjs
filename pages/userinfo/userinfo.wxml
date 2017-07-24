@@ -56,7 +56,7 @@
 
 <template name="idNumberImageItem">
    <view class="userinfo-image">
-    <view class="userinfo-image-minus" data-index="{{item.index}}" bindtap="bindIdNumberImageIconTap">
+    <view class="userinfo-image-minus" data-index="{{item.index}}" bindtap="bindDeleteIdNumberImageTap">
       <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
     </view>
 

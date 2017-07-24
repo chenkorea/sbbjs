@@ -42,7 +42,7 @@ Page({
       serviceTypesItems: e.detail.value
     });
   },
-  bindIdNumberImageIconTap: function (e) { // 删除身份证照片
+  bindDeleteIdNumberImageTap: function (e) { // 删除身份证照片
     var _this = this;
     var idNumberImageItemsTmp1 = _this.data.idNumberImageItems;
     // 取出数组索引
@@ -70,7 +70,7 @@ Page({
       idNumberImageItems: idNumberImageItemsTmp2
     });
   },
-  bindUploadIdNumberImageTap: function (e) { // 上传身份证照片
+  bindChooseIdNumberImageTap: function (e) { // 选择身份证照片
     var _this = this;
 
     wx.chooseImage({
