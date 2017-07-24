@@ -823,6 +823,10 @@ App({
           }
         }
 
+        if (typeof res.data === "string") {
+          res.data = JSON.parse(res.data);
+        }
+
         // 成功
         if (res.data.code == 1) {
           if (_this.isFunction(o.successFn)) {
@@ -944,6 +948,10 @@ App({
           }
         }
 
+        if (typeof res.data === "string") {
+          res.data = JSON.parse(res.data);
+        }
+
         // 成功
         if (res.data.code == 1) {
           if (_this.isFunction(o.successFn)) {
@@ -953,7 +961,7 @@ App({
           // 失败
         } else {
           wx.showToast({
-            title: (_this.isBlank(res.data.errmsg) ? "上传失败，稍后再试！" : _this.getString(res.data.errmsg)),
+            title: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
             duration: 3000
           });
 

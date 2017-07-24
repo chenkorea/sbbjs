@@ -61,8 +61,7 @@ Page({
         id: "",
         path: eTmp.path,
         size: eTmp.size,
-        index: (i + 1),
-        pathSize: "140rpx"
+        index: (i + 1)
       });
     }
 
@@ -86,8 +85,7 @@ Page({
             id: "",
             path: file.path,
             size: file.size,
-            index: (idNumberImageItemsTmp.length + 1),
-            pathSize: "140rpx"
+            index: (idNumberImageItemsTmp.length + 1)
           });
         }
 
@@ -180,17 +178,17 @@ Page({
           showCancel: false
         });
       } else {
-        // 上传身份证照片
-        for (var i = 0; _this.data.idNumberImageItems.length; i++) {
-          var idNumberImage = _this.data.idNumberImageItems[i];
+        var images = _this.data.idNumberImageItems;
 
-          console.log(idNumberImage.path);
+        // 上传身份证照片
+        for (var i = 0; i < images.length; i++) {
+          var image = images[i];
 
           app.uploadFile({
-            url: "/phone/openkeyuploadMobileFile",
+            url: "phone/openkey/uploadMobileFile",
             name: "file",
             loading: true,
-            filePath: idNumberImage.path,
+            filePath: image.path,
             formData: {
               parent_id: app.getUserInfo().id,
               file_type: "2"
