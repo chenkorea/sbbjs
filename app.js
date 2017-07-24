@@ -769,14 +769,16 @@ App({
     var _this = this;
 
     o.url = (_this.isBlank(o.url) ? "" : o.url);
-    o.data = (_this.isObject(o.data) ? {} : o.data);
+    o.data = (_this.isObject(o.data) ? o.data : {});
     o.method = (_this.isBlank(o.method) ? "GET" : o.method.toUpperCase());
-    o.header = (_this.isObject(o.header) ? { "content-type": "application/x-www-form-urlencoded" } : o.header);
+    o.header = (_this.isObject(o.header) ? o.header : { "content-type": "application/x-www-form-urlencoded" });
     o.fullUrl = (_this.isBoolean(o.fullUrl) ? o.fullUrl : false);
     o.loading = (_this.isBoolean(o.loading) ? o.loading : false);
     o.dataType = (_this.isBlank(o.dataType) ? "json" : o.dataType.toLowerCase());
     o.loadingMsg = (_this.isBlank(o.loadingMsg) ? "" : (o.loadingMsg + "…"));
     o.loadingMask = (_this.isBoolean(o.loadingMask) ? o.loadingMask : true);
+
+    console.log(JSON.stringify(o));
 
     if (!o.fullUrl) {
       o.url = (_this.serverAddr + o.url);
@@ -891,8 +893,8 @@ App({
 
     o.url = (_this.isBlank(o.url) ? "" : o.url);
     o.name = (_this.isBlank(o.name) ? "" : o.name);
-    o.header = (_this.isObject(o.header) ? { "content-type": "multipart/form-data" } : o.header);
-    o.formData = (_this.isObject(o.formData) ? {} : o.formData);
+    o.header = (_this.isObject(o.header) ? o.header : { "content-type": "multipart/form-data" });
+    o.formData = (_this.isObject(o.formData) ? o.formData : {});
     o.filePath = (_this.isBlank(o.filePath) ? "" : o.filePath);
     o.fullUrl = (_this.isBoolean(o.fullUrl) ? o.fullUrl : false);
     o.loading = (_this.isBoolean(o.loading) ? o.loading : false);

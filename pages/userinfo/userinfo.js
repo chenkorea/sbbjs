@@ -155,7 +155,52 @@ Page({
         showCancel: false
       });
     } else {
-      console.log("ok!!!");
+      if (myFlag == 1) {
+        wx.showModal({
+          title: '提示',
+          content: '正在获取个人信息…',
+          showCancel: false
+        });
+      } else if (myFlag == 3) {
+        wx.showModal({
+          title: '提示',
+          content: '获取个人信息失败，稍后再试！',
+          showCancel: false
+        });
+      } else if (serviceTypesFlag == 1) {
+        wx.showModal({
+          title: '提示',
+          content: '正在获取服务项目…',
+          showCancel: false
+        });
+      } else if (serviceTypesFlag == 3) {
+        wx.showModal({
+          title: '提示',
+          content: '获取服务项目失败，稍后再试！',
+          showCancel: false
+        });
+      } else {
+        // 上传身份证照片
+        for (var i = 0; _this.data.idNumberImageItems.length; i++) {
+          var idNumberImage = _this.data.idNumberImageItems[i];
+
+          app.uploadFile({
+            url: "/phone/openkeyuploadMobileFile",
+            name: "file",
+            loading: true,
+            filePath: idNumberImage.path,
+            formData: {
+              parent_id: app.getUserInfo().id,
+              file_type: "2"
+            },
+            loadingMsg: "正在上传身份证照片",
+            completeAllFn: function () {
+              // 保存
+              console.log("保存");
+            }
+          });
+        }
+      }
     }
   },
 
