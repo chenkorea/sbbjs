@@ -11,6 +11,7 @@ Page({
     serviceTypesItems: [],
     serviceTypesItemsTmp: [],
     idNumberImageItems: [],
+    deletedIdNumberImageIds: [], // 被删除的身份证照片 ID 数组
     myFlag: 1, // 获取个人信息的标记：1-获取中；2-获取成功；3-获取失败
     serviceTypesFlag: 1 // 获取服务项目的标记：1-获取中；2-获取成功；3-获取失败
   },
@@ -45,8 +46,15 @@ Page({
   bindDeleteIdNumberImageTap: function (e) { // 删除身份证照片
     var _this = this;
     var idNumberImageItemsTmp1 = _this.data.idNumberImageItems;
+
     // 取出数组索引
-    var index = (e.currentTarget.dataset.index - 1);
+    var index = e.currentTarget.dataset.index;
+
+    // 如果身份证照片的 ID 不为空
+    if (app.isNotBlank(idNumberImageItemsTmp1[index].id)) {
+      // 存入被删除的身份证照片 ID 数组中
+      _this.data.deletedIdNumberImageIds.push(idNumberImageItemsTmp1[index].id);
+    }
 
     // 删除 index 指定的元素
     idNumberImageItemsTmp1.splice(index, 1);
@@ -60,7 +68,7 @@ Page({
       idNumberImageItemsTmp2.push({
         id: "",
         path: eTmp.path,
-        index: (i + 1)
+        index: idNumberImageItemsTmp2.length
       });
     }
 
@@ -83,7 +91,7 @@ Page({
           idNumberImageItemsTmp.push({
             id: "",
             path: file.path,
-            index: (idNumberImageItemsTmp.length + 1)
+            index: idNumberImageItemsTmp.length
           });
         }
 
@@ -317,7 +325,7 @@ Page({
             idNumberImageItemsTmp.push({
               id: idNumberImageIds[i],
               path: (app.serverAddr + idNumberImagePaths[i]),
-              index: (idNumberImageItemsTmp.length + 1)
+              index: idNumberImageItemsTmp.length
             });
           }
         }
