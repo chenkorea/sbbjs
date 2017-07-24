@@ -617,7 +617,7 @@ App({
         }
 
         var last = parity[sum % 11];
-        
+
         if (parity[sum % 11] != idNumber[17]) {
           msg = "校验位错误";
           pass = false;
@@ -762,14 +762,16 @@ App({
 
   /**
    * 发起请求。
+   * 
+   * @param o 配置
    */
   request: function (o) {
     var _this = this;
 
     o.url = (_this.isBlank(o.url) ? "" : o.url);
-    o.data = (_this.isNull(o.data) ? {} : o.data);
+    o.data = (_this.isObject(o.data) ? {} : o.data);
     o.method = (_this.isBlank(o.method) ? "GET" : o.method.toUpperCase());
-    o.header = (_this.isNull(o.header) ? { "content-type": "application/x-www-form-urlencoded" } : o.header);
+    o.header = (_this.isObject(o.header) ? { "content-type": "application/x-www-form-urlencoded" } : o.header);
     o.fullUrl = (_this.isBoolean(o.fullUrl) ? o.fullUrl : false);
     o.loading = (_this.isBoolean(o.loading) ? o.loading : false);
     o.dataType = (_this.isBlank(o.dataType) ? "json" : o.dataType.toLowerCase());
@@ -867,6 +869,127 @@ App({
           o.failFn(res);
         }
       }
+    })
+  },
+
+  /**
+   * 上传文件。
+   * 
+   * @param o 配置
+   */
+  uploadFile: function (o) {
+    var _this = this;
+
+    o.url = (_this.isBlank(o.url) ? "" : o.url);
+    o.name = (_this.isBlank(o.name) ? "" : o.name);
+    o.header = (_this.isObject(o.header) ? { "content-type": "multipart/form-data" } : o.header);
+    o.formData = (_this.isObject(o.formData) ? {} : o.formData);
+    o.filePath = (_this.isBlank(o.filePath) ? "" : o.filePath);
+    o.fullUrl = (_this.isBoolean(o.fullUrl) ? o.fullUrl : false);
+    o.loading = (_this.isBoolean(o.loading) ? o.loading : false);
+    o.loadingMsg = (_this.isBlank(o.loadingMsg) ? "" : (o.loadingMsg + "…"));
+    o.loadingMask = (_this.isBoolean(o.loadingMask) ? o.loadingMask : true);
+
+    if (!o.fullUrl) {
+      o.url = (_this.serverAddr + o.url);
+    }
+
+    _this.ajaxCount++;
+
+    if (o.loading) {
+      _this.loadingAjaxCount++;
+
+      if (_this.loadingAjaxCount === 1) {
+        wx.showLoading({
+          mask: o.loadingMask,
+          title: o.loadingMsg,
+        });
+      }
+    }
+
+    // 发起请求之前执行
+    if (_this.isFunction(o.beforeFn)) {
+      o.beforeFn();
+    }
+
+    wx.uploadFile({
+      url: o.url,
+      name: o.name,
+      header: o.header,
+      filePath: o.filePath,
+      formData: o.formData,
+      success: function (res) { // 请求成功
+        if (_this.ajaxCount > 0) {
+          _this.ajaxCount--;
+        }
+
+        if (o.loading) {
+          if (_this.loadingAjaxCount > 0) {
+            _this.loadingAjaxCount--;
+          }
+
+          if (_this.loadingAjaxCount === 0) {
+            wx.hideLoading();
+          }
+        }
+
+        // 成功
+        if (res.data.code == 1) {
+          if (_this.isFunction(o.successFn)) {
+            o.successFn(res);
+          }
+
+          // 失败
+        } else {
+          wx.showToast({
+            title: res.data.errmsg,
+            duration: 3000
+          });
+
+          if (_this.isFunction(o.successFailFn)) {
+            o.successFailFn(res);
+          }
+        }
+      },
+      fail: function (res) { // 请求失败
+        if (_this.ajaxCount > 0) {
+          _this.ajaxCount--;
+        }
+
+        if (o.loading) {
+          if (_this.loadingAjaxCount > 0) {
+            _this.loadingAjaxCount--;
+          }
+
+          if (_this.loadingAjaxCount === 0) {
+            wx.hideLoading();
+          }
+        }
+
+        wx.showToast({
+          title: "网络连接失败，稍后再试！",
+          duration: 3000
+        });
+
+        if (_this.isFunction(o.failFn)) {
+          o.failFn(res);
+        }
+      },
+      complete: function (res) {
+        // 请求完成执行
+        if (_this.isFunction(o.completeFn)) {
+          o.completeFn(res);
+        }
+
+        /**
+         * 所有请求执行完毕。
+         */
+        if (_this.ajaxCount === 0) {
+          if (_this.isFunction(o.completeAllFn)) {
+            o.completeAllFn();
+          }
+        }
+      },
     })
   }
   //----------[/方法]----------//
