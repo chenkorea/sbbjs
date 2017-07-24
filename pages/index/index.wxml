@@ -12,10 +12,10 @@
     <view>  
       <!--菜单子健-->
       <!-- <text class="img-style-1 img-style" animation="{{animCollect}}" bindtap="collect">停单</text> -->
-      <text class="img-style-1 img-style" animation="{{animTranspond}}" bindtap="transpond">停单</text>
+      <text class="img-style-2 img-style" animation="{{animTranspond}}" bindtap="transpond">停单</text>
       <text class="img-style-3 img-style" animation="{{animInput}}" bindtap="input">接单中</text>
       <!--菜单键-->
-      <text class="img-plus-style" animation="{{animPlus}}" bindtap="plus">{{userstatusname}}</text>
+      <text class="{{showClass}}" animation="{{animPlus}}" bindtap="plus">{{userstatusname}}</text>
     </view>  
   </view>
 <!-- 订单界面 -->
