@@ -60,7 +60,6 @@ Page({
       idNumberImageItemsTmp2.push({
         id: "",
         path: eTmp.path,
-        size: eTmp.size,
         index: (i + 1)
       });
     }
@@ -84,7 +83,6 @@ Page({
           idNumberImageItemsTmp.push({
             id: "",
             path: file.path,
-            size: file.size,
             index: (idNumberImageItemsTmp.length + 1)
           });
         }
@@ -299,8 +297,6 @@ Page({
         });
       },
       successFn: function (res) {
-        console.log("------------------->" + JSON.stringify(res));
-        
         _this.setData({
           myFlag: 2
         });
@@ -310,9 +306,26 @@ Page({
         // 获取所有服务项目
         _this.getServiceTypes();
 
+        var idNumberImageItemsTmp = [];
+
+        // 判断是否已上传过身份证照片
+        if (app.isNotBlank(app.getUserInfo().file_number_id)) {
+          var idNumberImageIds = app.getUserInfo().file_number_id.split("|");
+          var idNumberImagePaths = app.getUserInfo().id_number_url.split("|");
+
+          for (var i = 0; i < idNumberImageIds.length; i++) {
+            idNumberImageItemsTmp.push({
+              id: idNumberImageIds[i],
+              path: (app.serverAddr + idNumberImagePaths[i]),
+              index: (idNumberImageItemsTmp.length + 1)
+            });
+          }
+        }
+
         _this.setData({
           name: app.getUserInfo().name,
-          idNumber: app.getUserInfo().id_number
+          idNumber: app.getUserInfo().id_number,
+          idNumberImageItems: idNumberImageItemsTmp
         });
       },
       successFailFn: function () {
