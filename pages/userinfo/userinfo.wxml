@@ -55,9 +55,13 @@
 </view>
 
 <template name="idNumberImageItem">
-  <view class="userinfo-image" style="background: url('{{item.path}}'); background-size: {{item.pathSize}} {{item.pathSize}};">
+   <view class="userinfo-image">
     <view class="userinfo-image-minus" data-index="{{item.index}}" bindtap="bindIdNumberImageIconTap">
       <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
+    </view>
+
+    <view class="userinfo-image-image">
+      <image class="" src="{{item.path}}" />
     </view>
   </view>
 </template>

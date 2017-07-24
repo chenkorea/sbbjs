@@ -63,8 +63,7 @@
 }
 
 .userinfo-image-list .userinfo-image {
-  background: url("");
-  background-size: 140rpx 140rpx;
+  position: relative;
 }
 
 .userinfo-image-list .userinfo-image-plus {
@@ -73,9 +72,25 @@
 }
 
 .userinfo-image-list .userinfo-image .userinfo-image-minus {
-  float: right;
+  top: 0rpx;
+  left: 100rpx;
   width: 40rpx;
   height: 40rpx;
   z-index: 100;
+  position: absolute;
   vertical-align: top;
+}
+
+.userinfo-image-list .userinfo-image .userinfo-image-image {
+  top: 0rpx;
+  left: 0rpx;
+  width: 140rpx;
+  height: 140rpx;
+  z-index: 10;
+  position: absolute;
+}
+
+.userinfo-image-list .userinfo-image .userinfo-image-image image {
+  width: 140rpx;
+  height: 140rpx;
 }

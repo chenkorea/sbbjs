@@ -832,7 +832,7 @@ App({
           // 失败
         } else {
           wx.showToast({
-            title: res.data.errmsg,
+            title: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
             duration: 3000
           });
 
@@ -893,7 +893,7 @@ App({
 
     o.url = (_this.isBlank(o.url) ? "" : o.url);
     o.name = (_this.isBlank(o.name) ? "" : o.name);
-    o.header = (_this.isObject(o.header) ? o.header : { "content-type": "multipart/form-data" });
+    o.header = (_this.isObject(o.header) ? o.header : { "content-type": "application/x-www-form-urlencoded" });
     o.formData = (_this.isObject(o.formData) ? o.formData : {});
     o.filePath = (_this.isBlank(o.filePath) ? "" : o.filePath);
     o.fullUrl = (_this.isBoolean(o.fullUrl) ? o.fullUrl : false);
@@ -953,7 +953,7 @@ App({
           // 失败
         } else {
           wx.showToast({
-            title: res.data.errmsg,
+            title: (_this.isBlank(res.data.errmsg) ? "上传失败，稍后再试！" : _this.getString(res.data.errmsg)),
             duration: 3000
           });
 
