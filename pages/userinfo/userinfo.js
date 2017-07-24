@@ -34,10 +34,14 @@ Page({
       city: e.detail.value
     });
   },
-  bindServiceTypesChange: function (e) {
+  bindServiceTypesChange: function (e) { // 选择服务项目
+    var _this = this;
 
+    _this.setData({
+      serviceTypesItems: e.detail.value
+    });
   },
-  bindIdNumberImageIconTap: function (e) { // 删除图片
+  bindIdNumberImageIconTap: function (e) { // 删除身份证照片
     var _this = this;
     var idNumberImageItemsTmp1 = _this.data.idNumberImageItems;
     // 取出数组索引
@@ -65,7 +69,7 @@ Page({
       idNumberImageItems: idNumberImageItemsTmp2
     });
   },
-  bindUploadIdNumberImageTap: function (e) { // 上传身份证图片
+  bindUploadIdNumberImageTap: function (e) { // 上传身份证照片
     var _this = this;
 
     wx.chooseImage({
@@ -116,7 +120,7 @@ Page({
         showCancel: false,
         complete: function (res) {
           _this.setData({
-            nameFocus: true
+            idNumberFocus: true
           });
         }
       });
@@ -129,9 +133,17 @@ Page({
         showCancel: false,
         complete: function (res) {
           _this.setData({
-            nameFocus: true
+            idNumberFocus: true
           });
         }
+      });
+
+      // 校验是否上传身份证照片
+    } else if (!app.isArray(_this.data.idNumberImageItems) || (_this.data.idNumberImageItems.length == 0)) {
+      wx.showModal({
+        title: '提示',
+        content: '至少上传一张身份证照片！',
+        showCancel: false
       });
     } else {
       console.log("ok!!!");

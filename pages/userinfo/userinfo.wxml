@@ -35,7 +35,7 @@
     </view>
 
     <view class="userinfo-view">
-      <text class="userinfo-text">上传身份证图片（可上传多张）：</text>
+      <text class="userinfo-text">上传身份证照片（可上传多张）：</text>
 
       <view class="userinfo-image-list">
         <block wx:for="{{idNumberImageItems}}">
