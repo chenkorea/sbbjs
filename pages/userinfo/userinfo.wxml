@@ -7,13 +7,13 @@
     <view class="userinfo-view">
       <text class="userinfo-text">姓名：</text>
 
-      <input class="userinfo-input" type="text" focus="{{nameFocus}}" value="{{name}}" bindinput="bindNameInput" placeholder="姓名" />
+      <input class="userinfo-input" type="text" focus="{{nameFocus}}" value="{{name}}" maxlength="10" bindinput="bindNameInput" placeholder="姓名" />
     </view>
 
     <view class="userinfo-view">
       <text class="userinfo-text">身份证号：</text>
 
-      <input class="userinfo-input" type="idcard" focus="{{idNumberFocus}}" value="{{idNumber}}" bindinput="bindIdNumberInput" placeholder="身份证号" />
+      <input class="userinfo-input" type="idcard" focus="{{idNumberFocus}}" value="{{idNumber}}" maxlength="18" bindinput="bindIdNumberInput" placeholder="身份证号" />
     </view>
 
     <view class="userinfo-view">
@@ -49,7 +49,7 @@
     </view>
 
     <view class="userinfo-view-save">
-      <button type="primary" loading="{{loading}}" disabled="{{disabled}}" bindtap="primary">保存</button>
+      <button type="primary" loading="{{loading}}" disabled="{{disabled}}" bindtap="bindSaveTap">保存</button>
     </view>
   </view>
 </view>

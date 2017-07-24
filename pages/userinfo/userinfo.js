@@ -42,7 +42,7 @@ Page({
     var idNumberImageItemsTmp1 = _this.data.idNumberImageItems;
     // 取出数组索引
     var index = (e.currentTarget.dataset.index - 1);
-    
+
     // 删除 index 指定的元素
     idNumberImageItemsTmp1.splice(index, 1);
 
@@ -91,6 +91,51 @@ Page({
         });
       }
     });
+  },
+  bindSaveTap: function (e) { // 保存
+    var _this = this;
+
+    // 校验姓名为空
+    if (app.isBlank(_this.data.name)) {
+      wx.showModal({
+        title: '提示',
+        content: '请输入姓名！',
+        showCancel: false,
+        complete: function (res) {
+          _this.setData({
+            nameFocus: true
+          });
+        }
+      });
+
+      // 校验身份证号为空
+    } else if (app.isBlank(_this.data.idNumber)) {
+      wx.showModal({
+        title: '提示',
+        content: '请输入身份证号！',
+        showCancel: false,
+        complete: function (res) {
+          _this.setData({
+            nameFocus: true
+          });
+        }
+      });
+
+      // 校验身份证号格式是否正确
+    } else if (!app.checkIdNumber(_this.data.idNumber)) {
+      wx.showModal({
+        title: '提示',
+        content: '身份证号格式不正确！',
+        showCancel: false,
+        complete: function (res) {
+          _this.setData({
+            nameFocus: true
+          });
+        }
+      });
+    } else {
+      console.log("ok!!!");
+    }
   },
 
   /**
@@ -184,6 +229,11 @@ Page({
         app.setUserInfo(res.data.content[0]);
         // 获取所有服务项目
         _this.getServiceTypes();
+
+        _this.setData({
+          name: app.getUserInfo().name,
+          idNumber: app.getUserInfo().id_number
+        });
       },
       successFailFn: function () {
         _this.myFlag = 3;
