@@ -806,12 +806,6 @@ App({
       header: o.header,
       method: o.method,
       dataType: o.dataType,
-      complete: function (res) {
-        // 请求完成执行
-        if (_this.isFunction(o.completeFn)) {
-          o.completeFn(res);
-        }
-      },
       success: function (res) { // 请求成功
         if (_this.ajaxCount > 0) {
           _this.ajaxCount--;
@@ -867,6 +861,21 @@ App({
 
         if (_this.isFunction(o.failFn)) {
           o.failFn(res);
+        }
+      },
+      complete: function (res) {
+        // 请求完成执行
+        if (_this.isFunction(o.completeFn)) {
+          o.completeFn(res);
+        }
+
+        /**
+         * 所有请求执行完毕。
+         */
+        if (_this.ajaxCount === 0) {
+          if (_this.isFunction(o.completeAllFn)) {
+            o.completeAllFn();
+          }
         }
       }
     })
