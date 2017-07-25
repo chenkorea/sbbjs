@@ -97,7 +97,7 @@ Page({
               // 否则，重定向到完善用户用户信息界面
             } else {
               wx.redirectTo({
-                url: "../userinfo/userinfo"
+                url: "../userinfo/userinfo?redirectUrl=../index/index"
               });
             }
           }
@@ -117,6 +117,7 @@ Page({
       });
     }
   },
+  
   onLoad: function () { // 监听页面加载
     // app.setLoginFlag(false);
 
@@ -131,7 +132,7 @@ Page({
         // 否则，重定向到完善用户用户信息界面
       } else {
         wx.redirectTo({
-          url: "../userinfo/userinfo"
+          url: "../userinfo/userinfo?redirectUrl=../index/index"
         });
       }
     }

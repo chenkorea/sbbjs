@@ -8,9 +8,10 @@ Page({
     idNumber: "",
     idNumberFocus: false,
     city: "",
+    redirectUrl: "", // 重定向 Url
     serviceTypesItems: [], // 服务项目数组
-    serviceTypesItemsTmp: [], // 临时服务项目数组
     idNumberImageItems: [], // 身份证照片
+    serviceTypesItemsTmp: [], // 临时服务项目数组
     deletedIdNumberImageIds: [], // 被删除的身份证照片 ID 数组
     myFlag: 1, // 获取个人信息的标记：1-获取中；2-获取成功；3-获取失败
     serviceTypesFlag: 1, // 获取服务项目的标记：1-获取中；2-获取成功；3-获取失败
@@ -449,10 +450,12 @@ Page({
           title: "保存成功！",
           duration: 3000,
           complete: function() {
-            // 重定向到首页
-            wx.redirectTo({
-              url: "../index/index"
-            });
+            if (app.isNotBlank(_this.data.redirectUrl)) {
+              // 重定向到首页
+              wx.redirectTo({
+                url: _this.data.redirectUrl
+              });
+            }
           }
         })
       },
@@ -462,6 +465,14 @@ Page({
           saveBtnDisabled: ""
         });
       }
+    });
+  },
+
+  onLoad: function(param) { // 页面加载事件：param-携带有上一个页面传来的参数
+    var _this = this;
+
+    _this.setData({
+      redirectUrl: app.getString(param.redirectUrl)
     });
   },
 
