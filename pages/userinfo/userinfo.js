@@ -3,17 +3,18 @@ var app = getApp();
 
 Page({
   data: {
-    name: '',
+    name: "",
     nameFocus: false,
-    idNumber: '',
+    idNumber: "",
     idNumberFocus: false,
-    city: '',
+    city: "",
     serviceTypesItems: [], // 服务项目数组
     serviceTypesItemsTmp: [], // 临时服务项目数组
     idNumberImageItems: [], // 身份证照片
     deletedIdNumberImageIds: [], // 被删除的身份证照片 ID 数组
     myFlag: 1, // 获取个人信息的标记：1-获取中；2-获取成功；3-获取失败
-    serviceTypesFlag: 1 // 获取服务项目的标记：1-获取中；2-获取成功；3-获取失败
+    serviceTypesFlag: 1, // 获取服务项目的标记：1-获取中；2-获取成功；3-获取失败
+    saveBtnDisabled: ""
   },
   bindNameInput: function (e) { // 设置姓名
     var _this = this;
@@ -108,8 +109,8 @@ Page({
     // 校验姓名为空
     if (app.isBlank(_this.data.name)) {
       wx.showModal({
-        title: '提示',
-        content: '请输入姓名！',
+        title: "提示",
+        content: "请输入姓名！",
         showCancel: false,
         complete: function (res) {
           _this.setData({
@@ -121,8 +122,8 @@ Page({
       // 校验身份证号为空
     } else if (app.isBlank(_this.data.idNumber)) {
       wx.showModal({
-        title: '提示',
-        content: '请输入身份证号！',
+        title: "提示",
+        content: "请输入身份证号！",
         showCancel: false,
         complete: function (res) {
           _this.setData({
@@ -134,8 +135,8 @@ Page({
       // 校验身份证号格式是否正确
     } else if (!app.checkIdNumber(_this.data.idNumber)) {
       wx.showModal({
-        title: '提示',
-        content: '身份证号格式不正确！',
+        title: "提示",
+        content: "身份证号格式不正确！",
         showCancel: false,
         complete: function (res) {
           _this.setData({
@@ -147,47 +148,51 @@ Page({
       // 校验是否选择服务项目
     } else if (!app.isArray(_this.data.serviceTypesItems) || (_this.data.serviceTypesItems.length == 0)) {
       wx.showModal({
-        title: '提示',
-        content: '至少选择一个服务项目！',
+        title: "提示",
+        content: "至少选择一个服务项目！",
         showCancel: false
       });
 
       // 校验是否上传身份证照片
     } else if (!app.isArray(_this.data.idNumberImageItems) || (_this.data.idNumberImageItems.length == 0)) {
       wx.showModal({
-        title: '提示',
-        content: '至少上传一张身份证照片！',
+        title: "提示",
+        content: "至少上传一张身份证照片！",
         showCancel: false
       });
     } else {
       if (_this.data.myFlag == 1) {
         wx.showModal({
-          title: '提示',
-          content: '正在获取个人信息…',
+          title: "提示",
+          content: "正在获取个人信息…",
           showCancel: false
         });
       } else if (_this.data.myFlag == 3) {
         wx.showModal({
-          title: '提示',
-          content: '获取个人信息失败，稍后再试！',
+          title: "提示",
+          content: "获取个人信息失败，稍后再试！",
           showCancel: false
         });
       } else if (_this.data.serviceTypesFlag == 1) {
         wx.showModal({
-          title: '提示',
-          content: '正在获取服务项目…',
+          title: "提示",
+          content: "正在获取服务项目…",
           showCancel: false
         });
       } else if (_this.data.serviceTypesFlag == 3) {
         wx.showModal({
-          title: '提示',
-          content: '获取服务项目失败，稍后再试！',
+          title: "提示",
+          content: "获取服务项目失败，稍后再试！",
           showCancel: false
         });
       } else {
+        // 禁用保存按钮
+        _this.setData({
+          saveBtnDisabled: "disabled"
+        });
+
         var idNumberImagesTmp1 = _this.data.idNumberImageItems;
         var idNumberImagesTmp2 = [];
-        var serviceTypesItemsStrTmp = _this.data.serviceTypesItems.join(",");
 
         // 如果身份证照片有 ID 的话，表示已经上传过了，不需要在上传
         for (var i = 0; i < idNumberImagesTmp1.length; i++) {
@@ -199,8 +204,10 @@ Page({
         }
 
         if (idNumberImagesTmp2.length == 0) {
-          // 保存
           console.log("保存1");
+
+          _this.save();
+
 
           // 上传身份证照片
         } else {
@@ -218,8 +225,9 @@ Page({
               },
               loadingMsg: "正在上传身份证照片",
               completeAllFn: function () {
-                // 保存
                 console.log("保存2");
+
+                _this.save();
               }
             });
           }
@@ -236,7 +244,7 @@ Page({
 
     app.request({
       url: "phone/js/user/service_types",
-      method: 'GET',
+      method: "GET",
       loading: true,
       loadingMsg: "正在加载个人信息",
       beforSendFn: function () {
@@ -287,6 +295,7 @@ Page({
         serviceTypes = app.sortObjArray(serviceTypes, "order", "asc");
 
         _this.setData({
+          serviceTypesItems: myServiceTypes,
           serviceTypesItemsTmp: serviceTypes
         });
       },
@@ -314,7 +323,7 @@ Page({
       data: {
         id: app.getUserInfo().id
       },
-      method: 'GET',
+      method: "GET",
       loading: true,
       loadingMsg: "正在加载个人信息",
       beforSendFn: function () {
@@ -366,6 +375,69 @@ Page({
       }
     });
   },
+
+  /**
+   * 保存。
+   */
+  save: function () {
+    var _this = this;
+    var serviceTypesItemsStrTmp = _this.data.serviceTypesItems.join(",");
+    var deletedIdNumberImageIdsTmp = "";
+
+    if (_this.data.deletedIdNumberImageIds.length > 0) {
+      deletedIdNumberImageIdsTmp = _this.data.deletedIdNumberImageIds.join(",");
+    }
+
+    app.request({
+      url: "phone/js/user/update",
+      data: {
+        id: app.getUserInfo().id,
+        name: _this.data.name,
+        idNumber: _this.data.idNumber,
+        city: "0",
+        serviceTypesItems: serviceTypesItemsStrTmp,
+        deletedIdNumberImageIds: deletedIdNumberImageIdsTmp
+      },
+      method: "POST",
+      loading: true,
+      loadingMsg: "正在保存",
+      successFn: function (res) {
+        console.log(JSON.stringify(res));
+        
+        // 设置用户信息
+        app.setUserInfo(res.data.content[0]);
+
+        var idNumberImageItemsTmp = [];
+
+        // 判断是否已上传过身份证照片
+        if (app.isNotBlank(app.getUserInfo().file_number_id)) {
+          var idNumberImageIdsTmp = app.getUserInfo().file_number_id.split("|");
+          var idNumberImagePathsTmp = app.getUserInfo().id_number_url.split("|");
+
+          for (var i = 0; i < idNumberImageIdsTmp.length; i++) {
+            idNumberImageItemsTmp.push({
+              id: idNumberImageIdsTmp[i],
+              path: (app.serverAddr + idNumberImagePathsTmp[i]),
+              index: idNumberImageItemsTmp.length
+            });
+          }
+        }
+
+        _this.setData({
+          name: app.getUserInfo().name,
+          idNumber: app.getUserInfo().id_number,
+          idNumberImageItems: idNumberImageItemsTmp
+        });
+      },
+      completeFn: function() {
+        // 启用保存按钮
+        _this.setData({
+          saveBtnDisabled: ""
+        });
+      }
+    });
+  },
+
   onReady: function () { // 初始化
     var _this = this;
 

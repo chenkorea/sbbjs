@@ -114,7 +114,7 @@ Page({
     }
   },
   onLoad: function () { // 监听页面加载
-    // app.setLoginFlag(false);
+    app.setLoginFlag(false);
 
     // 如果用户已登录，重定向到首页
     if (app.getLoginFlag()) {
