@@ -206,7 +206,6 @@ Page({
       if (idNumberImagesTmp2.length == 0) {
         _this.save();
 
-
         // 上传身份证照片
       } else {
         for (var i = 0; i < idNumberImagesTmp2.length; i++) {
