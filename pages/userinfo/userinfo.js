@@ -444,6 +444,11 @@ Page({
           idNumber: app.getUserInfo().id_number,
           idNumberImageItems: idNumberImageItemsTmp
         });
+
+        wx.showToast({
+          title: "保存成功！",
+          duration: 3000
+        })
       },
       completeFn: function() {
         // 启用保存按钮
