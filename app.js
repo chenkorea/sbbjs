@@ -240,7 +240,7 @@ App({
   getString: function (str) {
     var _this = this;
 
-    return (_this.isBlank(str) ? "" : String(str));
+    return (_this.isBlank(str) ? "" : _this.trim(String(str)));
   },
 
   /**
