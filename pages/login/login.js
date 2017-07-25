@@ -37,24 +37,28 @@ Page({
 
     // 校验手机号
     if (!app.phoneRe.test(_this.data.phone)) {
-      wx.showToast({
-        title: '手机号格式不正确',
-        duration: 3000
-      });
-
-      _this.setData({
-        phoneFocus: true
+      wx.showModal({
+        title: "提示",
+        content: "手机号格式不正确！",
+        showCancel: false,
+        complete: function (res) {
+          _this.setData({
+            phoneFocus: true
+          });
+        }
       });
 
       // 校验密码
     } else if (app.isBlank(_this.data.passwd) || (_this.data.passwd.length < 6)) {
-      wx.showToast({
-        title: '密码至少6个字符',
-        duration: 3000
-      });
-
-      _this.setData({
-        passwdFocus: true
+      wx.showModal({
+        title: "提示",
+        content: "密码不能少于6位！",
+        showCancel: false,
+        complete: function (res) {
+          _this.setData({
+            passwdFocus: true
+          });
+        }
       });
 
       // 登录
