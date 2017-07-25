@@ -355,9 +355,7 @@ Page({
 
         // 设置用户信息
         app.setUserInfo(res.data.content[0]);
-        // 获取所有服务项目
-        _this.getServiceTypes();
-
+        
         var idNumberImageItemsTmp = [];
 
         // 判断是否已上传过身份证照片
@@ -379,6 +377,9 @@ Page({
           idNumber: app.getUserInfo().id_number,
           idNumberImageItems: idNumberImageItemsTmp
         });
+
+        // 获取所有服务项目
+        _this.getServiceTypes();
       },
       successFailFn: function () {
         _this.setData({
