@@ -110,7 +110,7 @@ Page({
         },
         failFn: function () {
           // 清空所有数据
-          app.clearAll();
+          app.clearUserInfo();
           // 设置未登录
           app.setLoginFlag(false);
         }
