@@ -447,7 +447,13 @@ Page({
 
         wx.showToast({
           title: "保存成功！",
-          duration: 3000
+          duration: 3000,
+          complete: function() {
+            // 重定向到首页
+            wx.redirectTo({
+              url: "../index/index"
+            });
+          }
         })
       },
       completeFn: function() {
