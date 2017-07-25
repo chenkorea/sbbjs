@@ -833,9 +833,10 @@ App({
 
             // 失败
           } else {
-            wx.showToast({
-              title: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
-              duration: 3000
+            wx.showModal({
+              title: "提示",
+              content: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
+              showCancel: false
             });
 
             if (_this.isFunction(o.successFailFn)) {
@@ -845,9 +846,10 @@ App({
         } catch (e) {
           console.error(e);
 
-          wx.showToast({
-            title: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
-            duration: 3000
+          wx.showModal({
+            title: "提示",
+            content: "请求失败，稍后再试！",
+            showCancel: false
           });
         }
       },
@@ -866,9 +868,10 @@ App({
           }
         }
 
-        wx.showToast({
-          title: "网络连接失败，稍后再试！",
-          duration: 3000
+        wx.showModal({
+          title: "提示",
+          content: "网络连接失败，稍后再试！",
+          showCancel: false
         });
 
         if (_this.isFunction(o.failFn)) {
@@ -967,9 +970,10 @@ App({
 
             // 失败
           } else {
-            wx.showToast({
-              title: (_this.isBlank(res.data.errmsg) ? "上传失败，稍后再试！" : _this.getString(res.data.errmsg)),
-              duration: 3000
+            wx.showModal({
+              title: "提示",
+              content: (_this.isBlank(res.data.errmsg) ? "上传失败，稍后再试！" : _this.getString(res.data.errmsg)),
+              showCancel: false
             });
 
             if (_this.isFunction(o.successFailFn)) {
@@ -979,9 +983,10 @@ App({
         } catch (e) {
           console.error(e);
 
-          wx.showToast({
-            title: (_this.isBlank(res.data.errmsg) ? "上传失败，稍后再试！" : _this.getString(res.data.errmsg)),
-            duration: 3000
+          wx.showModal({
+            title: "提示",
+            content: "上传失败，稍后再试！",
+            showCancel: false
           });
         }
       },
@@ -1000,9 +1005,10 @@ App({
           }
         }
 
-        wx.showToast({
-          title: "网络连接失败，稍后再试！",
-          duration: 3000
+        wx.showModal({
+          title: "提示",
+          content: "网络连接失败，稍后再试！",
+          showCancel: false
         });
 
         if (_this.isFunction(o.failFn)) {
