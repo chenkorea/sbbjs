@@ -103,6 +103,29 @@ Page({
       }
     });
   },
+  bindPreviewIdNumberImageTap: function(e) { // 预览身份证照片
+    var _this = this;
+    // 取出数组索引
+    var index = e.currentTarget.dataset.index;
+    var idNumberImagePaths = [];
+
+    if (_this.data.idNumberImageItems.length > 0) {
+      for (var i = 0; i < _this.data.idNumberImageItems.length; i++) {
+        var eTmp = _this.data.idNumberImageItems[i];
+
+        idNumberImagePaths.push(eTmp.path);
+      }
+    }
+
+    if (idNumberImagePaths.length > 0) {
+      var currIdNumberImagePath = idNumberImagePaths[index];
+
+      wx.previewImage({
+        current: currIdNumberImagePath, // 当前显示图片的http链接
+        urls: idNumberImagePaths
+      });
+    }
+  },
   bindSaveTap: function (e) { // 保存
     var _this = this;
 

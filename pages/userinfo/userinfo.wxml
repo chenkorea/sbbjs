@@ -60,7 +60,7 @@
       <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
     </view>
 
-    <view class="userinfo-image-image">
+    <view class="userinfo-image-image" data-index="{{item.index}}" bindtap="bindPreviewIdNumberImageTap">
       <image class="" src="{{item.path}}" />
     </view>
   </view>
