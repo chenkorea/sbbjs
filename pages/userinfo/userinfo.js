@@ -106,8 +106,33 @@ Page({
   bindSaveTap: function (e) { // 保存
     var _this = this;
 
-    // 校验姓名为空
-    if (app.isBlank(_this.data.name)) {
+    if (_this.data.myFlag == 1) {
+      wx.showModal({
+        title: "提示",
+        content: "正在获取个人信息…",
+        showCancel: false
+      });
+    } else if (_this.data.myFlag == 3) {
+      wx.showModal({
+        title: "提示",
+        content: "获取个人信息失败，稍后再试！",
+        showCancel: false
+      });
+    } else if (_this.data.serviceTypesFlag == 1) {
+      wx.showModal({
+        title: "提示",
+        content: "正在获取服务项目…",
+        showCancel: false
+      });
+    } else if (_this.data.serviceTypesFlag == 3) {
+      wx.showModal({
+        title: "提示",
+        content: "获取服务项目失败，稍后再试！",
+        showCancel: false
+      });
+
+      // 校验姓名为空
+    } else if (app.isBlank(_this.data.name)) {
       wx.showModal({
         title: "提示",
         content: "请输入姓名！",
@@ -161,76 +186,46 @@ Page({
         showCancel: false
       });
     } else {
-      if (_this.data.myFlag == 1) {
-        wx.showModal({
-          title: "提示",
-          content: "正在获取个人信息…",
-          showCancel: false
-        });
-      } else if (_this.data.myFlag == 3) {
-        wx.showModal({
-          title: "提示",
-          content: "获取个人信息失败，稍后再试！",
-          showCancel: false
-        });
-      } else if (_this.data.serviceTypesFlag == 1) {
-        wx.showModal({
-          title: "提示",
-          content: "正在获取服务项目…",
-          showCancel: false
-        });
-      } else if (_this.data.serviceTypesFlag == 3) {
-        wx.showModal({
-          title: "提示",
-          content: "获取服务项目失败，稍后再试！",
-          showCancel: false
-        });
-      } else {
-        // 禁用保存按钮
-        _this.setData({
-          saveBtnDisabled: "disabled"
-        });
+      // 禁用保存按钮
+      _this.setData({
+        saveBtnDisabled: "disabled"
+      });
 
-        var idNumberImagesTmp1 = _this.data.idNumberImageItems;
-        var idNumberImagesTmp2 = [];
+      var idNumberImagesTmp1 = _this.data.idNumberImageItems;
+      var idNumberImagesTmp2 = [];
 
-        // 如果身份证照片有 ID 的话，表示已经上传过了，不需要在上传
-        for (var i = 0; i < idNumberImagesTmp1.length; i++) {
-          var eTmp = idNumberImagesTmp1[i];
+      // 如果身份证照片有 ID 的话，表示已经上传过了，不需要在上传
+      for (var i = 0; i < idNumberImagesTmp1.length; i++) {
+        var eTmp = idNumberImagesTmp1[i];
 
-          if (app.isBlank(eTmp.id)) {
-            idNumberImagesTmp2.push(eTmp);
-          }
+        if (app.isBlank(eTmp.id)) {
+          idNumberImagesTmp2.push(eTmp);
         }
+      }
 
-        if (idNumberImagesTmp2.length == 0) {
-          console.log("保存1");
-
-          _this.save();
+      if (idNumberImagesTmp2.length == 0) {
+        _this.save();
 
 
-          // 上传身份证照片
-        } else {
-          for (var i = 0; i < idNumberImagesTmp2.length; i++) {
-            var eTmp = idNumberImagesTmp2[i];
+        // 上传身份证照片
+      } else {
+        for (var i = 0; i < idNumberImagesTmp2.length; i++) {
+          var eTmp = idNumberImagesTmp2[i];
 
-            app.uploadFile({
-              url: "phone/openkey/uploadMobileFile",
-              name: "file",
-              loading: true,
-              filePath: eTmp.path,
-              formData: {
-                parent_id: app.getUserInfo().id,
-                file_type: "2"
-              },
-              loadingMsg: "正在上传身份证照片",
-              completeAllFn: function () {
-                console.log("保存2");
-
-                _this.save();
-              }
-            });
-          }
+          app.uploadFile({
+            url: "phone/openkey/uploadMobileFile",
+            name: "file",
+            loading: true,
+            filePath: eTmp.path,
+            formData: {
+              parent_id: app.getUserInfo().id,
+              file_type: "2"
+            },
+            loadingMsg: "正在上传身份证照片",
+            completeAllFn: function () {
+              _this.save();
+            }
+          });
         }
       }
     }
@@ -402,8 +397,6 @@ Page({
       loading: true,
       loadingMsg: "正在保存",
       successFn: function (res) {
-        console.log(JSON.stringify(res));
-        
         // 设置用户信息
         app.setUserInfo(res.data.content[0]);
 
