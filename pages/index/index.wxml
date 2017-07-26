@@ -59,7 +59,7 @@
 
       <scroll-view class="content-view" scroll-y="true">
         <block wx:for="{{jsDetailVos}}" wx:for-item="detailvo" wx:for-index="position">
-            <view class="order-item">
+            <view class="order-item" data-item="{{detailvo}}" bindtap="bindItemClick">
               <view class="order-no">订单号：{{detailvo.order_no}}</view>
               <view class="order-status">发起时间：{{detailvo.create_time}}</view>
               <view class="order-status">服务类别：{{detailvo.service_type_name}}</view>
@@ -71,18 +71,16 @@
               <view class="order-status" hidden="{{orderstatus=='1' || orderstatus=='2'}}">完工时间：2017年4月21号13:00</view>
               <view class="btn-view" wx:if="{{detailvo.current_status == '04'}}">
                 <!-- <text class="cancel_btn">拒绝</text> -->
-                <text class="confirm_btn">开工</text>
+                <text class="confirm_btn" data-id="04" data-orderId="{{detailvo.order_id}}" bindtap="bindChangeStatusClick">开工</text>
               </view >
-              <view class="btn-view" wx:elif="{{detailvo.current_status == '02'}}">
-                 <text class="cancel_btn">拒绝</text> 
-                <text class="confirm_btn">抢单</text>
+              <view class="btn-view" wx:elif="{{detailvo.current_status == '02' && userstatus == '1'}}">
+                <text class="confirm_btn" data-id="02" data-orderId="{{detailvo.order_id}}" bindtap="bindChangeStatusClick">抢单</text>
               </view >
-              <view class="btn-view" wx:elif="{{detailvo.current_status == '03'}}">
-                 <text class="cancel_btn">拒绝</text> 
-                <text class="confirm_btn">接单</text>
+              <view class="btn-view" wx:elif="{{detailvo.current_status == '03' && userstatus == '1'}}">
+                <text class="confirm_btn" data-id="03" data-orderId="{{detailvo.order_id}}" bindtap="bindChangeStatusClick">接单</text>
               </view >
                <view class="btn-view" wx:elif="{{detailvo.current_status == '05'}}">
-                <text class="confirm_btn">完成</text>
+                <text class="confirm_btn" data-id="05" data-orderId="{{detailvo.order_id}}" bindtap="bindChangeStatusClick">完工</text>
               </view >
           
              </view>

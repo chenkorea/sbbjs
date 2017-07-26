@@ -92,21 +92,20 @@ Page({
   },
   // 技师状态 1：接单中 2：停单中
   input: function () {
-    console.log("input")
+    this.changeUserStatus('1');
     // 接单中
     this.setData({ userstatus: '1', userstatusname: '接单中', showClass: 'img-plus-style' })
     this.plus();
 
-    this.changeUserStatus('1');
+    
 
   },
   transpond: function () {
-    console.log("transpond")
+
+    this.changeUserStatus('2');
     // 待接单
     this.setData({ userstatus: '2', userstatusname: '停单中', showClass: 'img-plus-style img-style-2'})
     this.plus();
-
-    this.changeUserStatus('2');
 
   },
   // collect: function () {
@@ -337,9 +336,9 @@ Page({
           if (res.data.code == 1) {
             console.log(res.data.content.status_str)
             if (res.data.content[0].status == '2') {
-              _this.setData({ userstatusname: res.data.content[0].status_str, showClass: 'img-plus-style img-style-2'});
+              _this.setData({ userstatus: res.data.content[0].status, userstatusname: res.data.content[0].status_str, showClass: 'img-plus-style img-style-2'});
             } else {
-              _this.setData({ userstatusname: res.data.content[0].status_str, showClass: 'img-plus-style' });
+              _this.setData({ userstatus: res.data.content[0].status, userstatusname: res.data.content[0].status_str, showClass: 'img-plus-style' });
             }
           }
         },
@@ -388,6 +387,92 @@ Page({
       });
     }
   },
+
+  bindChangeStatusClick: function (e) {
+    var that = this;
+    var userInfo = app.getUserInfo();
+    var id = e.currentTarget.dataset.id;
+    var orderId = e.currentTarget.dataset.orderid;
+    console.log(orderId)
+    
+    var obj = new Object(); 
+    obj.process_person_id = userInfo.id;
+    obj.process_person_name = userInfo.name;
+    obj.order_id = orderId;
+    
+    if(id == '04') {//点击开工
+      // console.log('开工')
+      obj.process_stage = '05';
+    } else if (id == '02') {//点击抢单
+      // console.log('抢单')
+      obj.process_stage = '04';
+    } else if (id == '03') {//点击接单
+      // console.log('接单')
+      obj.process_stage = '04';
+    } else if(id == '05') {//点击完成
+      obj.process_stage = '06'; //待支付
+      // console.log('完工')
+    }
+    var jsonStr = JSON.stringify(obj);
+    that.commitOrderViewStatus(jsonStr, id );
+    console.log(jsonStr)
+  },
+
+  commitOrderViewStatus: function (objStr, beforeStatus) {
+    var userInfo = app.getUserInfo();
+    
+    if (!userInfo.id) {
+      wx.showToast({
+        title: '用户信息不正确或为空',
+        duration: 3000
+      });
+      // 校验密码
+    } else {
+      var _this = this;
+      // 获取订单详细
+      app.request({
+        url: "/phone/js/orderview/commitOrderViewStatus",
+        data: {
+          objStr: objStr
+        },
+        method: 'POST',
+        loading: true,
+        loadingMsg: "正在提交状态...",
+        successFn: function (res) {
+          if (res.data.code == 1) {
+            if (beforeStatus == '02' || beforeStatus == '03') {
+              _this.getOrderTaking();
+              _this.getOrderListByStatus('04');
+            } else if (beforeStatus == '04'){
+              _this.getOrderListByStatus('05');
+              _this.getOrderListByStatus(beforeStatus);
+            } else if (beforeStatus == '05') {
+              _this.getOrderListByStatus('06');
+              _this.getOrderListByStatus(beforeStatus);
+            }
+            console.log('成功')
+          }
+        },
+        successFailFn: function () {
+
+        },
+        failFn: function () {
+
+        }
+      });
+    }
+  },
+
+  bindItemClick: function (e) {
+    var that = this;
+    var userInfo = app.getUserInfo();
+    var item = e.currentTarget.dataset.item;
+      url: '/',
+    wx.navigateTo({
+    })
+    console.log(item)
+  },
+
 
   splitArray: function (array) {
     var _this = this;
