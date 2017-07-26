@@ -16,35 +16,35 @@
     <view class="top-view">
       <view class="left-status-view {{classone}}" data-id="1" bindtap="bindStatusViewTap">
         <view class="status-mm">
-          <icon class="iconfont icon-shijian" text=""/>
+          <icon class="iconfont icon-daijiedan" text=""/>
         </view>
           <text class="status-text">待接单</text>
       </view>
 
       <view class="left-status-view {{classtwo}}" data-id="2" bindtap="bindStatusViewTap">
         <view class="status-mm">
-          <icon class="iconfont icon-renminbi" />
+          <icon class="iconfont icon-yijiedan" />
         </view>
         <text class="status-text">已接单</text>
       </view>
 
       <view class="left-status-view {{classThree}}" data-id="3" bindtap="bindStatusViewTap">
         <view class="status-mm">
-          <icon class="iconfont icon-renminbi" />
+          <icon class="iconfont icon-zhuangxiubaozhang" />
         </view>
         <text class="status-text">开工中</text>
       </view>
 
       <view class="left-status-view {{classFour}}" data-id="4" bindtap="bindStatusViewTap">
         <view class="status-mm">
-          <icon class="iconfont icon-renminbi" />
+          <icon class="iconfont icon-daizhifu1" />
         </view>
         <text class="status-text">待支付</text>
       </view>
 
       <view class="left-status-view {{classFive}}" data-id="5" bindtap="bindStatusViewTap">
         <view class="status-mm">
-          <icon class="iconfont icon-renminbi" />
+          <icon class="iconfont icon-yiwancheng" />
         </view>
         <text class="status-text">已完成</text>
       </view>
