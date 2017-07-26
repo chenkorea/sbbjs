@@ -1,4 +1,4 @@
-//index.js
+ //index.js
 //获取应用实例
 var app = getApp();
 
@@ -17,7 +17,14 @@ Page({
     orderstatus: '1',   // 1待接单  2 开工中  3完工
     userstatus: '1',  // 1待接单 2做单中  3停单中
     userstatusname: '接单中',
-    showClass: 'img-plus-style'
+    showClass: 'img-plus-style',
+    jsDetailVos: [],
+    jsDetailVosOne: [],
+    jsDetailVosTwo: [],
+    jsDetailVosThree: [],
+    jsDetailVosFour: [],
+    jsDetailVosFive: [],
+    orderAllCount: 0
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -29,16 +36,43 @@ Page({
     var that = this;
     var id = e.currentTarget.dataset.id;
     if (id == 1) {
-      that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1' })
+      that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1'});
+      if (!app.isArray(that.data.jsDetailVosOne)) {
+        that.getOrderTaking();
+      } else {
+        that.setData({ jsDetailVos: that.data.jsDetailVosOne});
+      }
+      
     } else if (id == 2) {
-      that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2' })
+      that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2'})
+      if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
+        that.getOrderListByStatus('04');
+      } else {
+        that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
+      }
     } else if (id == 3) {
-      that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3' })
+      that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3'})
+      if (!app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
+        that.getOrderListByStatus('05');
+      } else {
+        that.setData({ jsDetailVos: that.data.jsDetailVosThree });
+      }
     } else if(id == 4) {
-      that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4' })
+      that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4'})
+      if (!app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosThree.length == 0) {
+        that.getOrderListByStatus('06');
+      } else {
+        that.setData({ jsDetailVos: that.data.jsDetailVosFour });
+      }
     } else if(id == 5) {
-      that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5' })
+      that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5'})
+      if (!app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosThree.length == 0) {
+        that.getOrderListByStatus('07');
+      } else {
+        that.setData({ jsDetailVos: that.data.jsDetailVosFive });
+      }
     }
+    // that.getQuery();
   },
   //点击弹出  
   plus: function () {
@@ -62,12 +96,18 @@ Page({
     // 接单中
     this.setData({ userstatus: '1', userstatusname: '接单中', showClass: 'img-plus-style' })
     this.plus();
+
+    this.changeUserStatus('1');
+
   },
   transpond: function () {
     console.log("transpond")
     // 待接单
     this.setData({ userstatus: '2', userstatusname: '停单中', showClass: 'img-plus-style img-style-2'})
     this.plus();
+
+    this.changeUserStatus('2');
+
   },
   // collect: function () {
   //   console.log("collect")
@@ -143,5 +183,234 @@ Page({
       desc: 'desc', // 分享描述  
       path: 'path' // 分享路径  
     }
+  },
+
+  onLoad: function () {
+    //预加载可接单数据
+
+    this.getOrderTaking();
+    this.getOrderViewAllCount();
+    this.getUserCurStatus();
+    //查询总接单数
+
+  },
+
+  getOrderListByStatus: function (status) {
+    var userInfo = app.getUserInfo();
+
+    if (!userInfo.id) {
+      wx.showToast({
+        title: '用户信息不正确或为空',
+        duration: 3000
+      });
+      // 校验密码
+    } else {
+      var _this = this;
+      // 获取订单详细
+      app.request({
+        url: "/phone/js/orderview/getOrderViewAll",
+        data: {
+          order_type: status,
+          jsID: userInfo.id
+        },
+        method: 'GET',
+        loading: true,
+        loadingMsg: "正在查询订单...",
+        successFn: function (res) {
+          if (res.data.code == 1) {
+            _this.setData({ jsDetailVos: res.data.content });
+            if (status == '04') {         
+              _this.setData({ jsDetailVosTwo: res.data.content });
+            } else if (status == '05') {
+              _this.setData({ jsDetailVosThree: res.data.content });
+            } else if (status == '06') {
+              _this.setData({ jsDetailVosFour: res.data.content });
+            } else if (status == '07') {
+              _this.setData({ jsDetailVosFive: res.data.content });
+            }
+          }
+        },
+        successFailFn: function () {
+
+        },
+        failFn: function () {
+
+        }
+      });
+    }
+  },
+
+  getOrderTaking: function () {
+    var userInfo = app.getUserInfo();
+
+    if (!userInfo.id) {
+      wx.showToast({
+        title: '用户信息不正确或为空',
+        duration: 3000
+      });
+      // 校验密码
+    } else {
+      var _this = this;
+      // 获取订单详细
+      app.request({
+        url: "/phone/js/orderview/getOrderViewTakingAll",
+        data: {
+          jsID: userInfo.id
+        },
+        method: 'GET',
+        loading: true,
+        loadingMsg: "正在查询订单...",
+        successFn: function (res) {
+          if (res.data.code == 1) {
+            _this.setData({ jsDetailVos: res.data.content });
+            _this.setData({ jsDetailVosOne: res.data.content });
+          }
+        },
+        successFailFn: function () {
+
+        },
+        failFn: function () {
+
+        }
+      });
+    }
+  },
+
+  getOrderViewAllCount: function () {
+    var userInfo = app.getUserInfo();
+
+    if (!userInfo.id) {
+      wx.showToast({
+        title: '用户信息不正确或为空',
+        duration: 3000
+      });
+      // 校验密码
+    } else {
+      var _this = this;
+      // 获取订单详细
+      app.request({
+        url: "/phone/js/orderview/getOrderViewAllCount",
+        data: {
+          jsID: userInfo.id
+        },
+        method: 'GET',
+        loading: true,
+        loadingMsg: "正在查询...",
+        successFn: function (res) {
+          if (res.data.code == 1) {
+            _this.setData({ orderAllCount: res.data.content[0].order_count });
+          } else {
+            _this.setData({ orderAllCount: 0 });
+          }
+        },
+        successFailFn: function () {
+
+        },
+        failFn: function () {
+
+        }
+      });
+    }
+  },
+
+  getUserCurStatus: function (status) {
+    var userInfo = app.getUserInfo();
+
+    if (!userInfo.id) {
+      wx.showToast({
+        title: '用户信息不正确或为空',
+        duration: 3000
+      });
+      // 校验密码
+    } else {
+      var _this = this;
+      // 获取订单详细
+      app.request({
+        url: "/phone/js/orderview/getUserCurStatus",
+        data: {
+          jsID: userInfo.id
+        },
+        method: 'GET',
+        loading: true,
+        loadingMsg: "正在查询...",
+        successFn: function (res) {
+          if (res.data.code == 1) {
+            console.log(res.data.content.status_str)
+            if (res.data.content[0].status == '2') {
+              _this.setData({ userstatusname: res.data.content[0].status_str, showClass: 'img-plus-style img-style-2'});
+            } else {
+              _this.setData({ userstatusname: res.data.content[0].status_str, showClass: 'img-plus-style' });
+            }
+          }
+        },
+        successFailFn: function () {
+
+        },
+        failFn: function () {
+
+        }
+      });
+    }
+  },
+
+  changeUserStatus: function (status) {
+    var userInfo = app.getUserInfo();
+
+    if (!userInfo.id) {
+      wx.showToast({
+        title: '用户信息不正确或为空',
+        duration: 3000
+      });
+      // 校验密码
+    } else {
+      var _this = this;
+      // 获取订单详细
+      app.request({
+        url: "/phone/js/orderview/changeUserStatus",
+        data: {
+          userId: userInfo.id,
+          status: status
+        },
+        method: 'POST',
+        loading: true,
+        loadingMsg: "正在修改用户状态...",
+        successFn: function (res) {
+          if (res.data.code == 1) {
+            
+          }
+        },
+        successFailFn: function () {
+
+        },
+        failFn: function () {
+
+        }
+      });
+    }
+  },
+
+  splitArray: function (array) {
+    var _this = this;
+    var temArrayOne = new Array();
+    var temArrayTwo = new Array();
+    var temArrayThree = new Array();
+    var temArrayFour = new Array();
+    var temArrayFive = new Array();
+    for(var i = 0; i < array.length; i++) {
+      var obj = array[i];
+      //抢单和派单
+      if (obj.current_status == '02' || obj.current_status == '03') {
+        temArrayOne.push(obj);
+      } else if (obj.current_status == '04') {//已接单
+        temArrayTwo.push(obj);
+      } else if (obj.current_status == '05') {//已开工
+        temArrayThree.push(obj);
+      } else if (obj.current_status == '06') {//待支付
+        temArrayFour.push(obj);
+      } else if (obj.current_status == '07') {//已支付，完成
+        temArrayFive.push(obj);
+      }
+    }
+    _this.setData({ jsDetailVos: temArrayOne, jsDetailVosOne: temArrayOne, jsDetailVosTwo: temArrayTwo, jsDetailVosThree: temArrayThree, jsDetailVosFour: temArrayFour, jsDetailVosFive: temArrayFive});
   }
 })  

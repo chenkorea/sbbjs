@@ -5,7 +5,7 @@
     <text class="userinfo-nickname">泷泽萝拉</text>
   </view>
   <view class="head-view">
-    <view class="total-text">共接单：3</view>
+    <view class="total-text">共接单：{{orderAllCount}}</view>
     <!-- <view class="time-text">在线时长：3天12小时4分</view>
     <view class="success-text">成交率：98%</view> -->
 
@@ -58,21 +58,35 @@
     </view>
 
       <scroll-view class="content-view" scroll-y="true">
-        <view class="order-item">
-          <view class="order-no">订单号：ks2327543994322</view>
-          <view class="order-status">发起时间：2017年4月21号 12：23</view>
-          <view class="order-status">类   别：开锁服务</view>
-          <view class="order-status">服务地址：贵阳市南明但是但是登记号120</view>
-          <view class="order-status">服务时间：马上</view>
-          <view class="order-status">备注：快一点来吧，我受不了了</view>
-          <view class="order-status" hidden="{{orderstatus=='1'}}">接单技师：彰显三</view>
-          <view class="order-status" hidden="{{orderstatus=='1'}}">报   价：200.00元</view>
-          <view class="order-status" hidden="{{orderstatus=='1' || orderstatus=='2'}}">完工时间：2017年4月21号13:00</view>
-          <view class="btn-view">
-            <text class="cancel_btn">拒绝</text>
-            <text class="confirm_btn">接单</text>
-          </view>
-        </view>
+        <block wx:for="{{jsDetailVos}}" wx:for-item="detailvo" wx:for-index="position">
+            <view class="order-item">
+              <view class="order-no">订单号：{{detailvo.order_no}}</view>
+              <view class="order-status">发起时间：{{detailvo.create_time}}</view>
+              <view class="order-status">服务类别：{{detailvo.service_type_name}}</view>
+              <view class="order-status">服务地址：{{detailvo.service_address}}</view>
+              <view class="order-status">服务时间：{{detailvo.service_time_describe}}</view>
+              <view class="order-status">填写备注：{{detailvo.remarks}}</view>
+              <view class="order-status" hidden="{{orderstatus=='1'}}">下单顾客：{{detailvo.user_name}}</view>
+              <view class="order-status" hidden="{{orderstatus=='1'}}">报   价：￥{{detailvo.service_price}}元</view>
+              <view class="order-status" hidden="{{orderstatus=='1' || orderstatus=='2'}}">完工时间：2017年4月21号13:00</view>
+              <view class="btn-view" wx:if="{{detailvo.current_status == '04'}}">
+                <!-- <text class="cancel_btn">拒绝</text> -->
+                <text class="confirm_btn">开工</text>
+              </view >
+              <view class="btn-view" wx:elif="{{detailvo.current_status == '02'}}">
+                 <text class="cancel_btn">拒绝</text> 
+                <text class="confirm_btn">抢单</text>
+              </view >
+              <view class="btn-view" wx:elif="{{detailvo.current_status == '03'}}">
+                 <text class="cancel_btn">拒绝</text> 
+                <text class="confirm_btn">接单</text>
+              </view >
+               <view class="btn-view" wx:elif="{{detailvo.current_status == '05'}}">
+                <text class="confirm_btn">完成</text>
+              </view >
+          
+             </view>
+         </block>
       </scroll-view>
   </view>
 
