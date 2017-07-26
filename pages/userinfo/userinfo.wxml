@@ -49,7 +49,7 @@
     </view>
 
     <view class="userinfo-view-save">
-      <button type="primary" loading="{{loading}}" disabled="{{disabled}}" bindtap="bindSaveTap">保存</button>
+      <button type="primary" disabled="{{saveBtnDisabled}}" bindtap="bindSaveTap">保存</button>
     </view>
   </view>
 </view>
@@ -60,7 +60,7 @@
       <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
     </view>
 
-    <view class="userinfo-image-image">
+    <view class="userinfo-image-image" data-index="{{item.index}}" bindtap="bindPreviewIdNumberImageTap">
       <image class="" src="{{item.path}}" />
     </view>
   </view>

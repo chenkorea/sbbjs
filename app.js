@@ -240,7 +240,7 @@ App({
   getString: function (str) {
     var _this = this;
 
-    return (_this.isBlank(str) ? "" : String(str));
+    return (_this.isBlank(str) ? "" : _this.trim(String(str)));
   },
 
   /**
@@ -820,26 +820,37 @@ App({
           }
         }
 
-        if (typeof res.data === "string") {
-          res.data = JSON.parse(res.data);
-        }
-
-        // 成功
-        if (res.data.code == 1) {
-          if (_this.isFunction(o.successFn)) {
-            o.successFn(res);
+        try {
+          if (typeof res.data === "string") {
+            res.data = JSON.parse(res.data);
           }
 
-          // 失败
-        } else {
-          wx.showToast({
-            title: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
-            duration: 3000
+          // 成功
+          if (res.data.code == 1) {
+            if (_this.isFunction(o.successFn)) {
+              o.successFn(res);
+            }
+
+            // 失败
+          } else {
+            wx.showModal({
+              title: "提示",
+              content: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
+              showCancel: false
+            });
+
+            if (_this.isFunction(o.successFailFn)) {
+              o.successFailFn(res);
+            }
+          }
+        } catch (e) {
+          console.error(e);
+
+          wx.showModal({
+            title: "提示",
+            content: "请求失败，稍后再试！",
+            showCancel: false
           });
-
-          if (_this.isFunction(o.successFailFn)) {
-            o.successFailFn(res);
-          }
         }
       },
       fail: function (res) { // 请求失败
@@ -857,9 +868,10 @@ App({
           }
         }
 
-        wx.showToast({
-          title: "网络连接失败，稍后再试！",
-          duration: 3000
+        wx.showModal({
+          title: "提示",
+          content: "网络连接失败，稍后再试！",
+          showCancel: false
         });
 
         if (_this.isFunction(o.failFn)) {
@@ -945,29 +957,40 @@ App({
           }
         }
 
-        if (typeof res.data === "string") {
-          res.data = JSON.parse(res.data);
-        }
-
-        // 成功
-        if (res.data.code == 1) {
-          if (_this.isFunction(o.successFn)) {
-            o.successFn(res);
+        try {
+          if (typeof res.data === "string") {
+            res.data = JSON.parse(res.data);
           }
 
-          // 失败
-        } else {
-          wx.showToast({
-            title: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
-            duration: 3000
+          // 成功
+          if (res.data.code == 1) {
+            if (_this.isFunction(o.successFn)) {
+              o.successFn(res);
+            }
+
+            // 失败
+          } else {
+            wx.showModal({
+              title: "提示",
+              content: (_this.isBlank(res.data.errmsg) ? "上传失败，稍后再试！" : _this.getString(res.data.errmsg)),
+              showCancel: false
+            });
+
+            if (_this.isFunction(o.successFailFn)) {
+              o.successFailFn(res);
+            }
+          }
+        } catch (e) {
+          console.error(e);
+
+          wx.showModal({
+            title: "提示",
+            content: "上传失败，稍后再试！",
+            showCancel: false
           });
-
-          if (_this.isFunction(o.successFailFn)) {
-            o.successFailFn(res);
-          }
         }
       },
-      fail: function (res) { // 请求失败
+      fail: function (res) { // 上传失败
         if (_this.ajaxCount > 0) {
           _this.ajaxCount--;
         }
@@ -982,9 +1005,10 @@ App({
           }
         }
 
-        wx.showToast({
-          title: "网络连接失败，稍后再试！",
-          duration: 3000
+        wx.showModal({
+          title: "提示",
+          content: "网络连接失败，稍后再试！",
+          showCancel: false
         });
 
         if (_this.isFunction(o.failFn)) {

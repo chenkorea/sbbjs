@@ -55,9 +55,9 @@
 
 .userinfo-image-list .userinfo-image, .userinfo-image-list .userinfo-image-plus {
   float: left;
-  width: 140rpx;
-  height: 140rpx;
-  margin: 5rpx;
+  width: 180rpx;
+  height: 180rpx;
+  margin: 10rpx;
   padding: 0rpx;
   text-align: center;
 }
@@ -68,12 +68,12 @@
 
 .userinfo-image-list .userinfo-image-plus {
   border: 1px solid white;
-  line-height: 140rpx;
+  line-height: 180rpx;
 }
 
 .userinfo-image-list .userinfo-image .userinfo-image-minus {
   top: 0rpx;
-  left: 100rpx;
+  left: 140rpx;
   width: 40rpx;
   height: 40rpx;
   z-index: 100;
@@ -84,13 +84,13 @@
 .userinfo-image-list .userinfo-image .userinfo-image-image {
   top: 0rpx;
   left: 0rpx;
-  width: 140rpx;
-  height: 140rpx;
+  width: 180rpx;
+  height: 180rpx;
   z-index: 10;
   position: absolute;
 }
 
 .userinfo-image-list .userinfo-image .userinfo-image-image image {
-  width: 140rpx;
-  height: 140rpx;
+  width: 180rpx;
+  height: 180rpx;
 }
