@@ -24,7 +24,7 @@
 .head-view {
   background: #FFFFFF;
   border-bottom: 20rpx solid #F0F0F0;
-  height: 160rpx;
+  height: 50rpx;
   font-size: 32rpx;
   padding: 20rpx;
   color: #333333;
@@ -97,7 +97,7 @@
 
 .order_view {
   position: absolute;
-  top: 300rpx;
+  top: 210rpx;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -184,4 +184,12 @@
   width: 180rpx;
   height: 70rpx;
   background: #43CD80;
+}
+.ct_menu {
+  width: 150rpx;  
+  height: 150rpx;  
+  position: absolute;  
+  bottom: 250rpx;  
+  right: 50rpx;  
+  z-index: 100;
 }

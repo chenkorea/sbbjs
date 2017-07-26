@@ -37,7 +37,7 @@ Page({
     var id = e.currentTarget.dataset.id;
     if (id == 1) {
       that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1'});
-      if (!app.isArray(that.data.jsDetailVosOne)) {
+      if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
         that.getOrderTaking();
       } else {
         that.setData({ jsDetailVos: that.data.jsDetailVosOne});
@@ -52,21 +52,21 @@ Page({
       }
     } else if (id == 3) {
       that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3'})
-      if (!app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
+      if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
         that.getOrderListByStatus('05');
       } else {
         that.setData({ jsDetailVos: that.data.jsDetailVosThree });
       }
     } else if(id == 4) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4'})
-      if (!app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosThree.length == 0) {
-        that.getOrderListByStatus('06');
+      if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
+         that.getOrderListByStatus('06');
       } else {
         that.setData({ jsDetailVos: that.data.jsDetailVosFour });
       }
     } else if(id == 5) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5'})
-      if (!app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosThree.length == 0) {
+      if (app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosFive.length == 0) {
         that.getOrderListByStatus('07');
       } else {
         that.setData({ jsDetailVos: that.data.jsDetailVosFive });
@@ -96,9 +96,6 @@ Page({
     // 接单中
     this.setData({ userstatus: '1', userstatusname: '接单中', showClass: 'img-plus-style' })
     this.plus();
-
-    
-
   },
   transpond: function () {
 
@@ -134,10 +131,17 @@ Page({
       duration: 500,
       timingFunction: 'ease-out'
     })
+    // animationPlus.rotateZ(360).step();
+    // // animationcollect.translate(-180, 0).rotateZ(360).opacity(1).step();
+    // animationTranspond.translate(-120, 0).rotateZ(360).opacity(1).step();
+    // animationInput.translate(-60, 0).rotateZ(360).opacity(1).step();
+
     animationPlus.rotateZ(360).step();
-    // animationcollect.translate(-180, 0).rotateZ(360).opacity(1).step();
-    animationTranspond.translate(-120, 0).rotateZ(360).opacity(1).step();
-    animationInput.translate(-60, 0).rotateZ(360).opacity(1).step();
+    // animationcollect.translate(-100, -100).rotateZ(180).opacity(1).step();
+    animationTranspond.translate(-90, 0).rotateZ(360).opacity(1).step();
+    animationInput.translate(-60, -70).rotateZ(360).opacity(1).step();  
+
+
     this.setData({
       animPlus: animationPlus.export(),
       // animCollect: animationcollect.export(),
@@ -441,8 +445,8 @@ Page({
         successFn: function (res) {
           if (res.data.code == 1) {
             if (beforeStatus == '02' || beforeStatus == '03') {
-              _this.getOrderTaking();
               _this.getOrderListByStatus('04');
+              _this.getOrderTaking();
             } else if (beforeStatus == '04'){
               _this.getOrderListByStatus('05');
               _this.getOrderListByStatus(beforeStatus);
@@ -472,30 +476,38 @@ Page({
     })
     console.log(item)
   },
+  onPullDownRefresh: function () {
+    // 页面相关事件处理函数--监听用户下拉动作  
+    this.getOrderTaking();
+
+  },
+  onReachBottom: function () {
+    // 页面上拉触底事件的处理函数  
+  },  
 
 
-  splitArray: function (array) {
-    var _this = this;
-    var temArrayOne = new Array();
-    var temArrayTwo = new Array();
-    var temArrayThree = new Array();
-    var temArrayFour = new Array();
-    var temArrayFive = new Array();
-    for(var i = 0; i < array.length; i++) {
-      var obj = array[i];
-      //抢单和派单
-      if (obj.current_status == '02' || obj.current_status == '03') {
-        temArrayOne.push(obj);
-      } else if (obj.current_status == '04') {//已接单
-        temArrayTwo.push(obj);
-      } else if (obj.current_status == '05') {//已开工
-        temArrayThree.push(obj);
-      } else if (obj.current_status == '06') {//待支付
-        temArrayFour.push(obj);
-      } else if (obj.current_status == '07') {//已支付，完成
-        temArrayFive.push(obj);
-      }
-    }
-    _this.setData({ jsDetailVos: temArrayOne, jsDetailVosOne: temArrayOne, jsDetailVosTwo: temArrayTwo, jsDetailVosThree: temArrayThree, jsDetailVosFour: temArrayFour, jsDetailVosFive: temArrayFive});
-  }
+  // splitArray: function (array) {
+  //   var _this = this;
+  //   var temArrayOne = new Array();
+  //   var temArrayTwo = new Array();
+  //   var temArrayThree = new Array();
+  //   var temArrayFour = new Array();
+  //   var temArrayFive = new Array();
+  //   for(var i = 0; i < array.length; i++) {
+  //     var obj = array[i];
+  //     //抢单和派单
+  //     if (obj.current_status == '02' || obj.current_status == '03') {
+  //       temArrayOne.push(obj);
+  //     } else if (obj.current_status == '04') {//已接单
+  //       temArrayTwo.push(obj);
+  //     } else if (obj.current_status == '05') {//已开工
+  //       temArrayThree.push(obj);
+  //     } else if (obj.current_status == '06') {//待支付
+  //       temArrayFour.push(obj);
+  //     } else if (obj.current_status == '07') {//已支付，完成
+  //       temArrayFive.push(obj);
+  //     }
+  //   }
+  //   _this.setData({ jsDetailVos: temArrayOne, jsDetailVosOne: temArrayOne, jsDetailVosTwo: temArrayTwo, jsDetailVosThree: temArrayThree, jsDetailVosFour: temArrayFour, jsDetailVosFive: temArrayFive});
+  // }
 })  

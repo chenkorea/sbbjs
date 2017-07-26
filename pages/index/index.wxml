@@ -8,16 +8,9 @@
     <view class="total-text">共接单：{{orderAllCount}}</view>
     <!-- <view class="time-text">在线时长：3天12小时4分</view>
     <view class="success-text">成交率：98%</view> -->
-
-    <view>  
-      <!--菜单子健-->
-      <!-- <text class="img-style-1 img-style" animation="{{animCollect}}" bindtap="collect">停单</text> -->
-      <text class="img-style-2 img-style" animation="{{animTranspond}}" bindtap="transpond">停单中</text>
-      <text class="img-style-3 img-style" animation="{{animInput}}" bindtap="input">接单中</text>
-      <!--菜单键-->
-      <text class="{{showClass}}" animation="{{animPlus}}" bindtap="plus">{{userstatusname}}</text>
-    </view>  
   </view>
+
+   
 <!-- 订单界面 -->
   <view class="order_view" hidden="{{bottomstatus==2 || bottomstatus==3}}">
     <view class="top-view">
@@ -86,6 +79,14 @@
              </view>
          </block>
       </scroll-view>
+  <view class="ct_menu">  
+      <!--菜单子健-->
+      <!-- <text class="img-style-1 img-style" animation="{{animCollect}}" bindtap="collect">停单</text> -->
+      <text class="img-style-2 img-style" animation="{{animTranspond}}" bindtap="transpond">停单中</text>
+      <text class="img-style-3 img-style" animation="{{animInput}}" bindtap="input">接单中</text>
+      <!--菜单键-->
+      <text class="{{showClass}}" animation="{{animPlus}}" bindtap="plus">{{userstatusname}}</text>
+    </view>  
   </view>
 
 </view>
