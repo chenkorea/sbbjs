@@ -4,11 +4,11 @@
  <view class="drawer_content"> 
  <view class="top grid"> 
   <label class="title col-0">服务费用</label> 
-  <view class="input_base input_h30 col-1 sele_text" name="service_price">{{userOrder.service_price}}</view> 
+  <input class="input_base input_h30 col-1 sele_text" name="service_price" value="{{service_price}}" bindinput="bindSePInput"></input> 
  </view> 
  <view class="top grid"> 
   <label class="title col-0">附加服务费</label> 
-  <input class="input_base input_h30 col-1" name="addtional_price" value="{{inputTwoValue==''?userOrder.additional_service_price:inputOneValue}}" bindinput="bindTwoInput"></input> 
+  <input class="input_base input_h30 col-1" name="addtional_price" value="{{additional_service_price}}" bindinput="bindAddPInput"></input> 
  </view> 
 
  <view class="top bottom grid"> 

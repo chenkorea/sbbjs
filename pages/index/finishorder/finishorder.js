@@ -18,7 +18,9 @@ Page({
     payment: '在线支付',
     payments: ['在线支付', '现金支付'],
     fdmindex: 0,
-    processObj:{}
+    processObj:{},
+    service_price:'',
+    additional_service_price: ''
   },
   listenerPickerFDMSelected: function (e) {
     //改变index值，通过setData()方法重绘界面
@@ -104,6 +106,14 @@ Page({
       inputOneValue: e.detail.value
     })
   },
+  bindSePInput: function () {
+    var price = e.detail.value;
+    this.setData({ service_price: price})  
+  },
+  bindAddPInput: function () {
+    var price = e.detail.value;
+    this.setData({ additional_service_price: price })
+  },
   saveData: function () {
 
     // 构建
@@ -136,9 +146,9 @@ Page({
     console.log(pants);
     // 上传
     // this.commitOrderViewStatus(oneStr, twoStr, pants);
-    this.saveForServier(oneStr, twoStr, pants);
+    this.saveForServier(oneStr, twoStr, pants, this.data.service_price, this.data.additional_service_price);
   },
-  saveForServier: function (oneStr, twoStr, pants) {
+  saveForServier: function (oneStr, twoStr, pants, prone, prtwo) {
     wx.showLoading({
       title: '数据提交中...',
     })
@@ -159,7 +169,7 @@ Page({
           title: '提交订单失败！',
         })
       }
-    }, oneStr, twoStr, pants)
+    }, oneStr, twoStr, pants, prone, prtwo)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -171,6 +181,9 @@ Page({
     var jsonStr = options.jsonStr;
     var processObj = JSON.parse(jsonStr);
 
+    this.setData({ service_price: userOrder.service_price })
+    this.setData({ additional_service_price: userOrder.additional_service_price })
+    
     this.setData({ userOrder: userOrder })
     this.setData({ processObj: processObj})
   },

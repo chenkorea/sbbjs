@@ -219,14 +219,16 @@ function getUserOrderPic(callback, orderId) {
 
 
 // 完工订单
-function finishOrder(callback, objStr, goodsStr, payType) {
+function finishOrder(callback, objStr, goodsStr, payType, service_price, additional_service_price) {
   var remoteUrl = getApp().globalData.serverIp + "js/orderview/commitOrderViewStatus";
   wx.request({
     url: remoteUrl,
     data: {
       objStr: objStr,
       goodsStr: goodsStr,
-      pay_type: payType
+      pay_type: payType,
+      service_price: service_price,
+      additional_service_price: additional_service_price
     },
     method: 'POST',
     header: { 'content-type': 'application/x-www-form-urlencoded' },
