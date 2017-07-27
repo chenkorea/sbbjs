@@ -211,6 +211,16 @@ Page({
     }
   },
 
+  onShow: function () {
+    var that = this;
+    var status = that.data.orderstatus;
+    if (status == '3') {
+      that.getOrderListByStatus('07');
+      that.getOrderListByStatus('06');
+      that.getOrderListByStatus('05');
+    }
+  },
+
   onLoad: function () {
     
     //预加载可接单数据
@@ -439,24 +449,22 @@ Page({
       obj.process_stage = '04';
     } else if (id == '03') {//点击接单
       obj.process_stage = '04';
-    } else if(id == '05') {//点击完成
-      //跳转到额外添加商品页面
-      wx.navigateTo({
-        url: '../my/orderprocess/orderprocess'
-      })
-
-      // payType = '1';
-      if (payType == '1') {
-        obj.process_stage = '06'; //待支付
-      } else if(payType == '2'){
-        obj.process_stage = '07'; //直接完工,待评价
-      }
     }
 
     var jsonStr = JSON.stringify(obj);
     var jsonGoodsStr = JSON.stringify(goods);
-    that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType);
-    console.log(jsonStr)
+    if (id == '05') {
+      // 跳转
+      var item = e.currentTarget.dataset.item;
+      var jsonclStr = JSON.stringify(item);
+      wx.navigateTo({
+        url: '../index/finishorder/finishorder?jsonclStr=' + jsonclStr + '&jsonStr=' + jsonStr,
+      })
+    } else {
+      that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType);
+      console.log(jsonStr)
+    }
+    
   },
 
   commitOrderViewStatus: function (objStr, beforeStatus, goodsStr, payType) {

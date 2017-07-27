@@ -74,7 +74,7 @@
               </view >
                <view class="btn-view" wx:elif="{{detailvo.current_status == '05'}}">
 
-                <text class="confirm_btn" data-id="05" data-orderId="{{detailvo.order_id}}" data-statu="open" data-item="{{detailvo}}" catchtap="finishWork">完工</text>
+                <text class="confirm_btn" data-id="05" data-orderId="{{detailvo.order_id}}" data-statu="open" data-item="{{detailvo}}" catchtap="bindChangeStatusClick">完工</text>
 
               </view >
               <view class="btn-view" wx:elif="{{detailvo.current_status == '06'}}">

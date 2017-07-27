@@ -217,14 +217,19 @@ function getUserOrderPic(callback, orderId) {
   })
 }
 
+
 // 完工订单
-function finishOrder(callback, userOrder) {
-  var remoteUrl = getApp().globalData.serverIp + "openkey/createUserOrder";
+function finishOrder(callback, objStr, goodsStr, payType) {
+  var remoteUrl = getApp().globalData.serverIp + "js/orderview/commitOrderViewStatus";
   wx.request({
     url: remoteUrl,
-    data: userOrder,
+    data: {
+      objStr: objStr,
+      goodsStr: goodsStr,
+      pay_type: payType
+    },
     method: 'POST',
-    header: { 'content-type': 'application/json' },
+    header: { 'content-type': 'application/x-www-form-urlencoded' },
     success: function (res) {
       console.log(res);
       callback(res);
@@ -245,5 +250,6 @@ module.exports = {
   addServiceComment: addServiceComment,
   getUserOrdersProcess: getUserOrdersProcess,
   getUserShiFuOrdersProcess: getUserShiFuOrdersProcess,
-  getUserOrderPic: getUserOrderPic
+  getUserOrderPic: getUserOrderPic,
+  finishOrder: finishOrder
 } 

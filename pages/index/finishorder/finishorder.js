@@ -1,4 +1,6 @@
 // finishorder.js
+var app = getApp();
+var Util = require('../../../utils/address.js')
 Page({
 
   /**
@@ -15,7 +17,8 @@ Page({
     allPrice: '',
     payment: '在线支付',
     payments: ['在线支付', '现金支付'],
-    fdmindex: 0
+    fdmindex: 0,
+    processObj:{}
   },
   listenerPickerFDMSelected: function (e) {
     //改变index值，通过setData()方法重绘界面
@@ -102,19 +105,108 @@ Page({
     })
   },
   saveData: function () {
+
+    // 构建
+    var selcAr = [];
+    for (var i = 0; i < this.data.selctgoodsAr.length; i++) {
+      var orders = {
+        goods_id: this.data.selctgoodsAr[i].id,
+        amount: this.data.selctgoodsAr[i].selectnum,
+        price: this.data.selctgoodsAr[i].price,
+        dispatching_id: this.data.userOrder.dispatching_id
+      }
+      selcAr[i] = orders;
+    }
+
+    var pants = '1';
+    if (this.data.payment == '现金支付') {
+      this.data.processObj.process_stage = '07';
+      pants = '2';
+    } else if (this.data.payment == '在线支付') {
+      this.data.processObj.process_stage = '06';
+      pants = '1';
+    }
+    
+    var oneStr = JSON.stringify(this.data.processObj);
+    var twoStr = JSON.stringify(selcAr);
+
+
+    console.log(oneStr);
+    console.log(twoStr);
+    console.log(pants);
     // 上传
+    // this.commitOrderViewStatus(oneStr, twoStr, pants);
+    this.saveForServier(oneStr, twoStr, pants);
+  },
+  saveForServier: function (oneStr, twoStr, pants) {
+    wx.showLoading({
+      title: '数据提交中...',
+    })
+    // 提交数据
+    Util.finishOrder(function (data) {
+      wx.hideLoading();
+      var code = data.data.code;
+      if (code == "1") {
+        // 上传数据成功
+        wx.showModal({
+          title: '提交订单成功',
+          content: '请稍等，将会有师傅和您联系！',
+          showCancel: false,
+        })
+        wx.navigateBack({})
+      } else {
+        wx.showToast({
+          title: '提交订单失败！',
+        })
+      }
+    }, oneStr, twoStr, pants)
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var jsonStr = options.jsonStr;
+    var jsonclStr = options.jsonclStr;
+    var userOrder = JSON.parse(jsonclStr);
 
-    var userOrder = JSON.parse(jsonStr);
+    var jsonStr = options.jsonStr;
+    var processObj = JSON.parse(jsonStr);
 
     this.setData({ userOrder: userOrder })
+    this.setData({ processObj: processObj})
   },
+  commitOrderViewStatus: function (objStr, goodsStr, payType) {
+    var _this = this;
+    // 获取订单详细
+    app.request({
+      url: 'http://192.200.200.21:9000/sbb-web' + "/phone/js/orderview/commitOrderViewStatus",
+      data: {
+        objStr: objStr,
+        goodsStr: goodsStr,
+        pay_type: payType
+      },
+      method: 'POST',
+      loading: true,
+      loadingMsg: "正在提交状态...",
+      successFn: function (res) {
+        if (res.data.code == 1) {
+          wx.showToast({
+            title: '提交成功',
+          })
+          wx.navigateBack({})
+        } else {
+          wx.showToast({
+            title: '提交失败',
+          })
+        }
+      },
+      successFailFn: function () {
 
+      },
+      failFn: function () {
+
+      }
+    });
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
