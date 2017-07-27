@@ -24,6 +24,7 @@ Page({
     jsDetailVosThree: [],
     jsDetailVosFour: [],
     jsDetailVosFive: [],
+    weixinUserInfo: {},
     orderAllCount: 0
   },
   toMyCenter: function () {
@@ -194,7 +195,19 @@ Page({
     this.getOrderTaking();
     this.getOrderViewAllCount();
     this.getUserCurStatus();
-    //查询总接单数
+    wx.getUserInfo({
+      success: function (res) {
+        var _this = this;
+        _this.setData({ weixinUserInfo: res.userInfo});
+        var userInfo = res.userInfo;
+        var nickName = userInfo.nickName;
+        var avatarUrl = userInfo.avatarUrl
+        var gender = userInfo.gender //性别 0：未知、1：男、2：女 
+        var province = userInfo.province 
+        var city = userInfo.city 
+        var country = userInfo.country 
+        } 
+    })
 
   },
 
@@ -399,30 +412,43 @@ Page({
     var orderId = e.currentTarget.dataset.orderid;
     console.log(orderId)
     
+    //构建添加额外商品list
+    var goods = new Array();
+
     var obj = new Object(); 
     obj.process_person_id = userInfo.id;
     obj.process_person_name = userInfo.name;
     obj.order_id = orderId;
-    
+    //支付方式 1：在线支付 2：现金
+    var payType = "";
+  
     if(id == '04') {//点击开工
-      // console.log('开工')
       obj.process_stage = '05';
     } else if (id == '02') {//点击抢单
-      // console.log('抢单')
       obj.process_stage = '04';
     } else if (id == '03') {//点击接单
-      // console.log('接单')
       obj.process_stage = '04';
     } else if(id == '05') {//点击完成
-      obj.process_stage = '06'; //待支付
-      // console.log('完工')
+      //跳转到额外添加商品页面
+      wx.navigateTo({
+        url: '../my/orderprocess/orderprocess'
+      })
+
+      // payType = '1';
+      if (payType == '1') {
+        obj.process_stage = '06'; //待支付
+      } else if(payType == '2'){
+        obj.process_stage = '07'; //直接完工,待评价
+      }
     }
+
     var jsonStr = JSON.stringify(obj);
-    that.commitOrderViewStatus(jsonStr, id );
+    var jsonGoodsStr = JSON.stringify(goods);
+    that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType);
     console.log(jsonStr)
   },
 
-  commitOrderViewStatus: function (objStr, beforeStatus) {
+  commitOrderViewStatus: function (objStr, beforeStatus, goodsStr, payType) {
     var userInfo = app.getUserInfo();
     
     if (!userInfo.id) {
@@ -437,7 +463,9 @@ Page({
       app.request({
         url: "/phone/js/orderview/commitOrderViewStatus",
         data: {
-          objStr: objStr
+          objStr: objStr,
+          goodsStr: goodsStr, 
+          pay_type: payType
         },
         method: 'POST',
         loading: true,
