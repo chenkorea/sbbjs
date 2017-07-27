@@ -51,8 +51,8 @@
     </view>
 
       <scroll-view class="content-view" scroll-y="true">
-        <block wx:for="{{jsDetailVos}}" wx:for-item="detailvo" wx:for-index="position">
-            <view class="order-item" data-item="{{detailvo}}" bindtap="bindItemClick">
+        <block wx:for="{{jsDetailVos}}" wx:for-item="detailvo" wx:for-index="position" wx:key="{{index}}">
+            <view class="order-item" data-item="{{detailvo}}" catchtap="bindItemClick">
               <view class="order-no">订单号：{{detailvo.order_no}}</view>
               <view class="order-status">发起时间：{{detailvo.create_time}}</view>
               <view class="order-status">服务类别：{{detailvo.service_type_name}}</view>
