@@ -8,7 +8,11 @@
     "pages/my/orderprocess/orderprocess",
     "pages/my/myorder/myorder",
     "pages/userinfo/userinfo",
-    "pages/login/register/register"
+    "pages/login/register/register",
+    "pages/keymarkets/keymarkets",
+    "pages/keymarkets/goodsdetail/goodsdetail",
+    "pages/keymarkets/goodsclsfy/goodsclsfy",
+    "pages/index/finishorder/finishorder"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -24,13 +24,34 @@ Page({
     jsDetailVosThree: [],
     jsDetailVosFour: [],
     jsDetailVosFive: [],
-    orderAllCount: 0
+    orderAllCount: 0,
+    showModalStatus: false,
+    userOrder:{},
+    selctgoods: {},
+    inputOneValue: '',
+    inputTwoValue: '',
+    inputThreeValue: '',
+    allPrice:'',
+    payment: '在线支付',
+    payments: ['在线支付', '现金支付'],
+    fdmindex: 0
   },
   toMyCenter: function () {
     wx.navigateTo({
       url: '../my/my',
     })
   },
+  listenerPickerFDMSelected: function (e) {
+    //改变index值，通过setData()方法重绘界面
+    if (e.detail.value == 0) {
+      this.setData({ payment: '在线支付'});  
+    } else {
+      this.setData({ payment: '现金支付' });  
+    }
+    this.setData({
+      fdmindex: e.detail.value
+    });
+  }, 
   //事件处理函数
   bindStatusViewTap: function (e) {
     var that = this;
@@ -189,6 +210,7 @@ Page({
   },
 
   onLoad: function () {
+    
     //预加载可接单数据
 
     this.getOrderTaking();
@@ -466,7 +488,7 @@ Page({
       });
     }
   },
-
+  
   bindItemClick: function (e) {
     var that = this;
     var userInfo = app.getUserInfo();
@@ -476,15 +498,20 @@ Page({
       url: '../my/orderprocess/orderprocess?jsonStr=' + jsonStr,
     })
   },
+  finishWork: function (e) {
+    var that = this;
+    var userInfo = app.getUserInfo();
+    var item = e.currentTarget.dataset.item;
+    var jsonStr = JSON.stringify(item);
+    wx.navigateTo({
+      url: '../index/finishorder/finishorder?jsonStr=' + jsonStr,
+    })
+  },
   onPullDownRefresh: function () {
     // 页面相关事件处理函数--监听用户下拉动作  
     this.getOrderTaking();
 
   },
-  onReachBottom: function () {
-    // 页面上拉触底事件的处理函数  
-  },  
-
 
   // splitArray: function (array) {
   //   var _this = this;

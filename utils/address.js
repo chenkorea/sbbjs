@@ -217,6 +217,21 @@ function getUserOrderPic(callback, orderId) {
   })
 }
 
+// 完工订单
+function finishOrder(callback, userOrder) {
+  var remoteUrl = getApp().globalData.serverIp + "openkey/createUserOrder";
+  wx.request({
+    url: remoteUrl,
+    data: userOrder,
+    method: 'POST',
+    header: { 'content-type': 'application/json' },
+    success: function (res) {
+      console.log(res);
+      callback(res);
+    }
+  })
+}
+
 
 module.exports = {
   getUserAddress: getUserAddress,
