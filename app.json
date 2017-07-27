@@ -5,6 +5,8 @@
     "pages/logs/logs",
     "pages/index/index",
     "pages/my/money/money",
+    "pages/my/orderprocess/orderprocess",
+    "pages/my/myorder/myorder",
     "pages/userinfo/userinfo",
     "pages/login/register/register"
   ],

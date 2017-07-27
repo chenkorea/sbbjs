@@ -471,10 +471,10 @@ Page({
     var that = this;
     var userInfo = app.getUserInfo();
     var item = e.currentTarget.dataset.item;
-      url: '/',
+    var jsonStr = JSON.stringify(item);
     wx.navigateTo({
+      url: '../my/orderprocess/orderprocess?jsonStr=' + jsonStr,
     })
-    console.log(item)
   },
   onPullDownRefresh: function () {
     // 页面相关事件处理函数--监听用户下拉动作  
