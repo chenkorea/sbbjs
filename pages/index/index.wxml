@@ -73,13 +73,16 @@
                 <text class="confirm_btn" data-id="03" data-orderId="{{detailvo.order_id}}" catchtap="bindChangeStatusClick">接单</text>
               </view >
                <view class="btn-view" wx:elif="{{detailvo.current_status == '05'}}">
-                <text class="confirm_btn" data-id="05" data-orderId="{{detailvo.order_id}}" catchtap="bindChangeStatusClick">完工</text>
+
+                <text class="confirm_btn" data-id="05" data-orderId="{{detailvo.order_id}}" data-statu="open" data-item="{{detailvo}}" catchtap="finishWork">完工</text>
+
               </view >
               <view class="btn-view" wx:elif="{{detailvo.current_status == '06'}}">
                 <view class="order-status">完工时间：{{detailvo.process_time}}</view>
               </view >
                  <view class="btn-view" wx:elif="{{detailvo.current_status == '07'}}">
                 <view class="order-status">完成时间：{{detailvo.process_time}}</view>
+
               </view >
           
              </view>
