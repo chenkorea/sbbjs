@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="main-view">
   <view  bindtap="bindViewTap" class="userinfo" bindtap="toMyCenter">
-    <image class="userinfo-avatar" src="http://qq.5068.com/uploads/allimg/121207/104G26310-3.jpg" background-size="cover"></image>
+    <image class="userinfo-avatar" src="{{weixinUserInfo.avatarUrl}}" background-size="cover"></image>
     <text class="userinfo-nickname">泷泽萝拉</text>
   </view>
   <view class="head-view">

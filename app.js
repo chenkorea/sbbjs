@@ -1037,15 +1037,9 @@ App({
     wx.getUserInfo({
       withCredentials: false,
       success: function (res) {
-        var _this = this;
-        _this.setData({ weixinUserInfo: res.userInfo });
-        var userInfo = res.userInfo;
-        var nickName = userInfo.nickName;
-        var avatarUrl = userInfo.avatarUrl
-        var gender = userInfo.gender //性别 0：未知、1：男、2：女 
-        var province = userInfo.province
-        var city = userInfo.city
-        var country = userInfo.country
+        if (!((typeof res.userInfo === "undefined") || (res.userInfo == null))) {
+          wx.setStorageSync("weixinUserInfo", res.userInfo);
+        }
       }
     })
   }

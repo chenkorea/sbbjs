@@ -218,6 +218,7 @@ Page({
     this.getOrderTaking();
     this.getOrderViewAllCount();
     this.getUserCurStatus();
+    this.setData({ weixinUserInfo: wx.getStorageSync("weixinUserInfo")});
 
   },
 
@@ -528,6 +529,25 @@ Page({
     this.getOrderTaking();
 
   },
+
+  onLaunch: function () {
+    wx.getUserInfo({
+      withCredentials: false,
+      success: function (res) {
+        var _this = this;
+        _this.setWeixinUserInfo(res.userInfo);
+        // console.log(JSON.stringify(res.userInfo))
+        // var _this = this;
+        // var userInfo = res.userInfo;
+        // var nickName = userInfo.nickName;
+        // var avatarUrl = userInfo.avatarUrl
+        // var gender = userInfo.gender //性别 0：未知、1：男、2：女 
+        // var province = userInfo.province
+        // var city = userInfo.city
+        // var country = userInfo.country
+      }
+    })
+  }
 
   // splitArray: function (array) {
   //   var _this = this;
