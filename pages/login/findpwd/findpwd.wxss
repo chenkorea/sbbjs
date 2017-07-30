@@ -65,6 +65,30 @@
   text-align: center;
 }
 
+.next_en_btn {
+  width: 80%;
+  height: 90rpx;
+  background: #228B22;
+  border-radius: 40rpx;
+  color: #FFFFFF;
+  margin-left: 60rpx;
+  font-size: 30rpx;
+  margin-top: 30rpx;
+  text-align: center;
+}
+
+.next_un_btn {
+  width: 80%;
+  height: 90rpx;
+  background: #999999;
+  border-radius: 40rpx;
+  color: #FFFFFF;
+  margin-left: 60rpx;
+  font-size: 30rpx;
+  margin-top: 30rpx;
+  text-align: center;
+}
+
 .register_btn {
   width: 80%;
   height: 90rpx;
@@ -116,6 +140,7 @@
 
 .pwd-text {
   position: absolute;
+  padding-left:30rpx; 
   left: 70rpx;
   top: 185rpx;
   width: 60%;
@@ -123,10 +148,10 @@
 
 .send_btn {
   position: absolute;
-  top: 165rpx;
+  top: 175rpx;
   right: 70rpx;
   width: 30%;
-  height: 90rpx;
+  height: 80rpx;
   border-radius: 60rpx;
   background: #FF6666;
   color: #FFFFFF;

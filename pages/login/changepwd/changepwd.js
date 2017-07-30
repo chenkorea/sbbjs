@@ -1,20 +1,83 @@
 //index.js
 
 //获取应用实例
-var app = getApp()
+var app = getApp();
 Page({
   data: {
-    titleText: ''
+    titleText: '',
+    newpwd:'',
+    conformpwd:'',
+    phone:'',
+    uid:'',
+    nickname:''
   },
   //事件处理函数
-  bindViewTap: function () {
-    wx.navigateBack({
-      
+  conforupdate: function () {
+    if (this.data.newpwd.length < 6){
+      wx.showToast({
+        title: '登录密码不得少于六位',
+      })
+    } else if (this.data.newpwd != this.data.conformpwd) {
+      wx.showToast({
+        title: '两次填写的密码不一致',
+      });
+    }else{
+      app.request({
+        url: '/phone/userinfor/updatepasswd',
+        data: {
+          username: this.data.phone,
+          passwd: this.data.updatepw,
+          user_type:'2'
+        },
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        method: 'POST',
+        loading: true,
+        loadingMsg: "正在更新",
+        successFn: function (res) {
+          if(res.data.code == '1'){
+            wx.showModal({
+              title: '提示',
+              content: '重置密码成功,请返回登录体验吧',
+              showCancel:false,
+              success: function (res) {
+                if (res.confirm) {
+                  app.setLoginFlag(false);
+                  app.setLoginInfo({
+                    phone: phone,
+                    passwd: ''
+                  })
+                  wx.reLaunch({
+                    url: '../login.js',
+                  })
+                }
+              }
+            })
+          }else{
+            wx.showToast({
+              title: '重置密码失败了',
+            })
+          }
+        }
+      });
+    }
+  },
+  onLoad: function (e) {
+    console.log('onLoad---->' + JSON.stringify(e))
+    var that = this
+    this.setData({
+      phone:e.phone
+    })
+ },
+  newpwd:function(e){
+    this.setData({
+      newpwd: e.detail.value
     })
   },
-  onLoad: function () {
-    console.log('onLoad')
-    var that = this
-
+  conformpwd: function (e) {
+    this.setData({
+      conformpwd: e.detail.value
+    })
   }
 })

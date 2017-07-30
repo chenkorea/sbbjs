@@ -24,7 +24,7 @@ Page({
   },
   bindForgetTap: function () { // 跳转至忘记密码界面
     wx.navigateTo({
-      url: '../login/findpwd/findpwd'
+      url: './findpwd/findpwd'
     })
   },
   bindRegisterBtnTap: function () { // 跳转至注册界面
@@ -118,7 +118,7 @@ Page({
   },
   
   onLoad: function () { // 监听页面加载
-    // app.setLoginFlag(false);
+    app.setLoginFlag(false);
 
     // 如果用户已登录，重定向到首页
     if (app.getLoginFlag()) {

@@ -3,7 +3,7 @@
 App({
   //----------[常量]----------//
   // 服务器地址
-  serverAddr: "http://192.200.200.21:9000/sbb-web/",
+  serverAddr: "http://192.200.200.71:9000/sbb-web/",
   // 手机号正则表达式
   phoneRe: /^1[3-9]\d{9}$/i,
   /** 数字的正则表达式 */
@@ -824,7 +824,6 @@ App({
           if (typeof res.data === "string") {
             res.data = JSON.parse(res.data);
           }
-
           // 成功
           if (res.data.code == 1) {
             if (_this.isFunction(o.successFn)) {
