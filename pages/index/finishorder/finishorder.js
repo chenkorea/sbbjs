@@ -16,16 +16,20 @@ Page({
     inputThreeValue: '',
     allPrice: '',
     payment: '在线支付',
-    payments: ['在线支付', '现金支付'],
+    payments: [
+      { name: '1', value: '在线支付' },
+      { name: '2', value: '现金支付', checked: 'true' }],
     fdmindex: 0,
     processObj:{},
     service_price:'',
     additional_service_price: '',
-    dispatching_id:''
+    dispatching_id:'',
+    zhifuprice: 0,
+    isShowPay: true
   },
-  listenerPickerFDMSelected: function (e) {
+  listenerRadioGroup: function (e) {
     //改变index值，通过setData()方法重绘界面
-    if (e.detail.value == 0) {
+    if (e.detail.value == 1) {
       this.setData({ payment: '在线支付' });
     } else {
       this.setData({ payment: '现金支付' });
@@ -33,6 +37,7 @@ Page({
     this.setData({
       fdmindex: e.detail.value
     });
+    console.log(this.data.payment);
   }, 
   powerDrawer: function (e) {
     var that = this;
@@ -106,14 +111,17 @@ Page({
     this.setData({
       inputOneValue: e.detail.value
     })
+    this.plusPrice();
   },
-  bindSePInput: function () {
+  bindSePInput: function (e) {
     var price = e.detail.value;
     this.setData({ service_price: price})  
+    this.plusPrice();
   },
-  bindAddPInput: function () {
+  bindAddPInput: function (e) {
     var price = e.detail.value;
     this.setData({ additional_service_price: price })
+    this.plusPrice();
   },
   saveData: function () {
 
@@ -205,6 +213,7 @@ Page({
             key: 'selctgoodsAr',
             data: goodsAr,
           })
+          that.plusPrice();
         }
       } else {
         wx.showToast({
@@ -219,7 +228,7 @@ Page({
   onLoad: function (options) {
     var jsonclStr = options.jsonclStr;
     var userOrder = JSON.parse(jsonclStr);
-
+    console.log(userOrder);
     var jsonStr = options.jsonStr;
     var processObj = JSON.parse(jsonStr);
 
@@ -228,6 +237,15 @@ Page({
     
     this.setData({ userOrder: userOrder })
     this.setData({ processObj: processObj})
+    this.setData({ zhifuprice: userOrder.tatal_price })
+    
+    if (userOrder.user_id == undefined || userOrder.user_id == '') {
+      this.setData({ payment: '现金支付' });
+      this.setData({ isShowPay: false});
+    } else {
+      this.setData({ isShowPay: true });
+    }
+    
     this.setData({ dispatching_id: userOrder.dispatching_id })
 
     this.getUserOrderGoods(this.data.dispatching_id);
@@ -283,6 +301,7 @@ Page({
         that.setData({ selctgoodsAr: res.data });
       },
     })
+    that.plusPrice();
   },
 
   /**
@@ -328,5 +347,18 @@ Page({
    */
   onShareAppMessage: function () {
   
+  },
+  plusPrice: function () {
+    var servicePrice = parseFloat(this.data.service_price);
+    var addiservicePrice = parseFloat(this.data.additional_service_price);
+    // 计算商品价格
+    var allP = 0;
+    for (var i = 0; i < this.data.selctgoodsAr.length; i++) {
+      var num = parseInt(this.data.selctgoodsAr[i].selectnum);
+      var price = parseFloat(this.data.selctgoodsAr[i].price);
+      allP += num * price;
+    }
+    var cun = servicePrice + addiservicePrice + allP;
+    this.setData({ zhifuprice: ''+cun})
   }
 })

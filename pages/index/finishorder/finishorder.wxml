@@ -3,19 +3,29 @@
 <view class="main_view">
  <view class="drawer_content"> 
  <view class="top grid"> 
-  <label class="title col-0">服务费用</label> 
+  <label class="title col-0">服务费用：</label> 
   <input class="input_base input_h30 col-1 sele_text" name="service_price" value="{{service_price}}" bindinput="bindSePInput"></input> 
  </view> 
  <view class="top grid"> 
-  <label class="title col-0">附加服务费</label> 
+  <label class="title col-0">附加服务费：</label> 
   <input class="input_base input_h30 col-1" name="addtional_price" value="{{additional_service_price}}" bindinput="bindAddPInput"></input> 
+ </view> 
+ <view class="top grid"> 
+  <label class="title col-0">支付总额：</label> 
+  <label class="title-value">{{zhifuprice}}</label>
  </view> 
 
  <view class="top bottom grid"> 
-  <label class="title col-0">支付方式</label> 
-  <picker class="picker" mode="selector" range="{{payments}}" value="{{fdmindex}}" bindchange="listenerPickerFDMSelected">
+  <label class="title col-0">支付方式：</label> 
+  <radio-group class="picker" bindchange="listenerRadioGroup" hidden="{{!isShowPay}}">
+    <label class="radio" wx:for-items="{{payments}}">
+      <radio class="radio_nl" value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
+    </label>
+  </radio-group>
+  <label class="title-value" hidden="{{isShowPay}}">{{payment}}</label> 
+  <!-- <picker class="picker" mode="selector" range="{{payments}}" value="{{fdmindex}}" bindchange="listenerPickerFDMSelected">
     <view class="input_base input_h30 col-1 sele_text" name="payment">{{payment}}</view> 
-  </picker>
+  </picker> -->
  </view>
  </view> 
 
@@ -24,7 +34,7 @@
  <view class="goods_item" wx:for="{{selctgoodsAr}}" wx:key="{{index}}">
     <image src="{{item.archives_url[0]}}" class="goods_pic"></image>
     <view class="goods_content">
-      <view class="goods_name">{{item.name}}</view>
+      <view class="goods_name">{{item.name}}(￥{{item.price}})</view>
       <input class="goods_num" placeholder="商品数量" data-id="{{index}}" bindinput="bindOneInput" value="{{item.selectnum}}"/>
     </view>
  </view>

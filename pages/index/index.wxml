@@ -59,14 +59,14 @@
               <view class="order-status">服务类别：{{detailvo.service_type_name}}</view>
               <view class="order-status">服务地址：{{detailvo.service_address}}</view>
               <view class="order-status">服务时间：{{detailvo.service_time_describe}}</view>
-              <view class="order-status">填写备注：{{detailvo.remarks}}</view>
+              <view class="order-status" hidden="{{detailvo.current_status != '07'||detailvo.current_status != '08'}}">填写备注：{{detailvo.remarks}}</view>
               <view class="order-status" hidden="{{orderstatus=='1'}}">下单顾客：{{detailvo.user_name}}</view>
                <view class="order-status" hidden="{{orderstatus=='1'}}">报   价：￥{{detailvo.tatal_price}}元</view> 
               <view class="btn-view" wx:if="{{detailvo.current_status == '04'}}">
                 <!-- <text class="cancel_btn">拒绝</text> -->
                 <text class="confirm_btn" data-id="04" data-orderId="{{detailvo.order_id}}" catchtap="bindChangeStatusClick">开工</text>
               </view >
-              <view class="btn-view" wx:elif="{{detailvo.current_status == '02' && userstatus == '1'}}">
+              <view class="btn-view" wx:elif="{{detailvo.dispatching_type == '2' && userstatus == '1'}}">
                 <text class="confirm_btn" data-id="02" data-orderId="{{detailvo.order_id}}" catchtap="bindChangeStatusClick">抢单</text>
               </view >
               <view class="btn-view" wx:elif="{{detailvo.current_status == '03' && userstatus == '1'}}">
@@ -91,7 +91,7 @@
   <view class="ct_menu">  
       <!--菜单子健-->
       <!-- <text class="img-style-1 img-style" animation="{{animCollect}}" bindtap="collect">停单</text> -->
-      <text class="img-style-2 img-style" animation="{{animTranspond}}" bindtap="transpond">停单中</text>
+      <text class="img-style-2 img-style" animation="{{animTranspond}}" bindtap="transpond">休息中</text>
       <text class="img-style-3 img-style" animation="{{animInput}}" bindtap="input">接单中</text>
       <!--菜单键-->
       <text class="{{showClass}}" animation="{{animPlus}}" bindtap="plus">{{userstatusname}}</text>
