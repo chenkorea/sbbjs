@@ -224,6 +224,21 @@ Page({
       that.getUserOrderNOPAY('06');
       that.getOrderListByStatus('05');
     }
+    Util.getCityName(function(e){
+      app.request({
+        url: "/phone/userinfor/recordcurloc",
+        data: {
+          longitude: e.location.lng,
+          latitude: e.location.lat,
+          uid: app.getUserInfo().id
+        },
+        method: 'POST',
+        loading: true,
+        loadingMsg: "...",
+        completeFn: function (res) {
+        },
+      });
+    })
   },
 
   onLoad: function () {

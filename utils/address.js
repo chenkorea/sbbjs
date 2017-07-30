@@ -323,6 +323,36 @@ function getUserOrderAllPrice(callback, dispatching_id) {
   })
 }
 
+function getLocationInfo(callback) {
+  wx.getLocation({
+    type: 'wgs84',
+    success: function (res) {
+      getLocationCityByLatLon(res.latitude, res.longitude, function (data) {
+        callback(data);
+      })
+    }
+  })
+}
+
+function getLocationCityByLatLon(lat, lon, callback) {
+  var appkey = "NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR";
+  // http://apis.map.qq.com/ws/geocoder/v1/?location=39.984154,116.307490&key=NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR
+  var locationUrl = "https://apis.map.qq.com/ws/geocoder/v1/?location=" + lat + "," + lon + "&key=" + appkey;
+  wx.request({
+    url: locationUrl,
+    success: function (res) {
+      var locationData = res.data.result;
+      callback(locationData);
+    }
+  });
+}
+
+function getCityName(callback) {
+  getLocationInfo(function (data) {
+    callback(data);
+  })
+}
+
 module.exports = {
   getUserAddress: getUserAddress,
   addUserAddress: addUserAddress,
@@ -341,5 +371,6 @@ module.exports = {
   getUserOrderNOPAY: getUserOrderNOPAY,
   getUserOrderComment: getUserOrderComment,
   getUserOrderFinish: getUserOrderFinish,
-  getUserOrderAllPrice: getUserOrderAllPrice
+  getUserOrderAllPrice: getUserOrderAllPrice,
+  getCityName: getCityName
 } 

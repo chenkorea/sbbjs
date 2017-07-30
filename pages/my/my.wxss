@@ -55,7 +55,11 @@
 
 .seting-view {
   width: 100%;
-  height: 150rpx;
+  height: 100rpx;
+  border-bottom: 2rpx solid #F0F0F0;
+  font-size: 32rpx;
+  color: #333333;
+  align-items: center;
 }
 
 .order-item {

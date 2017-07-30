@@ -12,7 +12,8 @@
     "pages/keymarkets/keymarkets",
     "pages/keymarkets/goodsdetail/goodsdetail",
     "pages/keymarkets/goodsclsfy/goodsclsfy",
-    "pages/index/finishorder/finishorder"
+    "pages/index/finishorder/finishorder",
+    "pages/my/updatepwd/updatepwd"
   ],
   "window": {
     "backgroundTextStyle": "light",

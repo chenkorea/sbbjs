@@ -85,7 +85,6 @@ Page({
           app.setUserInfo(res.data.content[0]);
           // 设置已登录
           app.setLoginFlag(true);
-
           // 如果用户已登录，重定向到首页
           if (app.getLoginFlag()) {
             // 如果已完善用户信息，则重定向到首页
@@ -136,6 +135,12 @@ Page({
         });
       }
     }
+    // 回显手机号和密码
+    var loginInfo = app.getLoginInfo();
+    _this.setData({
+      phone: app.getString(loginInfo.phone),
+      passwd: app.getString(loginInfo.passwd)
+    });
   },
   onReady: function () { // 监听页面初次渲染完成
     var _this = this;
