@@ -1,4 +1,4 @@
- //index.js
+//index.js
 //获取应用实例
 var app = getApp();
 var Util = require('../../utils/address.js')
@@ -61,6 +61,11 @@ Page({
     var id = e.currentTarget.dataset.id;
     that.changeStatus(id);
     // that.getQuery();
+    that.setData({ jsDetailVosOne: []})
+    that.setData({ jsDetailVosTwo: [] })
+    that.setData({ jsDetailVosThree: [] })
+    that.setData({ jsDetailVosFour: [] })
+    that.setData({ jsDetailVosFive: [] })
   },
   changeStatus: function (id) {
     var that = this;
@@ -102,6 +107,25 @@ Page({
       }
     }
   },
+
+  changeOrderTop: function (id) {
+    var that = this;
+    if (id == 1) {
+      that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1' });
+    } else if (id == 2) {
+      that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2' })
+      
+    } else if (id == 3) {
+      that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3' })
+      
+    } else if (id == 4) {
+      that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4' })
+      
+    } else if (id == 5) {
+      that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5' })
+    }
+  },
+
   //点击弹出  
   plus: function () {
     if (this.data.isPopping) {
@@ -129,7 +153,7 @@ Page({
 
     this.changeUserStatus('2');
     // 待接单
-    this.setData({ userstatus: '2', userstatusname: '停单中', showClass: 'img-plus-style img-style-2'})
+    this.setData({ userstatus: '2', userstatusname: '休息中', showClass: 'img-plus-style img-style-2'})
     this.plus();
 
   },
@@ -318,6 +342,7 @@ Page({
         loadingMsg: "正在查询订单...",
         successFn: function (res) {
           if (res.data.code == 1) {
+            console.log(res.data.content);
             _this.setData({ jsDetailVos: res.data.content });
             if (status == '04') {         
               _this.setData({ jsDetailVosTwo: res.data.content });
@@ -361,8 +386,16 @@ Page({
         loadingMsg: "正在查询订单...",
         successFn: function (res) {
           if (res.data.code == 1) {
-            _this.setData({ jsDetailVos: res.data.content });
-            _this.setData({ jsDetailVosOne: res.data.content });
+            if ('不可接单状态' == res.data.content[0]) {
+              wx.showModal({
+                title: '提示',
+                content: '当前为休息状态，不能接单',
+                showCancel: false
+              })
+            } else {
+              _this.setData({ jsDetailVos: res.data.content });
+              _this.setData({ jsDetailVosOne: res.data.content });
+            }
           }
         },
         successFailFn: function () {
@@ -454,7 +487,7 @@ Page({
 
   changeUserStatus: function (status) {
     var userInfo = app.getUserInfo();
-
+    console.log(status);
     if (!userInfo.id) {
       wx.showToast({
         title: '用户信息不正确或为空',
@@ -507,10 +540,13 @@ Page({
   
     if(id == '04') {//点击开工
       obj.process_stage = '05';
+      that.changeOrderTop(3);
     } else if (id == '02') {//点击抢单
       obj.process_stage = '04';
+      that.changeOrderTop(2);
     } else if (id == '03') {//点击接单
       obj.process_stage = '04';
+      that.changeOrderTop(2);
     }
 
     var jsonStr = JSON.stringify(obj);
@@ -522,6 +558,7 @@ Page({
       wx.navigateTo({
         url: '../index/finishorder/finishorder?jsonclStr=' + jsonclStr + '&jsonStr=' + jsonStr,
       })
+      that.changeOrderTop(4);
     } else {
       that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType);
       console.log(jsonStr)
@@ -556,13 +593,17 @@ Page({
             if (beforeStatus == '02' || beforeStatus == '03') {
               _this.getOrderListByStatus('04');
               _this.getOrderTaking();
+              that.changeOrderTop(2);
             } else if (beforeStatus == '04'){
               _this.getOrderListByStatus('05');
               _this.getOrderListByStatus(beforeStatus);
+              that.changeOrderTop(3);
             } else if (beforeStatus == '05') {
               _this.getUserOrderNOPAY('06');
               _this.getOrderListByStatus(beforeStatus);
+              that.changeOrderTop(3);
             }
+
             console.log('成功')
           }
         },
@@ -617,6 +658,14 @@ Page({
         // var country = userInfo.country
       }
     })
+  },
+  plusPrice: function () {
+    // var servicePrice = parseFloat(this.data.service_price);
+    // var addiservicePrice = parseFloat(this.data.additional_service_price);
+    var servicePrice = parseFloat('23');
+    var addiservicePrice = parseFloat('3.7');
+    var cun = servicePrice + addiservicePrice;
+    console.log(cun);
   }
 
   // splitArray: function (array) {

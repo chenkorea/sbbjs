@@ -70,6 +70,14 @@
  display: inline-block; 
  font: 300 28rpx/30px "microsoft yahei"; 
 } 
+
+.title-value {
+ height: 30px; 
+ line-height: 30px; 
+ width: 160rpx; 
+ display: inline-block; 
+ font: 300 28rpx/30px "microsoft yahei"; 
+}
   
 .input_base { 
  border: 2rpx solid #F0F0F0; 
@@ -96,7 +104,7 @@ input {
  color:#000 ; 
 } 
 radio{ 
- margin-right: 20px; 
+ 
 } 
 .grid { display: -webkit-box; display: box; } 
 .col-0 {-webkit-box-flex:0;box-flex:0;} 
@@ -142,7 +150,7 @@ radio{
 }
 
 .goods_num {
-  width: 200rpx;
+  width: 100rpx;
   font-size: 28rpx;
   color: #333333;
   border: 1rpx solid #F0F0F0;
@@ -153,4 +161,14 @@ radio{
   border: 10rpx solid #F0F0F0;
   margin-top: 10rpx;
   margin-bottom: 10rpx;
+}
+
+.radio {
+  font-size: 28rpx;
+  height: 40rpx;
+}
+
+.radio_nl {
+  font-size: 28rpx;
+  height: 40rpx;
 }

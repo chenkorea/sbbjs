@@ -7,7 +7,7 @@ Page({
     nameFocus: false,
     idNumber: "",
     idNumberFocus: false,
-    city: "",
+    city: "贵阳市",
     redirectUrl: "", // 重定向 Url
     serviceTypesItems: [], // 服务项目数组
     idNumberImageItems: [], // 身份证照片
@@ -450,12 +450,7 @@ Page({
           title: "保存成功！",
           duration: 3000,
           complete: function() {
-            if (app.isNotBlank(_this.data.redirectUrl)) {
-              // 重定向到首页
-              wx.redirectTo({
-                url: _this.data.redirectUrl
-              });
-            }
+            _this.changeUserStatus('1')
           }
         })
       },
@@ -467,7 +462,46 @@ Page({
       }
     });
   },
+  changeUserStatus: function (status) {
+    var userInfo = app.getUserInfo();
 
+    if (!userInfo.id) {
+      wx.showToast({
+        title: '用户信息不正确或为空',
+        duration: 3000
+      });
+      // 校验密码
+    } else {
+      var _this = this;
+      // 获取订单详细
+      app.request({
+        url: "/phone/js/orderview/changeUserStatus",
+        data: {
+          userId: userInfo.id,
+          status: status
+        },
+        method: 'POST',
+        loading: true,
+        loadingMsg: "正在修改用户状态...",
+        successFn: function (res) {
+          if (res.data.code == 1) {
+            if (app.isNotBlank(_this.data.redirectUrl)) {
+              // 重定向到首页
+              wx.redirectTo({
+                url: _this.data.redirectUrl
+              });
+            }
+          }
+        },
+        successFailFn: function () {
+
+        },
+        failFn: function () {
+
+        }
+      });
+    }
+  },
   onLoad: function(param) { // 页面加载事件：param-携带有上一个页面传来的参数
     var _this = this;
 

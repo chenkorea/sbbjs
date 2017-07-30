@@ -844,13 +844,7 @@ App({
             }
           }
         } catch (e) {
-          console.error(e);
-
-          wx.showModal({
-            title: "提示",
-            content: "请求失败，稍后再试！",
-            showCancel: false
-          });
+          
         }
       },
       fail: function (res) { // 请求失败
@@ -981,7 +975,7 @@ App({
             }
           }
         } catch (e) {
-          console.error(e);
+          // console.error(e);
 
           wx.showModal({
             title: "提示",
