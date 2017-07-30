@@ -239,6 +239,89 @@ function finishOrder(callback, objStr, goodsStr, payType, service_price, additio
   })
 }
 
+// 获取订单的商品
+function getUserOrderGoods(callback, dispatching_id) {
+  var remoteUrl = getApp().globalData.serverIp + "openkey/getUserOrderGoods";
+  wx.request({
+    url: remoteUrl,
+    data: {
+      dispatching_id: dispatching_id
+    },
+    method: 'POST',
+    header: { 'content-type': 'application/x-www-form-urlencoded' },
+    success: function (res) {
+      console.log(res);
+      callback(res);
+    }
+  })
+}
+
+// 获取未支付订单
+function getUserOrderNOPAY(callback, dispatching_id) {
+  var remoteUrl = getApp().globalData.serverIp + "openkey/getUserOrderNOPAY";
+  wx.request({
+    url: remoteUrl,
+    data: {
+      dispatching_id: dispatching_id
+    },
+    method: 'POST',
+    header: { 'content-type': 'application/x-www-form-urlencoded' },
+    success: function (res) {
+      console.log(res);
+      callback(res);
+    }
+  })
+}
+
+function getUserOrderFinish(callback, dispatching_id) {
+  var remoteUrl = getApp().globalData.serverIp + "openkey/getUserOrderFinish";
+  wx.request({
+    url: remoteUrl,
+    data: {
+      dispatching_id: dispatching_id
+    },
+    method: 'POST',
+    header: { 'content-type': 'application/x-www-form-urlencoded' },
+    success: function (res) {
+      console.log(res);
+      callback(res);
+    }
+  })
+}
+
+
+function getUserOrderComment(callback, dispatching_id) {
+  var remoteUrl = getApp().globalData.serverIp + "openkey/getUserOrderComment";
+  wx.request({
+    url: remoteUrl,
+    data: {
+      dispatching_id: dispatching_id
+    },
+    method: 'POST',
+    header: { 'content-type': 'application/x-www-form-urlencoded' },
+    success: function (res) {
+      console.log(res);
+      callback(res);
+    }
+  })
+}
+
+
+function getUserOrderAllPrice(callback, dispatching_id) {
+  var remoteUrl = getApp().globalData.serverIp + "openkey/getUserOrderAllPrice";
+  wx.request({
+    url: remoteUrl,
+    data: {
+      dispatching_id: dispatching_id
+    },
+    method: 'POST',
+    header: { 'content-type': 'application/x-www-form-urlencoded' },
+    success: function (res) {
+      console.log(res);
+      callback(res);
+    }
+  })
+}
 
 module.exports = {
   getUserAddress: getUserAddress,
@@ -253,5 +336,10 @@ module.exports = {
   getUserOrdersProcess: getUserOrdersProcess,
   getUserShiFuOrdersProcess: getUserShiFuOrdersProcess,
   getUserOrderPic: getUserOrderPic,
-  finishOrder: finishOrder
+  finishOrder: finishOrder,
+  getUserOrderGoods: getUserOrderGoods,
+  getUserOrderNOPAY: getUserOrderNOPAY,
+  getUserOrderComment: getUserOrderComment,
+  getUserOrderFinish: getUserOrderFinish,
+  getUserOrderAllPrice: getUserOrderAllPrice
 } 

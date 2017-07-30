@@ -1,7 +1,7 @@
  //index.js
 //获取应用实例
 var app = getApp();
-
+var Util = require('../../utils/address.js')
 Page({
   data: {
     isPopping: true,//是否已经弹出  
@@ -36,7 +36,8 @@ Page({
     payments: ['在线支付', '现金支付'],
     fdmindex: 0,
     weixinUserInfo: {},
-    orderAllCount: 0
+    orderAllCount: 0,
+    username:''
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -58,44 +59,48 @@ Page({
   bindStatusViewTap: function (e) {
     var that = this;
     var id = e.currentTarget.dataset.id;
+    that.changeStatus(id);
+    // that.getQuery();
+  },
+  changeStatus: function (id) {
+    var that = this;
     if (id == 1) {
-      that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1'});
+      that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1' });
       if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
         that.getOrderTaking();
       } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosOne});
+        that.setData({ jsDetailVos: that.data.jsDetailVosOne });
       }
-      
+
     } else if (id == 2) {
-      that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2'})
+      that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2' })
       if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
         that.getOrderListByStatus('04');
       } else {
         that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
       }
     } else if (id == 3) {
-      that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3'})
+      that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3' })
       if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
         that.getOrderListByStatus('05');
       } else {
         that.setData({ jsDetailVos: that.data.jsDetailVosThree });
       }
-    } else if(id == 4) {
-      that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4'})
+    } else if (id == 4) {
+      that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4' })
       if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
-         that.getOrderListByStatus('06');
+        that.getUserOrderNOPAY('06');
       } else {
         that.setData({ jsDetailVos: that.data.jsDetailVosFour });
       }
-    } else if(id == 5) {
-      that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5'})
+    } else if (id == 5) {
+      that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5' })
       if (app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosFive.length == 0) {
-        that.getOrderListByStatus('07');
+        that.getUserOrderFinish('07');
       } else {
         that.setData({ jsDetailVos: that.data.jsDetailVosFive });
       }
     }
-    // that.getQuery();
   },
   //点击弹出  
   plus: function () {
@@ -215,8 +220,8 @@ Page({
     var that = this;
     var status = that.data.orderstatus;
     if (status == '3') {
-      that.getOrderListByStatus('07');
-      that.getOrderListByStatus('06');
+      that.getUserOrderFinish('07');
+      that.getUserOrderNOPAY('06');
       that.getOrderListByStatus('05');
     }
   },
@@ -224,14 +229,72 @@ Page({
   onLoad: function () {
     
     //预加载可接单数据
-
+    var userInfo = app.getUserInfo();
     this.getOrderTaking();
     this.getOrderViewAllCount();
     this.getUserCurStatus();
     this.setData({ weixinUserInfo: wx.getStorageSync("weixinUserInfo")});
+    this.setData({ username: userInfo.name });
 
   },
-
+  getUserOrderFinish: function (status) {
+    var that = this;
+    wx.showLoading({
+      title: '查询订单中...',
+    })
+    var userInfo = app.getUserInfo();
+    // 提交数据
+    Util.getUserOrderFinish(function (res) {
+      wx.hideLoading();
+      var code = res.data.code;
+      if (code == "1") {
+        // 数据成功
+        that.setData({ jsDetailVos: res.data.content });
+        if (status == '04') {
+          that.setData({ jsDetailVosTwo: res.data.content });
+        } else if (status == '05') {
+          that.setData({ jsDetailVosThree: res.data.content });
+        } else if (status == '06') {
+          that.setData({ jsDetailVosFour: res.data.content });
+        } else if (status == '07') {
+          that.setData({ jsDetailVosFive: res.data.content });
+        }
+      } else {
+        wx.showToast({
+          title: '查询订单失败！',
+        })
+      }
+    }, userInfo.id)
+  },
+  getUserOrderNOPAY: function (status) {
+    var that = this;
+    wx.showLoading({
+      title: '查询订单中...',
+    })
+    var userInfo = app.getUserInfo();
+    // 提交数据
+    Util.getUserOrderNOPAY(function (res) {
+      wx.hideLoading();
+      var code = res.data.code;
+      if (code == "1") {
+        // 数据成功
+        that.setData({ jsDetailVos: res.data.content });
+        if (status == '04') {
+          that.setData({ jsDetailVosTwo: res.data.content });
+        } else if (status == '05') {
+          that.setData({ jsDetailVosThree: res.data.content });
+        } else if (status == '06') {
+          that.setData({ jsDetailVosFour: res.data.content });
+        } else if (status == '07') {
+          that.setData({ jsDetailVosFive: res.data.content });
+        }
+      } else {
+        wx.showToast({
+          title: '查询订单失败！',
+        })
+      }
+    }, userInfo.id)
+  },
   getOrderListByStatus: function (status) {
     var userInfo = app.getUserInfo();
 
@@ -279,7 +342,6 @@ Page({
 
   getOrderTaking: function () {
     var userInfo = app.getUserInfo();
-
     if (!userInfo.id) {
       wx.showToast({
         title: '用户信息不正确或为空',
@@ -498,7 +560,7 @@ Page({
               _this.getOrderListByStatus('05');
               _this.getOrderListByStatus(beforeStatus);
             } else if (beforeStatus == '05') {
-              _this.getOrderListByStatus('06');
+              _this.getUserOrderNOPAY('06');
               _this.getOrderListByStatus(beforeStatus);
             }
             console.log('成功')

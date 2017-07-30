@@ -20,7 +20,8 @@ Page({
     fdmindex: 0,
     processObj:{},
     service_price:'',
-    additional_service_price: ''
+    additional_service_price: '',
+    dispatching_id:''
   },
   listenerPickerFDMSelected: function (e) {
     //改变index值，通过setData()方法重绘界面
@@ -119,14 +120,28 @@ Page({
     // 构建
     var selcAr = [];
     for (var i = 0; i < this.data.selctgoodsAr.length; i++) {
-      var orders = {
-        goods_id: this.data.selctgoodsAr[i].id,
-        amount: this.data.selctgoodsAr[i].selectnum,
-        price: this.data.selctgoodsAr[i].price,
-        dispatching_id: this.data.userOrder.dispatching_id
+      var addid = this.data.selctgoodsAr[i].addid;
+      if (addid != undefined || "" != addid) {
+        var orders = {
+          id: addid,
+          goods_id: this.data.selctgoodsAr[i].id,
+          amount: this.data.selctgoodsAr[i].selectnum,
+          price: this.data.selctgoodsAr[i].price,
+          dispatching_id: this.data.userOrder.dispatching_id
+        }
+        selcAr[i] = orders;
+      } else {
+        var orders = {
+          goods_id: this.data.selctgoodsAr[i].id,
+          amount: this.data.selctgoodsAr[i].selectnum,
+          price: this.data.selctgoodsAr[i].price,
+          dispatching_id: this.data.userOrder.dispatching_id
+        }
+        selcAr[i] = orders;
       }
-      selcAr[i] = orders;
     }
+
+    console.log(selcAr);
 
     var pants = '1';
     if (this.data.payment == '现金支付') {
@@ -139,7 +154,6 @@ Page({
     
     var oneStr = JSON.stringify(this.data.processObj);
     var twoStr = JSON.stringify(selcAr);
-
 
     console.log(oneStr);
     console.log(twoStr);
@@ -172,6 +186,34 @@ Page({
     }, oneStr, twoStr, pants, prone, prtwo)
   },
   /**
+   * 获取商品
+   */
+  getUserOrderGoods: function (dispatching_id) {
+    var that = this;
+    wx.showLoading({
+      title: '获取商品中...',
+    })
+    // 提交数据
+    Util.getUserOrderGoods(function (data) {
+      wx.hideLoading();
+      var code = data.data.code;
+      if (code == "1") {
+        var goodsAr = data.data.content;
+        if (goodsAr != undefined && goodsAr.length!=0) {
+          that.setData({ selctgoodsAr: goodsAr})
+          wx.setStorage({
+            key: 'selctgoodsAr',
+            data: goodsAr,
+          })
+        }
+      } else {
+        wx.showToast({
+          title: '获取订单商品失败！',
+        })
+      }
+    }, dispatching_id)
+  },
+  /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
@@ -186,6 +228,9 @@ Page({
     
     this.setData({ userOrder: userOrder })
     this.setData({ processObj: processObj})
+    this.setData({ dispatching_id: userOrder.dispatching_id })
+
+    this.getUserOrderGoods(this.data.dispatching_id);
   },
   commitOrderViewStatus: function (objStr, goodsStr, payType) {
     var _this = this;

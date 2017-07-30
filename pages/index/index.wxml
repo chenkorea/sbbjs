@@ -2,7 +2,7 @@
 <view class="main-view">
   <view  bindtap="bindViewTap" class="userinfo" bindtap="toMyCenter">
     <image class="userinfo-avatar" src="{{weixinUserInfo.avatarUrl}}" background-size="cover"></image>
-    <text class="userinfo-nickname">泷泽萝拉</text>
+    <text class="userinfo-nickname">{{username}}</text>
   </view>
   <view class="head-view">
     <view class="total-text">共接单：{{orderAllCount}}</view>

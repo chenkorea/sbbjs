@@ -71,7 +71,7 @@ Page({
   goodsdetail:function(e){
     // 获取商品
     var goods = e.currentTarget.dataset.item;
-  
+    goods.selectnum = '1'
     wx.getStorage({
       key: 'selctgoodsAr',
       success: function(res) {
