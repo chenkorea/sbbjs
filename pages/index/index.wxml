@@ -66,7 +66,7 @@
                 <!-- <text class="cancel_btn">拒绝</text> -->
                 <text class="confirm_btn" data-id="04" data-orderId="{{detailvo.order_id}}" catchtap="bindChangeStatusClick">开工</text>
               </view >
-              <view class="btn-view" wx:elif="{{detailvo.dispatching_type == '2' && userstatus == '1'}}">
+              <view class="btn-view" wx:elif="{{detailvo.current_status == '02' && userstatus == '1'}}">
                 <text class="confirm_btn" data-id="02" data-orderId="{{detailvo.order_id}}" catchtap="bindChangeStatusClick">抢单</text>
               </view >
               <view class="btn-view" wx:elif="{{detailvo.current_status == '03' && userstatus == '1'}}">
