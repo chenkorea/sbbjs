@@ -61,11 +61,11 @@ Page({
     var id = e.currentTarget.dataset.id;
     that.changeStatus(id);
     // that.getQuery();
-    that.setData({ jsDetailVosOne: []})
-    that.setData({ jsDetailVosTwo: [] })
-    that.setData({ jsDetailVosThree: [] })
-    that.setData({ jsDetailVosFour: [] })
-    that.setData({ jsDetailVosFive: [] })
+    // that.setData({ jsDetailVosOne: []})
+    // that.setData({ jsDetailVosTwo: [] })
+    // that.setData({ jsDetailVosThree: [] })
+    // that.setData({ jsDetailVosFour: [] })
+    // that.setData({ jsDetailVosFive: [] })
   },
   changeStatus: function (id) {
     var that = this;
@@ -385,7 +385,7 @@ Page({
 
   getOrderTaking: function () {
     var userInfo = app.getUserInfo();
-    console.log(app.getUserInfo().service_types)
+  
     if (!userInfo.id) {
       wx.showToast({
         title: '用户信息不正确或为空',
@@ -405,7 +405,9 @@ Page({
         loading: true,
         loadingMsg: "正在查询订单...",
         successFn: function (res) {
+          console.log( "111")
           if (res.data.code == 1) {
+            
             if ('不可接单状态' == res.data.content[0]) {
               wx.showModal({
                 title: '提示',
@@ -413,11 +415,14 @@ Page({
                 showCancel: false
               })
             } else {
-              console.log(res.data.content);
-              _this.setData({ jsDetailVos: res.data.content });
-              _this.setData({ jsDetailVosOne: res.data.content });
+                console.log(res.data.content);
+                _this.setData({ jsDetailVos: res.data.content });
+               _this.setData({ jsDetailVosOne: res.data.content });
             }
           } else if (res.data.code == 2) {
+            console.log('这里')
+            _this.setData({ jsDetailVos: res.data.content });
+            _this.setData({ jsDetailVosOne: res.data.content });
             // wx.showToast({
             //   title: '用户信息不正确或为空',
             //   duration: 3000
@@ -618,7 +623,7 @@ Page({
           if (res.data.code == 1) {
             if (beforeStatus == '02' || beforeStatus == '03') {
             
-              // _this.getOrderTaking();
+              _this.getOrderTaking();
               _this.getOrderListByStatus('04,02');
               that.changeOrderTop(2);
             } else if (beforeStatus == '04'){

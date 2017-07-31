@@ -826,7 +826,7 @@ App({
           }
 
           // 成功
-          if (res.data.code == 1) {
+          if (res.data.code == 1 || res.data.code == 2) {
             if (_this.isFunction(o.successFn)) {
               o.successFn(res);
             }
