@@ -71,40 +71,43 @@ Page({
     var that = this;
     if (id == 1) {
       that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1' });
-      if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
-        that.getOrderTaking();
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosOne });
-      }
+      that.getOrderTaking();
+      // if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
+      
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosOne });
+      // }
 
     } else if (id == 2) {
       that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2' })
-      if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
-        that.getOrderListByStatus('04,02');
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
-      }
+      that.getOrderListByStatus('04,02');
+      // if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
+        
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
+      // }
     } else if (id == 3) {
       that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3' })
-      if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
-        that.getOrderListByStatus('05');
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosThree });
-      }
+      that.getOrderListByStatus('05');
+      // if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
+        
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosThree });
+      // }
     } else if (id == 4) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4' })
-      if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
         that.getUserOrderNOPAY('06');
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosFour });
-      }
+      // if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosFour });
+      // }
     } else if (id == 5) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5' })
-      if (app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosFive.length == 0) {
         that.getUserOrderFinish('07');
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosFive });
-      }
+      // if (app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosFive.length == 0) {
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosFive });
+      // }
     }
   },
 
@@ -382,6 +385,7 @@ Page({
 
   getOrderTaking: function () {
     var userInfo = app.getUserInfo();
+    console.log(app.getUserInfo().service_types)
     if (!userInfo.id) {
       wx.showToast({
         title: '用户信息不正确或为空',
@@ -392,10 +396,10 @@ Page({
       var _this = this;
       // 获取订单详细
       app.request({
-        url: "/phone/js/orderview/getOrderViewTakingAll",
+        url: "phone/js/orderview/getOrderViewTakingAll",
         data: {
           jsID: userInfo.id,
-          serviceType: app.getUserInfo.service_types
+          serviceType: app.getUserInfo().service_types
         },
         method: 'GET',
         loading: true,
@@ -413,6 +417,11 @@ Page({
               _this.setData({ jsDetailVos: res.data.content });
               _this.setData({ jsDetailVosOne: res.data.content });
             }
+          } else if (res.data.code == 2) {
+            // wx.showToast({
+            //   title: '用户信息不正确或为空',
+            //   duration: 3000
+            // });
           }
         },
         successFailFn: function () {
@@ -447,7 +456,7 @@ Page({
         loadingMsg: "正在查询...",
         successFn: function (res) {
           if (res.data.code == 1) {
-            _this.setData({ orderAllCount: res.data.content[0].order_count });
+              _this.setData({ orderAllCount: res.data.content[0].order_count });
           } else {
             _this.setData({ orderAllCount: 0 });
           }
@@ -608,20 +617,28 @@ Page({
         successFn: function (res) {
           if (res.data.code == 1) {
             if (beforeStatus == '02' || beforeStatus == '03') {
+            
+              // _this.getOrderTaking();
               _this.getOrderListByStatus('04,02');
-              _this.getOrderTaking();
               that.changeOrderTop(2);
             } else if (beforeStatus == '04'){
-              _this.getOrderListByStatus('05');
+             
               _this.getOrderListByStatus(beforeStatus);
+              _this.getOrderListByStatus('05');
               that.changeOrderTop(3);
             } else if (beforeStatus == '05') {
-              _this.getUserOrderNOPAY('06');
+             
               _this.getOrderListByStatus(beforeStatus);
+              _this.getUserOrderNOPAY('06');
               that.changeOrderTop(3);
             }
 
             console.log('成功')
+          } else if (res.data.code == -19) {
+            wx.showToast({
+              title: '对不起，别人抢先一步了',
+              duration: 3000
+            });
           }
         },
         successFailFn: function () {

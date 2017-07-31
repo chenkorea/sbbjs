@@ -3,7 +3,7 @@
 App({
   //----------[常量]----------//
   // 服务器地址
-  serverAddr: "http://192.200.200.21:9000/sbb-web/",
+  serverAddr: "http://192.200.200.22:9000/sbb-web/",
   // 手机号正则表达式
   phoneRe: /^1[3-9]\d{9}$/i,
   /** 数字的正则表达式 */
@@ -824,6 +824,7 @@ App({
           if (typeof res.data === "string") {
             res.data = JSON.parse(res.data);
           }
+
           // 成功
           if (res.data.code == 1) {
             if (_this.isFunction(o.successFn)) {
@@ -832,18 +833,24 @@ App({
 
             // 失败
           } else {
-            wx.showModal({
-              title: "提示",
-              content: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
-              showCancel: false
-            });
+            // wx.showModal({
+            //   title: "提示",
+            //   content: (_this.isBlank(res.data.errmsg) ? "请求失败，稍后再试！" : _this.getString(res.data.errmsg)),
+            //   showCancel: false
+            // });
 
             if (_this.isFunction(o.successFailFn)) {
               o.successFailFn(res);
             }
           }
         } catch (e) {
-          
+          console.error(e);
+
+          wx.showModal({
+            title: "提示",
+            content: "请求失败，稍后再试！",
+            showCancel: false
+          });
         }
       },
       fail: function (res) { // 请求失败
@@ -974,7 +981,7 @@ App({
             }
           }
         } catch (e) {
-          // console.error(e);
+          console.error(e);
 
           wx.showModal({
             title: "提示",
