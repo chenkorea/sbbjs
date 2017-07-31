@@ -38,11 +38,13 @@
 .phone-val {
   height: 40rpx;
   margin-top: 30rpx;
+  font-size: 30rpx;
 }
 
 .level-val {
   height: 40rpx;
   margin-top: 20rpx;
+  font-size: 30rpx;
 }
 
 .type-view {
