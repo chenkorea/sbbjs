@@ -394,7 +394,8 @@ Page({
       app.request({
         url: "/phone/js/orderview/getOrderViewTakingAll",
         data: {
-          jsID: userInfo.id
+          jsID: userInfo.id,
+          serviceType: app.getUserInfo.service_types
         },
         method: 'GET',
         loading: true,
