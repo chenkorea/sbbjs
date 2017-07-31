@@ -122,8 +122,8 @@
   display: flex;
   float: left;
   background: #4EEE94;
-  height: 120rpx;
-  width: 120rpx;
+  height: 130rpx;
+  width: 130rpx;
   border-radius: 50%;
   align-items: center;
   justify-content: center;
