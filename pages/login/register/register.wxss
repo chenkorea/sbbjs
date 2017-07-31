@@ -45,6 +45,33 @@
   padding-left: 20rpx;
 }
 
+.verifycode-text {
+  width: 65%;
+  background: #F6F6F6;
+  color: #333333;
+  height: 90rpx;
+  border-bottom: 1rpx solid #CCCCCC;
+  font-size: 30rpx;
+  padding-left: 20rpx;
+}
+
+.pwd-view {
+  display: flex;
+  margin-bottom: 10rpx;
+  margin-top: 30rpx;
+}
+
+.verifycode-button {
+  width: 35%;
+  background: #43CD80;
+  color: #ffffff;
+  height: 60rpx;
+  border-bottom: 1rpx solid #CCCCCC;
+  font-size: 30rpx;
+  padding-left: 20rpx;
+  padding-top: 30rpx;
+}
+
 .send_btn {
   margin: 20rpx;
   width: 200rpx;
@@ -69,7 +96,7 @@
   margin-left: 20rpx;
 }
 
-.register_btn {
+.register_en_btn {
   position: absolute;
   bottom: 20rpx;
   left: 20rpx;
@@ -79,5 +106,25 @@
   background: #43CD80;
   color: #FFFFFF;
   font-size: 30rpx;
+}
+
+.register_un_btn {
+  position: absolute;
+  bottom: 20rpx;
+  left: 20rpx;
+  right: 20rpx;
+  border-radius: 35rpx;
+  height: 90rpx;
+  background: #BEBEBE;
+  color: #FFFFFF;
+  font-size: 30rpx;
+}
+
+.agreeselect {
+  color: #43CD80;
+}
+
+.agreeunselect{
+  color: #BEBEBE; 
 }
 
