@@ -118,8 +118,8 @@ Page({
   },
   
   onLoad: function () { // 监听页面加载
-    app.setLoginFlag(false);
-
+    // app.setLoginFlag(false);
+    var _this = this;
     // 如果用户已登录，重定向到首页
     if (app.getLoginFlag()) {
       // 如果已完善用户信息，则重定向到首页

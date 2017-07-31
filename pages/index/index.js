@@ -408,6 +408,7 @@ Page({
                 showCancel: false
               })
             } else {
+              console.log(res.data.content);
               _this.setData({ jsDetailVos: res.data.content });
               _this.setData({ jsDetailVosOne: res.data.content });
             }
