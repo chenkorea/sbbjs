@@ -80,7 +80,7 @@ Page({
     } else if (id == 2) {
       that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2' })
       if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
-        that.getOrderListByStatus('04');
+        that.getOrderListByStatus('04,02');
       } else {
         that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
       }
@@ -151,9 +151,9 @@ Page({
   },
   transpond: function () {
 
-    this.changeUserStatus('2');
+    this.changeUserStatus('3');
     // 待接单
-    this.setData({ userstatus: '2', userstatusname: '休息中', showClass: 'img-plus-style img-style-2'})
+    this.setData({ userstatus: '3', userstatusname: '休息中', showClass: 'img-plus-style img-style-2'})
     this.plus();
 
   },
@@ -359,7 +359,7 @@ Page({
           if (res.data.code == 1) {
             console.log(res.data.content);
             _this.setData({ jsDetailVos: res.data.content });
-            if (status == '04') {         
+            if (status == '04,02') {         
               _this.setData({ jsDetailVosTwo: res.data.content });
             } else if (status == '05') {
               _this.setData({ jsDetailVosThree: res.data.content });
@@ -558,7 +558,7 @@ Page({
       obj.process_stage = '05';
       that.changeOrderTop(3);
     } else if (id == '02') {//点击抢单
-      obj.process_stage = '04';
+      obj.process_stage = '02';
       that.changeOrderTop(2);
     } else if (id == '03') {//点击接单
       obj.process_stage = '04';
@@ -607,7 +607,7 @@ Page({
         successFn: function (res) {
           if (res.data.code == 1) {
             if (beforeStatus == '02' || beforeStatus == '03') {
-              _this.getOrderListByStatus('04');
+              _this.getOrderListByStatus('04,02');
               _this.getOrderTaking();
               that.changeOrderTop(2);
             } else if (beforeStatus == '04'){
