@@ -137,6 +137,7 @@ Page({
     }
     // 回显手机号和密码
     var loginInfo = app.getLoginInfo();
+    var _this = this;
     _this.setData({
       phone: app.getString(loginInfo.phone),
       passwd: app.getString(loginInfo.passwd)

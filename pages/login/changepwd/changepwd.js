@@ -13,6 +13,7 @@ Page({
   },
   //事件处理函数
   conforupdate: function () {
+    var that = this;
     if (this.data.newpwd.length < 6){
       wx.showToast({
         title: '登录密码不得少于六位',
@@ -21,12 +22,12 @@ Page({
       wx.showToast({
         title: '两次填写的密码不一致',
       });
-    }else{
+    } else {
       app.request({
         url: '/phone/userinfor/updatepasswd',
         data: {
           username: this.data.phone,
-          passwd: this.data.updatepw,
+          passwd: this.data.conformpwd,
           user_type:'2'
         },
         header: {
@@ -45,11 +46,11 @@ Page({
                 if (res.confirm) {
                   app.setLoginFlag(false);
                   app.setLoginInfo({
-                    phone: phone,
+                    phone: that.data.phone,
                     passwd: ''
                   })
                   wx.reLaunch({
-                    url: '../login.js',
+                    url: '../../login/login',
                   })
                 }
               }

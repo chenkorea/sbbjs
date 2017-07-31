@@ -4,7 +4,7 @@
       <image src="{{userphoto}}" class="user-header"></image>
       <view class="name-view">
         <view class="phone-val">{{username}}</view>
-        <view class="level-val">{{userphone}}</view>
+         <view class="level-val">{{userphone}}</view> 
       </view>
     </view>
     <view class="seting-view" bindtap="gomyorder">
