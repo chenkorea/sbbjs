@@ -23,8 +23,7 @@ Page({
     app.request({
       url: "phone/js/user/getAllorder",
       data: {
-        // uid: app.getUserInfo().id,
-        uid: '404848955d92aaec015d92adbfc80002',
+        uid: app.getUserInfo().id,
         date: time
       },
       method: "POST",
@@ -45,18 +44,15 @@ Page({
     });
   },
   bindDateChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     var that = this;
     this.setData({
       date: e.detail.value
     })
-    console.log('uid--->>' + app.getUserInfo().id + ',date--->>' + e.detail.value);
     app.request({
       url: "phone/js/user/getAllorder",
       data: {
         
-        // uid: app.getUserInfo().id,
-        uid: '404848955d92aaec015d92adbfc80002',
+        uid: app.getUserInfo().id,
         date: e.detail.value
       },
       method: "POST",
