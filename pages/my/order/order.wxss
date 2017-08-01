@@ -1,9 +1,17 @@
 .head-view {
+  position: relative;
   background: #43CD80;
   height: 200rpx;
   color: white;
   border-bottom: 20rpx solid #F0F0F0;
   padding: 20rpx;
+}
+
+
+.order-time{
+  position: absolute;
+  right: 20rpx;
+  top: 100rp;
 }
 
 .titl-1 {
@@ -149,4 +157,13 @@
   font-size: 24rpx;
   color: #999999;
   margin-top: 20rpx;
+}
+
+.no_notice-view{
+  display: flex; 
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 400rpx;
+  justify-content: center;
 }
