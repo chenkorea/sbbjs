@@ -38,7 +38,11 @@ Page({
     
     var userOrder = JSON.parse(jsonStr);
 
+    console.log(userOrder);
+
     this.setData({ userOrder: userOrder})
+
+    console.log(userOrder.order_id);
 
     this.getUserShiFuOrdersProcess(userOrder.order_id);
   },

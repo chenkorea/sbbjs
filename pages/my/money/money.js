@@ -2,12 +2,9 @@
 var util = require('../../utils/util.js')
 Page({
   data: {
-    order: ''
+    logs: []
   },
-  onLoad: function (e) {
-    var res = JSON.parse(e.oder)
-    this.setData({
-      order: res
-    })
+  onLoad: function () {
+
   }
 })

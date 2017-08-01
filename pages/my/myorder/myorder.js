@@ -1,39 +1,65 @@
 
 //获取应用实例
+var Util = require('../../../utils/address.js')
 var app = getApp()
 Page({
   data: {
-    order_list: [],
-    total:0.0
+    titleText: '',
+    userOrder: {},
+    selectPicAr: [],
+    imageWidth: getApp().screenWidth / 4 - 10
   },
   //事件处理函数
-  toMoneyView: function (e) {
+  bindViewTap: function () {
     wx.navigateTo({
-      url: '../../my/money/money?oder=' + JSON.stringify(e.currentTarget.dataset.item),
+      url: '../logs/logs'
     })
   },
-  onLoad: function () {
+  getUserOrderPic: function (orderId) {
+    wx.showLoading({ title: '数据加载中...', })
     var that = this;
-    app.request({
-      url: "phone/js/user/getAllorder",
-      data: {
-        uid: app.getUserInfo().id
-      },
-      method: "POST",
-      loading: true,
-      loadingMsg: "正在努力加载...",
-      successFn: function (res) {
-        if (res.data.code == '1') {
-          var total = 0;
-          for (var i = 0; i < res.data.content.length;i++){
-           total += Number(res.data.content[i].service_price)
+
+    Util.getUserOrderPic(function (data) {
+      wx.hideLoading();
+      var code = data.data.code;
+      if (code == "1") {
+        var pics = data.data.content;
+        if (pics != null && pics.length > 0) {
+          var nowPics = [];
+          for (var i = 0; i < pics.length; i++) {
+            nowPics[i] = getApp().globalData.imageServerIp + pics[i].archives_url;
           }
-          that.setData({
-            order_list: res.data.content,
-            total: Number(total).toFixed(2)
-          })
+          that.setData({ selectPicAr: nowPics});
+        } else {
+          that.setData({ selectPicAr: [] })
         }
+      } else {
+        // 失败
+        that.setData({ selectPicAr: [] })
       }
-    });
+    }, orderId);
+  },
+  /**
+   * 查看图片信息
+   */
+  seeMovieInfo: function (e) {
+    var that = this;
+    var index = e.currentTarget.dataset.id;
+    var typename = e.currentTarget.dataset.type;
+    if (typename == 'open') {
+      var count = that.data.selectPicAr.length;
+      wx.previewImage({
+        current: that.data.selectPicAr[index], // 当前显示图片的http链接
+        urls: that.data.selectPicAr // 需要预览的图片http链接列表
+      })
+    }
+  },
+  onLoad: function (optains) {
+    var jsonStr = optains.jsonStr;
+    var userOrder = JSON.parse(jsonStr);
+    
+    var that = this
+    that.setData({ userOrder: userOrder})
+    that.getUserOrderPic(userOrder.order_id);
   }
 })
