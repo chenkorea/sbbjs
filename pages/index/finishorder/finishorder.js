@@ -15,10 +15,10 @@ Page({
     inputTwoValue: '',
     inputThreeValue: '',
     allPrice: '',
-    payment: '现金支付',
+    payment: '在线支付',
     payments: [
-      { name: '1', value: '在线支付' },
-      { name: '2', value: '现金支付', checked: true }],
+      { name: '1', value: '在线支付', checked: true },
+      { name: '2', value: '现金支付'}],
     fdmindex: 0,
     processObj:{},
     service_price:'',

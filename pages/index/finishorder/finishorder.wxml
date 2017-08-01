@@ -17,12 +17,16 @@
 
  <view class="top bottom grid"> 
   <label class="title col-0">支付方式：</label> 
-  <radio-group class="picker" bindchange="listenerRadioGroup" hidden="{{!isShowPay}}">
-    <label class="radio" wx:for-items="{{payments}}">
-      <radio class="radio_nl" value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
-    </label>
-  </radio-group>
-  <label class="title-value" hidden="true">{{payment}}</label> 
+  <view wx:if="{{isShowPay}}">
+    <radio-group class="picker" bindchange="listenerRadioGroup">
+      <label class="radio" wx:for-items="{{payments}}">
+        <radio class="radio_nl" value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
+      </label>
+    </radio-group>
+  </view>
+  <view wx:elif="{{!isShowPay}}">
+    <view class="title-value">{{payment}}</view>
+  </view>
   <!-- <picker class="picker" mode="selector" range="{{payments}}" value="{{fdmindex}}" bindchange="listenerPickerFDMSelected">
     <view class="input_base input_h30 col-1 sele_text" name="payment">{{payment}}</view> 
   </picker> -->
