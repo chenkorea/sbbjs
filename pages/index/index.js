@@ -71,43 +71,40 @@ Page({
     var that = this;
     if (id == 1) {
       that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1' });
-      that.getOrderTaking();
-      // if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
-      
-      // } else {
-      //   that.setData({ jsDetailVos: that.data.jsDetailVosOne });
-      // }
+      if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
+        that.getOrderTaking();
+      } else {
+        that.setData({ jsDetailVos: that.data.jsDetailVosOne });
+      }
 
     } else if (id == 2) {
       that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2' })
-      that.getOrderListByStatus('04,02');
-      // if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
-        
-      // } else {
-      //   that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
-      // }
+      if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
+        that.getOrderListByStatus('04,02');
+      } else {
+        that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
+      }
     } else if (id == 3) {
       that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3' })
-      that.getOrderListByStatus('05');
-      // if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
-        
-      // } else {
-      //   that.setData({ jsDetailVos: that.data.jsDetailVosThree });
-      // }
+      if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
+        that.getOrderListByStatus('05');
+      } else {
+        that.setData({ jsDetailVos: that.data.jsDetailVosThree });
+      }
     } else if (id == 4) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4' })
+      if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
         that.getUserOrderNOPAY('06');
-      // if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
-      // } else {
-      //   that.setData({ jsDetailVos: that.data.jsDetailVosFour });
-      // }
+      } else {
+        that.setData({ jsDetailVos: that.data.jsDetailVosFour });
+      }
     } else if (id == 5) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5' })
-        that.getUserOrderFinish('07');
-      // if (app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosFive.length == 0) {
-      // } else {
-      //   that.setData({ jsDetailVos: that.data.jsDetailVosFive });
-      // }
+      if (app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosFive.length == 0) {
+          that.getUserOrderFinish('07');
+      } else {
+        that.setData({ jsDetailVos: that.data.jsDetailVosFive });
+      }
     }
   },
 
@@ -292,13 +289,7 @@ Page({
       if (code == "1") {
         // 数据成功
         that.setData({ jsDetailVos: res.data.content });
-        if (status == '04') {
-          that.setData({ jsDetailVosTwo: res.data.content });
-        } else if (status == '05') {
-          that.setData({ jsDetailVosThree: res.data.content });
-        } else if (status == '06') {
-          that.setData({ jsDetailVosFour: res.data.content });
-        } else if (status == '07') {
+       if (status == '07') {
           that.setData({ jsDetailVosFive: res.data.content });
         }
       } else {
@@ -321,15 +312,9 @@ Page({
       if (code == "1") {
         // 数据成功
         that.setData({ jsDetailVos: res.data.content });
-        if (status == '04') {
-          that.setData({ jsDetailVosTwo: res.data.content });
-        } else if (status == '05') {
-          that.setData({ jsDetailVosThree: res.data.content });
-        } else if (status == '06') {
+        if (status == '06') {
           that.setData({ jsDetailVosFour: res.data.content });
-        } else if (status == '07') {
-          that.setData({ jsDetailVosFive: res.data.content });
-        }
+        } 
       } else {
         wx.showToast({
           title: '查询订单失败！',
@@ -405,7 +390,6 @@ Page({
         loading: true,
         loadingMsg: "正在查询订单...",
         successFn: function (res) {
-          console.log( "111")
           if (res.data.code == 1) {
             
             if ('不可接单状态' == res.data.content[0]) {
@@ -420,7 +404,7 @@ Page({
                _this.setData({ jsDetailVosOne: res.data.content });
             }
           } else if (res.data.code == 2) {
-            console.log('这里')
+
             _this.setData({ jsDetailVos: res.data.content });
             _this.setData({ jsDetailVosOne: res.data.content });
             // wx.showToast({
@@ -622,20 +606,17 @@ Page({
         successFn: function (res) {
           if (res.data.code == 1) {
             if (beforeStatus == '02' || beforeStatus == '03') {
-            
               _this.getOrderTaking();
               _this.getOrderListByStatus('04,02');
-              that.changeOrderTop(2);
+              _this.changeOrderTop(2);
             } else if (beforeStatus == '04'){
-             
-              _this.getOrderListByStatus(beforeStatus);
+              _this.getOrderListByStatus('04,02');
               _this.getOrderListByStatus('05');
-              that.changeOrderTop(3);
-            } else if (beforeStatus == '05') {
-             
+              _this.changeOrderTop(3);
+            } else if (beforeStatus == '05') {           
               _this.getOrderListByStatus(beforeStatus);
               _this.getUserOrderNOPAY('06');
-              that.changeOrderTop(3);
+              _this.changeOrderTop(3);
             }
 
             console.log('成功')

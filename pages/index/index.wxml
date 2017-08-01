@@ -62,7 +62,7 @@
               <view class="order-status" hidden="{{detailvo.current_status != '07'||detailvo.current_status != '08'}}">填写备注：{{detailvo.remarks}}</view>
               <view class="order-status" hidden="{{orderstatus=='1'}}">下单顾客：{{detailvo.user_name}}</view>
                <view class="order-status" hidden="{{orderstatus=='1'}}">报   价：￥{{detailvo.tatal_price}}元</view> 
-              <view class="btn-view" wx:if="{{detailvo.current_status == '04'}}">
+              <view class="btn-view" wx:if="{{detailvo.current_status == '04' || detailvo.current_status == '02'}}">
                 <!-- <text class="cancel_btn">拒绝</text> -->
                 <text class="confirm_btn" data-id="04" data-orderId="{{detailvo.order_id}}" catchtap="bindChangeStatusClick">开工</text>
               </view >
