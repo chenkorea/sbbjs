@@ -30,6 +30,7 @@
   <!-- <picker class="picker" mode="selector" range="{{payments}}" value="{{fdmindex}}" bindchange="listenerPickerFDMSelected">
     <view class="input_base input_h30 col-1 sele_text" name="payment">{{payment}}</view> 
   </picker> -->
+
  </view>
  </view> 
 
