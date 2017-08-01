@@ -22,10 +22,7 @@
       <radio class="radio_nl" value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
     </label>
   </radio-group>
-  <label class="title-value" hidden="true">{{payment}}</label> 
-  <!-- <picker class="picker" mode="selector" range="{{payments}}" value="{{fdmindex}}" bindchange="listenerPickerFDMSelected">
-    <view class="input_base input_h30 col-1 sele_text" name="payment">{{payment}}</view> 
-  </picker> -->
+  <label class="title-value" hidden="true">{{payment}}</label>
  </view>
  </view> 
 

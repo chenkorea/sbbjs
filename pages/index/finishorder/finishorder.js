@@ -374,7 +374,10 @@ Page({
     // 计算商品价格
     var allP = 0;
     for (var i = 0; i < this.data.selctgoodsAr.length; i++) {
-      var num = parseInt(this.data.selctgoodsAr[i].selectnum);
+      var num = 0;
+      if (this.data.selctgoodsAr[i].selectnum) {
+        num = parseInt(this.data.selctgoodsAr[i].selectnum);
+      }
       var price = parseFloat(this.data.selctgoodsAr[i].price);
       allP += num * price;
     }
