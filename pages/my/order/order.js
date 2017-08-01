@@ -52,7 +52,8 @@ Page({
       url: "phone/js/user/getAllorder",
       data: {
         
-        uid: app.getUserInfo().id,
+        // uid: app.getUserInfo().id,
+        uid: '404848955d92aaec015d92adbfc80002',
         date: e.detail.value
       },
       method: "POST",
@@ -63,6 +64,9 @@ Page({
           var total = 0;
           for (var i = 0; i < res.data.content.length; i++) {
             total += Number(res.data.content[i].service_price)
+            if (res.data.content[i].create_time.length>19){
+              res.data.content[i].create_time = res.data.content[i].create_time.substr(0,19)
+            }
           }
 
           that.setData({
