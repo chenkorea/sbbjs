@@ -27,7 +27,7 @@ Page({
   },
   gomyorder: function () {
     wx.navigateTo({
-      url: './myorder/myorder',
+      url: './order/order',
     })
   },
   tosetting: function () {

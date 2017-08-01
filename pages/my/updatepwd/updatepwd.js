@@ -48,6 +48,7 @@ Page({
         loading: true,
         loadingMsg: "正在努力加载...",
         successFn: function (res) {
+          console.log('-----------update successFn----:' + JSON.stringify(res))
           if (res.data.code == '1') {
             wx.showModal({
               title: '提示',
@@ -81,6 +82,9 @@ Page({
               }
             })
           }
+        },
+        completeFn:function(res){
+          console.log('-----------update completeFn----:' + JSON.stringify(res))
         }
       });
     }
