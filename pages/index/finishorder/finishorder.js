@@ -15,10 +15,10 @@ Page({
     inputTwoValue: '',
     inputThreeValue: '',
     allPrice: '',
-    payment: '在线支付',
+    payment: '现金支付',
     payments: [
       { name: '1', value: '在线支付' },
-      { name: '2', value: '现金支付', checked: 'true' }],
+      { name: '2', value: '现金支付', checked: true }],
     fdmindex: 0,
     processObj:{},
     service_price:'',
@@ -29,7 +29,7 @@ Page({
   },
   listenerRadioGroup: function (e) {
     //改变index值，通过setData()方法重绘界面
-    if (e.detail.value == 1) {
+    if (e.detail.value == '1') {
       this.setData({ payment: '在线支付' });
     } else {
       this.setData({ payment: '现金支付' });
@@ -185,6 +185,23 @@ Page({
           content: '请稍等，将会有师傅和您联系！',
           showCancel: false,
         })
+
+        var pages = getCurrentPages(); 
+        var currPage = pages[pages.length - 1]; //当前页面
+        var prevPage = pages[pages.length - 2]; 
+        //上一个页面 //直接调用上一个页面的setData()方法，把数据存到上一个页面中去 
+        console.log(pants + prevPage.data.orderstatus)
+        if (pants == '1') {
+          prevPage.setData({
+            orderstatus: '4',
+            isCommitSuccess: true
+          })
+        } else if (pants == '2') {
+          prevPage.setData({
+            orderstatus: '5',
+            isCommitSuccess: true
+          })
+        }
         wx.navigateBack({})
       } else {
         wx.showToast({
@@ -299,9 +316,9 @@ Page({
       key: 'selctgoodsAr',
       success: function (res) {
         that.setData({ selctgoodsAr: res.data });
+        that.plusPrice();
       },
     })
-    that.plusPrice();
   },
 
   /**
@@ -350,7 +367,10 @@ Page({
   },
   plusPrice: function () {
     var servicePrice = parseFloat(this.data.service_price);
-    var addiservicePrice = parseFloat(this.data.additional_service_price);
+    var addiservicePrice = 0;
+    if (this.data.additional_service_price) {
+      addiservicePrice = parseFloat(this.data.additional_service_price);
+    }
     // 计算商品价格
     var allP = 0;
     for (var i = 0; i < this.data.selctgoodsAr.length; i++) {

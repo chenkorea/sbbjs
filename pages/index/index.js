@@ -37,7 +37,8 @@ Page({
     fdmindex: 0,
     weixinUserInfo: {},
     orderAllCount: 0,
-    username:''
+    username:'',
+    isCommitSuccess: false
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -243,11 +244,19 @@ Page({
   onShow: function () {
     var that = this;
     var status = that.data.orderstatus;
-    if (status == '3') {
-      that.getUserOrderFinish('07');
-      that.getUserOrderNOPAY('06');
+    console.log(status + 'sdfsdfsf');
+    if (that.data.isCommitSuccess) {
+      that.changeOrderTop(status);
       that.getOrderListByStatus('05');
+      if (status == '4') {
+        that.getUserOrderFinish('07');
+        that.getUserOrderNOPAY('06');
+      } else if(status == '5') {
+        that.getUserOrderNOPAY('06');
+        that.getUserOrderFinish('07');
+      }
     }
+    
     Util.getCityName(function(e){
       app.request({
         url: "/phone/userinfor/recordcurloc",
@@ -570,10 +579,11 @@ Page({
       // 跳转
       var item = e.currentTarget.dataset.item;
       var jsonclStr = JSON.stringify(item);
+      that.setData({ isCommitSuccess: false });
       wx.navigateTo({
         url: '../index/finishorder/finishorder?jsonclStr=' + jsonclStr + '&jsonStr=' + jsonStr,
       })
-      that.changeOrderTop(4);
+    
     } else {
       that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType);
       console.log(jsonStr)
@@ -616,7 +626,7 @@ Page({
             } else if (beforeStatus == '05') {           
               _this.getOrderListByStatus(beforeStatus);
               _this.getUserOrderNOPAY('06');
-              _this.changeOrderTop(3);
+              // _this.changeOrderTop(3);
             }
 
             console.log('成功')
