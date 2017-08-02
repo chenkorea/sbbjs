@@ -2,6 +2,8 @@
 //获取应用实例
 var app = getApp();
 var Util = require('../../utils/address.js')
+var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+var qqmapsdk;
 Page({
   data: {
     isPopping: true,//是否已经弹出  
@@ -268,10 +270,65 @@ Page({
         method: 'POST',
         loading: true,
         loadingMsg: "...",
+        success: function (res) {
+          if(res.data.code == 1) {
+            console.log(e.location.lng)
+            wx.showToast({
+              title: e.location.lng,
+              duration: 20000
+            })
+          }
+        },
         completeFn: function (res) {
         },
       });
     })
+    // 调用接口
+    // qqmapsdk.search({
+    //   keyword: '酒店',
+    //   success: function (res) {
+    //     console.log(res);
+    //   },
+    //   fail: function (res) {
+    //     console.log(res);
+    //   },
+    //   complete: function (res) {
+    //     console.log(res);
+    //   }
+    // })
+    // 调用接口 
+    qqmapsdk.calculateDistance({
+      mode: 'driving',//步行，驾车为'driving'
+      to: [{ latitude: 26.647661, longitude: 106.730154 }],
+       success: function(res) { 
+         if (res.status == 0) {
+           //米为单位
+           console.log(res.result.elements[0].distance);
+           //表示从起点到终点的结合路况的时间，秒为单位
+           console.log(res.result.elements[0].duration);
+         }
+       }, 
+       fail: function(res) {
+          console.log(res);
+       },
+      complete: function(res) { 
+        console.log(res); 
+      } 
+    })
+    qqmapsdk.geocoder({
+      address: '贵州省贵阳市南明区贵乌中路27号',
+      success: function (res) {
+        console.log(res);
+      },
+      fail: function (res) {
+        console.log(res);
+      },
+      complete: function (res) {
+        console.log(res);
+      }
+    })
+    var distance = Util.getFlatternDistance(26.647661, 106.630154, 26.64766, 106.730153);
+    console.log(distance + 'sdfsdfs')
   },
 
   onLoad: function () {
@@ -283,6 +340,9 @@ Page({
     this.getUserCurStatus();
     this.setData({ weixinUserInfo: wx.getStorageSync("weixinUserInfo")});
     this.setData({ username: userInfo.name });
+    qqmapsdk = new QQMapWX({
+      key: 'NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR'
+    });
 
   },
   getUserOrderFinish: function (status) {
@@ -669,57 +729,7 @@ Page({
     // 页面相关事件处理函数--监听用户下拉动作  
     this.getOrderTaking();
 
-  },
-
-  onLaunch: function () {
-    wx.getUserInfo({
-      withCredentials: false,
-      success: function (res) {
-        var _this = this;
-        _this.setWeixinUserInfo(res.userInfo);
-        // console.log(JSON.stringify(res.userInfo))
-        // var _this = this;
-        // var userInfo = res.userInfo;
-        // var nickName = userInfo.nickName;
-        // var avatarUrl = userInfo.avatarUrl
-        // var gender = userInfo.gender //性别 0：未知、1：男、2：女 
-        // var province = userInfo.province
-        // var city = userInfo.city
-        // var country = userInfo.country
-      }
-    })
-  },
-  plusPrice: function () {
-    // var servicePrice = parseFloat(this.data.service_price);
-    // var addiservicePrice = parseFloat(this.data.additional_service_price);
-    var servicePrice = parseFloat('23');
-    var addiservicePrice = parseFloat('3.7');
-    var cun = servicePrice + addiservicePrice;
-    console.log(cun);
   }
 
-  // splitArray: function (array) {
-  //   var _this = this;
-  //   var temArrayOne = new Array();
-  //   var temArrayTwo = new Array();
-  //   var temArrayThree = new Array();
-  //   var temArrayFour = new Array();
-  //   var temArrayFive = new Array();
-  //   for(var i = 0; i < array.length; i++) {
-  //     var obj = array[i];
-  //     //抢单和派单
-  //     if (obj.current_status == '02' || obj.current_status == '03') {
-  //       temArrayOne.push(obj);
-  //     } else if (obj.current_status == '04') {//已接单
-  //       temArrayTwo.push(obj);
-  //     } else if (obj.current_status == '05') {//已开工
-  //       temArrayThree.push(obj);
-  //     } else if (obj.current_status == '06') {//待支付
-  //       temArrayFour.push(obj);
-  //     } else if (obj.current_status == '07') {//已支付，完成
-  //       temArrayFive.push(obj);
-  //     }
-  //   }
-  //   _this.setData({ jsDetailVos: temArrayOne, jsDetailVosOne: temArrayOne, jsDetailVosTwo: temArrayTwo, jsDetailVosThree: temArrayThree, jsDetailVosFour: temArrayFour, jsDetailVosFive: temArrayFive});
-  // }
+  // getLocationInfo
 })  
