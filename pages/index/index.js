@@ -4,6 +4,7 @@ var app = getApp();
 var Util = require('../../utils/address.js')
 var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 var qqmapsdk;
+var timer;
 Page({
   data: {
     isPopping: true,//是否已经弹出  
@@ -40,7 +41,8 @@ Page({
     weixinUserInfo: {},
     orderAllCount: 0,
     username:'',
-    isCommitSuccess: false
+    isCommitSuccess: false,
+
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -259,30 +261,6 @@ Page({
       }
     }
     
-    Util.getCityName(function(e){
-      app.request({
-        url: "/phone/userinfor/recordcurloc",
-        data: {
-          longitude: e.location.lng,
-          latitude: e.location.lat,
-          uid: app.getUserInfo().id
-        },
-        method: 'POST',
-        loading: true,
-        loadingMsg: "...",
-        success: function (res) {
-          if(res.data.code == 1) {
-            console.log(e.location.lng)
-            wx.showToast({
-              title: e.location.lng,
-              duration: 20000
-            })
-          }
-        },
-        completeFn: function (res) {
-        },
-      });
-    })
     // 调用接口
     // qqmapsdk.search({
     //   keyword: '酒店',
@@ -297,42 +275,53 @@ Page({
     //   }
     // })
     // 调用接口 
-    qqmapsdk.calculateDistance({
-      mode: 'driving',//步行，驾车为'driving'
-      to: [{ latitude: 26.647661, longitude: 106.730154 }],
-       success: function(res) { 
-         if (res.status == 0) {
-           //米为单位
-           console.log(res.result.elements[0].distance);
-           //表示从起点到终点的结合路况的时间，秒为单位
-           console.log(res.result.elements[0].duration);
-         }
-       }, 
-       fail: function(res) {
-          console.log(res);
-       },
-      complete: function(res) { 
-        console.log(res); 
-      } 
-    })
-    qqmapsdk.geocoder({
-      address: '贵州省贵阳市南明区贵乌中路27号',
-      success: function (res) {
-        console.log(res);
-      },
-      fail: function (res) {
-        console.log(res);
-      },
-      complete: function (res) {
-        console.log(res);
-      }
-    })
-    var distance = Util.getFlatternDistance(26.647661, 106.630154, 26.64766, 106.730153);
-    console.log(distance + 'sdfsdfs')
+    // qqmapsdk.calculateDistance({
+    //   mode: 'driving',//步行，驾车为'driving'
+    //   to: [{ latitude: 26.647661, longitude: 106.730154 }],
+    //    success: function(res) { 
+    //      if (res.status == 0) {
+    //        //米为单位
+    //        console.log(res.result.elements[0].distance);
+    //        //表示从起点到终点的结合路况的时间，秒为单位
+    //        console.log(res.result.elements[0].duration);
+    //      }
+    //    }, 
+    //    fail: function(res) {
+    //       console.log(res);
+    //    },
+    //   complete: function(res) { 
+    //     console.log(res); 
+    //   } 
+    // })
+    // qqmapsdk.geocoder({
+    //   address: '贵州省贵阳市南明区贵乌中路27号',
+    //   success: function (res) {
+    //     console.log(res);
+    //   },
+    //   fail: function (res) {
+    //     console.log(res);
+    //   },
+    //   complete: function (res) {
+    //     console.log(res);
+    //   }
+    // })
+    // var distance = Util.getFlatternDistance(26.647661, 106.630154, 26.64766, 106.730153);
+    // console.log(distance + 'sdfsdfs')
   },
 
+  getCurrentLoc: function () {
+    Util.getLocationInfoCT(function (e) {
+      if (!((typeof e === "undefined") || (e == null))) {
+        wx.setStorageSync("latObj", e);
+        console.log('ctfsdfcar' + e.latitude + ' ' + e.longitude + ' ')
+      }
+    })
+  },
   onLoad: function () {
-    
+    qqmapsdk = new QQMapWX({
+      key: 'NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR'
+    });
+ 
     //预加载可接单数据
     var userInfo = app.getUserInfo();
     this.getOrderTaking();
@@ -340,11 +329,13 @@ Page({
     this.getUserCurStatus();
     this.setData({ weixinUserInfo: wx.getStorageSync("weixinUserInfo")});
     this.setData({ username: userInfo.name });
-    qqmapsdk = new QQMapWX({
-      key: 'NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR'
-    });
-
+    timer = setInterval(this.getCurrentLoc, 30 * 60 * 1000); //30分钟刷新一次
   },
+
+  onUnload: function() { 
+    clearInterval(timer); 
+  },
+
   getUserOrderFinish: function (status) {
     var that = this;
     wx.showLoading({
@@ -448,6 +439,7 @@ Page({
       // 校验密码
     } else {
       var _this = this;
+     
       // 获取订单详细
       app.request({
         url: "phone/js/orderview/getOrderViewTakingAll",
@@ -469,8 +461,8 @@ Page({
               })
             } else {
                 console.log(res.data.content);
-                _this.setData({ jsDetailVos: res.data.content });
-               _this.setData({ jsDetailVosOne: res.data.content });
+                
+                _this.filterByDistance(res.data.content);
             }
           } else if (res.data.code == 2) {
 
@@ -490,6 +482,64 @@ Page({
         }
       });
     }
+  },
+
+  filterByDistance: function (list) {
+ 
+    var that = this;
+    var listTemp = new Array();
+    var listShow = new Array();
+    var listDispatch = new Array();
+
+    var locObj = wx.getStorageSync('latObj');
+    var latitude = locObj.latitude;
+    var longitude = locObj.longitude;
+    
+    for (var i = 0; i < list.length; i++) {
+      var obj = list[i];
+      if (obj.current_status == '01') {//只过滤抢单的
+        listTemp.push(obj);
+      } else {
+        listDispatch.push(obj);
+      }
+    }
+    var index = 0;
+    for (var i = 0; i < listTemp.length; i++) {
+      console.log(i+'sdsssss')
+      var obj = listTemp[i];
+      var addr = obj.popedom_name + obj.service_address;
+        qqmapsdk.geocoder({
+          address: addr,
+          success: function (res) {
+           
+            if (status == 0) {
+              console.log('ct' + latitude + ' ' + longitude + ' ' + res.result.location.lat + ' ' + res.result.location.lng);
+              var distance = parseInt(Util.getFlatternDistance(latitude, longitude, res.result.location.lat, res.result.location.lng));
+              console.log('distance = ' + distance)
+              if (distance < 20000) {//当半径大于2000米时，不允许抢单（不显示）
+                console.log('来这里了')
+                listShow.push(obj);          
+              }
+              // console.log(i + ' ' + listTemp.length)
+              // console.log(index == listTemp.length - 1)
+              if (index == listTemp.length - 1) {
+                // console.log(' listDispatch.length = ' + listDispatch.length)
+                listShow = listShow.concat(listDispatch); 
+                that.setData({ jsDetailVos: listShow });
+                that.setData({ jsDetailVosOne: listShow });
+              }
+            }
+            index++;
+          },
+          fail: function (res) {
+            console.log(res);
+          },
+          complete: function (res) {
+            console.log(res);
+          }
+        })
+    }
+
   },
 
   getOrderViewAllCount: function () {

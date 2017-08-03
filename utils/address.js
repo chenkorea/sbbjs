@@ -334,6 +334,15 @@ function getLocationInfo(callback) {
   })
 }
 
+function getLocationInfoCT(callback) {
+  wx.getLocation({
+    type: 'wgs84',
+    success: function (res) {
+      callback(res);
+    }
+  })
+}
+
 function getLocationCityByLatLon(lat, lon, callback) {
   var appkey = "NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR";
   // http://apis.map.qq.com/ws/geocoder/v1/?location=39.984154,116.307490&key=NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR
@@ -417,5 +426,6 @@ module.exports = {
   getUserOrderFinish: getUserOrderFinish,
   getUserOrderAllPrice: getUserOrderAllPrice,
   getCityName: getCityName,
-  getFlatternDistance: getFlatternDistance
+  getFlatternDistance: getFlatternDistance,
+  getLocationInfoCT: getLocationInfoCT
 } 

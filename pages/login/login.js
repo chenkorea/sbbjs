@@ -1,5 +1,6 @@
 //获取应用实例
 var app = getApp();
+var Util = require('../../utils/address.js')
 
 Page({
   data: { // 页面的初始数据
@@ -120,6 +121,14 @@ Page({
   onLoad: function () { // 监听页面加载
     // app.setLoginFlag(false);
     var _this = this;
+
+    Util.getLocationInfoCT(function (e) {
+      if (!((typeof e === "undefined") || (e == null))) {
+        wx.setStorageSync("latObj", e);
+        console.log('ctfsdfcar' + e.latitude + ' ' + e.longitude + ' ')
+      }
+    })
+
     // 如果用户已登录，重定向到首页
     if (app.getLoginFlag()) {
       // 如果已完善用户信息，则重定向到首页
