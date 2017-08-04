@@ -431,8 +431,9 @@ Page({
   },
 
   getOrderTaking: function () {
+    var _this = this;
     var userInfo = app.getUserInfo();
-  
+    _this.setData({ jsDetailVos: []});
     if (!userInfo.id) {
       wx.showToast({
         title: '用户信息不正确或为空',
@@ -440,7 +441,6 @@ Page({
       });
       // 校验密码
     } else {
-      var _this = this;
      
       // 获取订单详细
       app.request({
