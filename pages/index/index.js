@@ -42,7 +42,8 @@ Page({
     orderAllCount: 0,
     username:'',
     isCommitSuccess: false,
-
+    isLoading: true,
+    loadingComplete: false
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -76,33 +77,34 @@ Page({
     var that = this;
     if (id == 1) {
       that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1' });
-      if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
-        that.getOrderTaking();
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosOne });
-      }
+      that.getOrderTaking();
+      // if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
+       
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosOne });
+      // }
 
     } else if (id == 2) {
       that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2' })
-      if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
         that.getOrderListByStatus('04,02');
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
-      }
+      // if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
+      // }
     } else if (id == 3) {
       that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3' })
-      if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
         that.getOrderListByStatus('05');
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosThree });
-      }
+      // if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosThree });
+      // }
     } else if (id == 4) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4' })
-      if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
         that.getUserOrderNOPAY('06');
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosFour });
-      }
+      // if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosFour });
+      // }
     } else if (id == 5) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5' })
       if (app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosFive.length == 0) {
@@ -313,13 +315,13 @@ Page({
     Util.getLocationInfoCT(function (e) {
       if (!((typeof e === "undefined") || (e == null))) {
         wx.setStorageSync("latObj", e);
-        console.log('ctfsdfcar' + e.latitude + ' ' + e.longitude + ' ')
+        console.log('ctQQLoc' + e.latitude + ' ' + e.longitude + ' ')
       }
     })
   },
   onLoad: function () {
     qqmapsdk = new QQMapWX({
-      key: 'NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR'
+      key: 'ZNIBZ-3WJHJ-BP2FP-FJM5E-6ZBCQ-O2B5H'
     });
  
     //预加载可接单数据
@@ -460,18 +462,16 @@ Page({
                 showCancel: false
               })
             } else {
-                console.log(res.data.content);
-                
+                // console.log(res.data.content);
+                // _this.setData({ jsDetailVos: res.data.content });
+                // _this.setData({ jsDetailVosOne: res.data.content });
                 _this.filterByDistance(res.data.content);
             }
           } else if (res.data.code == 2) {
 
             _this.setData({ jsDetailVos: res.data.content });
             _this.setData({ jsDetailVosOne: res.data.content });
-            // wx.showToast({
-            //   title: '用户信息不正确或为空',
-            //   duration: 3000
-            // });
+        
           }
         },
         successFailFn: function () {
@@ -494,7 +494,7 @@ Page({
     var locObj = wx.getStorageSync('latObj');
     var latitude = locObj.latitude;
     var longitude = locObj.longitude;
-    
+    console.log('ctllll' + latitude + ' ' + longitude)
     for (var i = 0; i < list.length; i++) {
       var obj = list[i];
       if (obj.current_status == '01') {//只过滤抢单的
@@ -508,36 +508,68 @@ Page({
       console.log(i+'sdsssss')
       var obj = listTemp[i];
       var addr = obj.popedom_name + obj.service_address;
-        qqmapsdk.geocoder({
-          address: addr,
-          success: function (res) {
+        // qqmapsdk.geocoder({
+        //   address: '贵州省贵阳市云岩区贵乌中路27号',
+        //   success: function (res) {
            
-            if (status == 0) {
-              console.log('ct' + latitude + ' ' + longitude + ' ' + res.result.location.lat + ' ' + res.result.location.lng);
-              var distance = parseInt(Util.getFlatternDistance(latitude, longitude, res.result.location.lat, res.result.location.lng));
-              console.log('distance = ' + distance)
-              if (distance < 20000) {//当半径大于2000米时，不允许抢单（不显示）
-                console.log('来这里了')
-                listShow.push(obj);          
-              }
-              // console.log(i + ' ' + listTemp.length)
-              // console.log(index == listTemp.length - 1)
-              if (index == listTemp.length - 1) {
-                // console.log(' listDispatch.length = ' + listDispatch.length)
-                listShow = listShow.concat(listDispatch); 
-                that.setData({ jsDetailVos: listShow });
-                that.setData({ jsDetailVosOne: listShow });
-              }
+        //     if (status == 0) {
+          
+        //       console.log('ct' + latitude + ' ' + longitude + ' ' + res.result.location.lat + ' ' + res.result.location.lng);
+        //       var distance = parseInt(Util.getFlatternDistance(latitude, longitude, res.result.location.lat, res.result.location.lng));
+        //       console.log('distance = ' + distance)
+
+        //       wx.showToast({
+        //         title: '进入',
+        //         duration: 3000
+        //       });
+
+        //       if (distance < 1000) {//当半径大于2000米时，不允许抢单（不显示）
+        //         console.log('来这里了')
+        //         listShow.push(obj);          
+        //       }
+        //       // console.log(i + ' ' + listTemp.length)
+        //       // console.log(index == listTemp.length - 1)
+        //       if (index == listTemp.length - 1) {
+        //         // console.log(' listDispatch.length = ' + listDispatch.length)
+        //         listShow = listShow.concat(listDispatch); 
+        //         that.setData({ jsDetailVos: listShow });
+        //         that.setData({ jsDetailVosOne: listShow });
+        //       }
+        //     }
+        //     index++;
+        //   },
+        //   fail: function (res) {
+        //     console.log(res);
+        //   },
+        //   complete: function (res) {
+        //     console.log(res);
+        //   }
+        // })
+      Util.getLocationLatLonByAddr(addr, function (e) {
+        if (!((typeof e === "undefined") || (e == null))) {
+          console.log('ct' + latitude + ' ' + longitude + ' ' + e.location.lat + ' ' + e.location.lng + ' ');
+          var distance = parseInt(Util.getFlatternDistance(latitude, longitude, e.location.lat, e.location.lng));
+            console.log('distance = ' + distance)
+
+            // wx.showToast({
+            //   title: distance + '进入',
+            //   duration: 3000
+            // });
+
+            if (distance < 1000) {//当半径大于2000米时，不允许抢单（不显示）
+              console.log('来这里了')
+              listShow.push(obj);          
+            }
+            if (index == listTemp.length - 1) {
+              listShow = listShow.concat(listDispatch); 
+              that.setData({ jsDetailVos: listShow });
+              that.setData({ jsDetailVosOne: listShow });
             }
             index++;
-          },
-          fail: function (res) {
-            console.log(res);
-          },
-          complete: function (res) {
-            console.log(res);
-          }
-        })
+        }
+      })
+
+
     }
 
   },

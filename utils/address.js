@@ -342,9 +342,10 @@ function getLocationInfoCT(callback) {
     }
   })
 }
-
+//ct-ZNIBZ-3WJHJ-BP2FP-FJM5E-6ZBCQ-O2B5H
+//NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR
 function getLocationCityByLatLon(lat, lon, callback) {
-  var appkey = "NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR";
+  var appkey = "ZNIBZ-3WJHJ-BP2FP-FJM5E-6ZBCQ-O2B5H";
   // http://apis.map.qq.com/ws/geocoder/v1/?location=39.984154,116.307490&key=NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR
   var locationUrl = "https://apis.map.qq.com/ws/geocoder/v1/?location=" + lat + "," + lon + "&key=" + appkey;
   wx.request({
@@ -355,6 +356,21 @@ function getLocationCityByLatLon(lat, lon, callback) {
     }
   });
 }
+
+function getLocationLatLonByAddr(addr, callback) {
+  var appkey = "ZNIBZ-3WJHJ-BP2FP-FJM5E-6ZBCQ-O2B5H";
+  // http://apis.map.qq.com/ws/geocoder/v1/?address=北京市海淀区彩和坊路海淀西大街74号&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77
+  var locationUrl = "http://apis.map.qq.com/ws/geocoder/v1/?address=" + addr + "&key=" + appkey;
+  wx.request({
+    url: locationUrl,
+    success: function (res) {
+      var locationData = res.data.result;
+      callback(locationData);
+    }
+  });
+}
+
+
 
 function getCityName(callback) {
   getLocationInfo(function (data) {
@@ -427,5 +443,6 @@ module.exports = {
   getUserOrderAllPrice: getUserOrderAllPrice,
   getCityName: getCityName,
   getFlatternDistance: getFlatternDistance,
-  getLocationInfoCT: getLocationInfoCT
+  getLocationInfoCT: getLocationInfoCT,
+  getLocationLatLonByAddr: getLocationLatLonByAddr
 } 
