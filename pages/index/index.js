@@ -42,8 +42,8 @@ Page({
     orderAllCount: 0,
     username:'',
     isCommitSuccess: false,
-    isLoading: true,
-    loadingComplete: false
+    hasMore: true,
+    isloading: false
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -811,7 +811,15 @@ Page({
     // 页面相关事件处理函数--监听用户下拉动作  
     this.getOrderTaking();
 
+  },
+  loadMoreData: function() {
+    var _this = this;
+    console.log('到了');
+    if (_this.data.hasMore && !_this.data.isloading) {
+      //阻塞不让重复请求
+      isloading = true;
+      
+    }
   }
 
-  // getLocationInfo
 })  

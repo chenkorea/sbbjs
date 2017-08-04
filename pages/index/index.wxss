@@ -135,6 +135,9 @@
 }
 
 .order-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   border-bottom: 10rpx solid #F4F4F4;
   padding: 20rpx;
 }
@@ -142,12 +145,14 @@
 .order-no {
   color: #FF6666;
   font-size: 28rpx;
+  padding-top: 5rpx;
 }
 
 .order-status {
-  margin-top: 20rpx;
   color: #333333;
   font-size: 28rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
 }
 
 .content-view {
@@ -162,8 +167,6 @@
   display: flex;
   align-items: center;
   color: white;
-  padding-top: 20rpx;
-  padding-bottom: 20rpx;
   font-size: 28rpx;
 }
 
