@@ -86,9 +86,9 @@
           <view wx:if="{{orderstatus == '5'}}" class="loading">
             <view wx:if="{{hasMore}}" class="ct_loading_text">
               <icon hidden="{{!hasMore}}" class="iconfont icon-loading1 ct_loading_icon"/>
-              <text style="ct_loading_text">玩命的加载中...</text>
+              <text class="ct_loading_text">玩命的加载中...</text>
             </view>
-            <view wx:else><text>没有更多内容了</text></view>
+            <view wx:else class="ct_loading_text"><text>没有更多内容了</text></view>
           </view>  
 
 

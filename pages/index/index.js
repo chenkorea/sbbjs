@@ -43,7 +43,10 @@ Page({
     username:'',
     isCommitSuccess: false,
     hasMore: true,
-    isloading: false
+    isloading: false,
+    pageCount: 2,
+    pageNum: 0,
+    lastFinishArray: []
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -108,9 +111,9 @@ Page({
     } else if (id == 5) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5' })
       if (app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosFive.length == 0) {
-          that.getUserOrderFinish('07');
+          that.getUserOrderFinish('07',true);
       } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosFive });
+        that.setData({ jsDetailVos: that.data.jsDetailVosFive.concat(that.data.lastFinishArray) });
       }
     }
   },
@@ -255,11 +258,11 @@ Page({
       that.changeOrderTop(status);
       that.getOrderListByStatus('05');
       if (status == '4') {
-        that.getUserOrderFinish('07');
+        that.getUserOrderFinish('07', true);
         that.getUserOrderNOPAY('06');
       } else if(status == '5') {
         that.getUserOrderNOPAY('06');
-        that.getUserOrderFinish('07');
+        that.getUserOrderFinish('07',true);
       }
     }
     
@@ -338,28 +341,42 @@ Page({
     clearInterval(timer); 
   },
 
-  getUserOrderFinish: function (status) {
+  getUserOrderFinish: function (status,isnew) {
     var that = this;
+
+    if (isnew) {//如果是完成支付刷新的。。
+      that.setData({ pageNum: 0, hasMore: true, jsDetailVos: [], jsDetailVosFive: [], lastFinishArray: []});
+    } else { //一直是上拉加载更多的。
+
+    }
     wx.showLoading({
       title: '查询订单中...',
     })
+
     var userInfo = app.getUserInfo();
     // 提交数据
     Util.getUserOrderFinish(function (res) {
       wx.hideLoading();
       var code = res.data.code;
-      if (code == "1") {
+      if (code == '1') {
+        that.setData({ lastFinishArray: [] });
         // 数据成功
-        that.setData({ jsDetailVos: res.data.content });
-       if (status == '07') {
-          that.setData({ jsDetailVosFive: res.data.content });
+        that.setData({ jsDetailVos: that.data.jsDetailVosFive.concat(res.data.content)});
+        if(res.data.content.length == that.data.pageCount) {
+          // console.log((res.data.content.length == that.data.pageCount) + ' ' + (that.data.pageNum+1));
+          that.setData({ pageNum: that.data.pageNum+1, hasMore: true, jsDetailVosFive: that.data.jsDetailVosFive.concat(res.data.content)});
+        } else { //查到的总数小于pageCount
+          that.setData({ hasMore: false, lastFinishArray: res.data.content });
         }
+      } else if (code == '2') {//如果没数据表示没有了.
+        that.setData({ hasMore: false});
       } else {
         wx.showToast({
           title: '查询订单失败！',
         })
       }
-    }, userInfo.id)
+      that.setData({ isloading: false });
+    }, userInfo.id, that.data.pageCount, that.data.pageNum)
   },
   getUserOrderNOPAY: function (status) {
     var that = this;
@@ -815,10 +832,12 @@ Page({
   loadMoreData: function() {
     var _this = this;
     console.log('到了');
-    if (_this.data.hasMore && !_this.data.isloading) {
-      //阻塞不让重复请求
-      isloading = true;
-      
+    if (_this.data.orderstatus == '5') {
+      if (_this.data.hasMore && !_this.data.isloading) {
+        //阻塞不让重复请求
+        _this.setData({ isloading: true});
+        _this.getUserOrderFinish('07', false);
+      }  
     }
   }
 

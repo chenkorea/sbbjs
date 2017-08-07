@@ -273,12 +273,14 @@ function getUserOrderNOPAY(callback, dispatching_id) {
   })
 }
 
-function getUserOrderFinish(callback, dispatching_id) {
+function getUserOrderFinish(callback, dispatching_id, pageCount, pageNum) {
   var remoteUrl = getApp().globalData.serverIp + "openkey/getUserOrderFinish";
   wx.request({
     url: remoteUrl,
     data: {
-      dispatching_id: dispatching_id
+      dispatching_id: dispatching_id,
+      pageCount: pageCount,
+      pageNum: pageNum
     },
     method: 'POST',
     header: { 'content-type': 'application/x-www-form-urlencoded' },
