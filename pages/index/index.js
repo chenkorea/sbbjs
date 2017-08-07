@@ -44,9 +44,13 @@ Page({
     isCommitSuccess: false,
     hasMore: true,
     isloading: false,
-    pageCount: 2,
+    pageCount: 3,
     pageNum: 0,
-    lastFinishArray: []
+    lastFinishArray: [],
+    scrollHeight:0,
+    clientY: 0,//触摸时Y轴坐标
+    refreshHeight: 0,//获取高度  
+    refreshing: false//是否在刷新中
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -323,8 +327,18 @@ Page({
     })
   },
   onLoad: function () {
+    var that = this;
     qqmapsdk = new QQMapWX({
       key: 'ZNIBZ-3WJHJ-BP2FP-FJM5E-6ZBCQ-O2B5H'
+    });
+
+    wx.getSystemInfo({
+      success: function (res) {
+        console.info(res.windowHeight);
+        that.setData({
+          scrollHeight: res.windowHeight
+        });
+      }
     });
  
     //预加载可接单数据
@@ -839,6 +853,40 @@ Page({
         _this.getUserOrderFinish('07', false);
       }  
     }
+  },
+  refreshCTData: function () {
+    var _this = this;
+    console.log('refresh到了');
+    if (_this.data.orderstatus == '5') {
+      if (!_this.data.refreshing) {
+        //阻塞不让重复请求
+        console.log('refreshing')
+        _this.setData({ refreshing: true });
+        updateRefreshIcon.call(this);
+        // _this.getUserOrderFinish('07', true);
+      }
+    }
   }
-
 })  
+
+/** 
+ * 旋转上拉加载图标 
+ */
+function updateRefreshIcon() {
+  var deg = 0;
+  var _this = this;
+  console.log('旋转开始了.....')
+  var animation = wx.createAnimation({
+    duration: 1000
+  });
+
+  var timer = setInterval(function () {
+    if (!_this.data.refreshing)
+      clearInterval(timer);
+    animation.rotateZ(deg).step();//在Z轴旋转一个deg角度  
+    deg += 360;
+    _this.setData({
+      refreshAnimation: animation.export()
+    })
+  }, 1000);
+}

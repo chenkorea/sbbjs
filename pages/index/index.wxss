@@ -348,6 +348,11 @@ radio{
   vertical-align: center;  
 } 
 
+.refresh-block {  
+  padding: 15px;  
+  text-align: center  
+}
+
 .loading.complete:before{  
   display: none;  
 }

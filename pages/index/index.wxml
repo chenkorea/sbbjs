@@ -50,7 +50,7 @@
       </view>
     </view>
 
-      <scroll-view class="content-view" scroll-y="true" bindscrolltolower="loadMoreData">
+      <scroll-view class="content-view" scroll-y="true" bindscrolltoupper="refreshCTData" bindscrolltolower="loadMoreData" >
 
         <block wx:for="{{jsDetailVos}}" wx:for-item="detailvo" wx:for-index="position" wx:key="order_id">
           <view class="order-item" data-item="{{detailvo}}" bindtap="bindItemClick">
