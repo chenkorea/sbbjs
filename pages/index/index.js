@@ -265,6 +265,25 @@ Page({
         that.getUserOrderFinish('07',true);
       }
     }
+
+    Util.getCityName(function (locationData) {
+      var uid = app.getUserInfo().id;
+      console.log('getCityName--->locationData:' + JSON.stringify(locationData) + ',uid:' + uid)
+      app.request({
+        url: "/phone/userinfor/recordcurloc",
+        data: {
+          longitude: locationData.location.lng,
+          latitude: locationData.location.lat,
+          uid: uid
+        },
+        method: 'POST',
+        loading: true,
+        loadingMsg: "",
+        successFn: function (res) {
+
+      }
+    })
+    })
     
     // 调用接口
     // qqmapsdk.search({
