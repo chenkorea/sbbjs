@@ -65,7 +65,7 @@
   width: 35%;
   background: #FF7F24;
   color: #ffffff;
-  height: 60rpx;
+  height: 62rpx;
   border-bottom: 1rpx solid #CCCCCC;
   font-size: 30rpx;
   padding-left: 20rpx;
@@ -93,7 +93,9 @@
 }
 
 .law-text {
-  margin-left: 20rpx;
+  position: absolute;
+  margin-left: 35rpx;
+  margin-top: 10rpx;
 }
 
 .register_en_btn {
@@ -126,6 +128,7 @@
   width: 30rpx;
   background:#FF7F24;
   left: 4rpx;
+  padding: 10rpx;
 }
 
 .agree-un-btn{
@@ -133,7 +136,8 @@
   height: 30rpx;
   width: 30rpx;
   background: #aaaaaa;
-  left: 2rpx;
+  left: 4rpx;
+  padding: 10rpx;
 }
 
 .agreeselect {

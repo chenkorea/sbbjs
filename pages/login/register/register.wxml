@@ -18,7 +18,7 @@
     
      <view class="law-view">
        <icon class="{{agreeBg}}"  bindtap="chooseagree"/>
-       <text class="law-text">我同意《锁帮帮平台服务协议》</text>
+       <text class="law-text" bindtap="chooseagree">我同意《锁帮帮平台服务协议》</text>
      </view>
 
      <button class='{{register_btn}}' bindtap="bindViewTap">提交</button>
