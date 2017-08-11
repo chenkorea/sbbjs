@@ -273,12 +273,14 @@ function getUserOrderNOPAY(callback, dispatching_id) {
   })
 }
 
-function getUserOrderFinish(callback, dispatching_id) {
+function getUserOrderFinish(callback, dispatching_id, pageCount, pageNum) {
   var remoteUrl = getApp().globalData.serverIp + "openkey/getUserOrderFinish";
   wx.request({
     url: remoteUrl,
     data: {
-      dispatching_id: dispatching_id
+      dispatching_id: dispatching_id,
+      pageCount: pageCount,
+      pageNum: pageNum
     },
     method: 'POST',
     header: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -334,8 +336,18 @@ function getLocationInfo(callback) {
   })
 }
 
+function getLocationInfoCT(callback) {
+  wx.getLocation({
+    type: 'wgs84',
+    success: function (res) {
+      callback(res);
+    }
+  })
+}
+//ct-ZNIBZ-3WJHJ-BP2FP-FJM5E-6ZBCQ-O2B5H
+//NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR
 function getLocationCityByLatLon(lat, lon, callback) {
-  var appkey = "NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR";
+  var appkey = "ZNIBZ-3WJHJ-BP2FP-FJM5E-6ZBCQ-O2B5H";
   // http://apis.map.qq.com/ws/geocoder/v1/?location=39.984154,116.307490&key=NONBZ-2VT33-DOI3A-35PVY-CZ7M6-ZRBFR
   var locationUrl = "https://apis.map.qq.com/ws/geocoder/v1/?location=" + lat + "," + lon + "&key=" + appkey;
   wx.request({
@@ -347,10 +359,69 @@ function getLocationCityByLatLon(lat, lon, callback) {
   });
 }
 
+function getLocationLatLonByAddr(addr, callback) {
+  var appkey = "ZNIBZ-3WJHJ-BP2FP-FJM5E-6ZBCQ-O2B5H";
+  // http://apis.map.qq.com/ws/geocoder/v1/?address=北京市海淀区彩和坊路海淀西大街74号&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77
+  var locationUrl = "http://apis.map.qq.com/ws/geocoder/v1/?address=" + addr + "&key=" + appkey;
+  wx.request({
+    url: locationUrl,
+    success: function (res) {
+      var locationData = res.data.result;
+      callback(locationData);
+    }
+  });
+}
+
+
+
 function getCityName(callback) {
   getLocationInfo(function (data) {
     callback(data);
   })
+}
+
+function getRad(d) {
+  var PI = Math.PI;
+  return d * PI / 180.0;
+}
+
+/**
+     * approx distance between two points on earth ellipsoid
+     * @param {Object} lat1
+     * @param {Object} lng1
+     * @param {Object} lat2
+     * @param {Object} lng2
+     * 椭圆两点经纬度距离计算
+     */
+function getFlatternDistance(lat1, lng1, lat2, lng2) {
+  var EARTH_RADIUS = 6378137.0;    //单位M
+  
+  var f = getRad((lat1 + lat2) / 2);
+  var g = getRad((lat1 - lat2) / 2);
+  var l = getRad((lng1 - lng2) / 2);
+
+  var sg = Math.sin(g);
+  var sl = Math.sin(l);
+  var sf = Math.sin(f);
+
+  var s, c, w, r, d, h1, h2;
+  var a = EARTH_RADIUS;
+  var fl = 1 / 298.257;
+
+  sg = sg * sg;
+  sl = sl * sl;
+  sf = sf * sf;
+
+  s = sg * (1 - sl) + (1 - sf) * sl;
+  c = (1 - sg) * (1 - sl) + sf * sl;
+
+  w = Math.atan(Math.sqrt(s / c));
+  r = Math.sqrt(s * c) / w;
+  d = 2 * w * a;
+  h1 = (3 * r - 1) / 2 / c;
+  h2 = (3 * r + 1) / 2 / s;
+
+  return d * (1 + fl * (h1 * sf * (1 - sg) - h2 * (1 - sf) * sg));
 }
 
 module.exports = {
@@ -372,5 +443,8 @@ module.exports = {
   getUserOrderComment: getUserOrderComment,
   getUserOrderFinish: getUserOrderFinish,
   getUserOrderAllPrice: getUserOrderAllPrice,
-  getCityName: getCityName
+  getCityName: getCityName,
+  getFlatternDistance: getFlatternDistance,
+  getLocationInfoCT: getLocationInfoCT,
+  getLocationLatLonByAddr: getLocationLatLonByAddr
 } 

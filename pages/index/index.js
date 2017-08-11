@@ -2,6 +2,9 @@
 //获取应用实例
 var app = getApp();
 var Util = require('../../utils/address.js')
+var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+var qqmapsdk;
+var timer;
 Page({
   data: {
     isPopping: true,//是否已经弹出  
@@ -38,7 +41,16 @@ Page({
     weixinUserInfo: {},
     orderAllCount: 0,
     username:'',
-    isCommitSuccess: false
+    isCommitSuccess: false,
+    hasMore: true,
+    isloading: false,
+    pageCount: 3,
+    pageNum: 0,
+    lastFinishArray: [],
+    scrollHeight:0,
+    clientY: 0,//触摸时Y轴坐标
+    refreshHeight: 0,//获取高度  
+    refreshing: false//是否在刷新中
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -72,39 +84,40 @@ Page({
     var that = this;
     if (id == 1) {
       that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1' });
-      if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
-        that.getOrderTaking();
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosOne });
-      }
+      that.getOrderTaking();
+      // if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
+       
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosOne });
+      // }
 
     } else if (id == 2) {
       that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2' })
-      if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
         that.getOrderListByStatus('04,02');
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
-      }
+      // if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
+      // }
     } else if (id == 3) {
       that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3' })
-      if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
         that.getOrderListByStatus('05');
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosThree });
-      }
+      // if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosThree });
+      // }
     } else if (id == 4) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4' })
-      if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
         that.getUserOrderNOPAY('06');
-      } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosFour });
-      }
+      // if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
+      // } else {
+      //   that.setData({ jsDetailVos: that.data.jsDetailVosFour });
+      // }
     } else if (id == 5) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5' })
       if (app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosFive.length == 0) {
-          that.getUserOrderFinish('07');
+          that.getUserOrderFinish('07',true);
       } else {
-        that.setData({ jsDetailVos: that.data.jsDetailVosFive });
+        that.setData({ jsDetailVos: that.data.jsDetailVosFive.concat(that.data.lastFinishArray) });
       }
     }
   },
@@ -249,33 +262,104 @@ Page({
       that.changeOrderTop(status);
       that.getOrderListByStatus('05');
       if (status == '4') {
-        that.getUserOrderFinish('07');
+        that.getUserOrderFinish('07', true);
         that.getUserOrderNOPAY('06');
       } else if(status == '5') {
         that.getUserOrderNOPAY('06');
-        that.getUserOrderFinish('07');
+        that.getUserOrderFinish('07',true);
       }
     }
-    
-    Util.getCityName(function(e){
+
+    Util.getCityName(function (locationData) {
+      var uid = app.getUserInfo().id;
+      console.log('getCityName--->locationData:' + JSON.stringify(locationData) + ',uid:' + uid)
       app.request({
         url: "/phone/userinfor/recordcurloc",
         data: {
-          longitude: e.location.lng,
-          latitude: e.location.lat,
-          uid: app.getUserInfo().id
+          longitude: locationData.location.lng,
+          latitude: locationData.location.lat,
+          uid: uid
         },
         method: 'POST',
         loading: true,
-        loadingMsg: "...",
-        completeFn: function (res) {
-        },
-      });
+        loadingMsg: "",
+        successFn: function (res) {
+
+      }
     })
+    })
+    
+    // 调用接口
+    // qqmapsdk.search({
+    //   keyword: '酒店',
+    //   success: function (res) {
+    //     console.log(res);
+    //   },
+    //   fail: function (res) {
+    //     console.log(res);
+    //   },
+    //   complete: function (res) {
+    //     console.log(res);
+    //   }
+    // })
+    // 调用接口 
+    // qqmapsdk.calculateDistance({
+    //   mode: 'driving',//步行，驾车为'driving'
+    //   to: [{ latitude: 26.647661, longitude: 106.730154 }],
+    //    success: function(res) { 
+    //      if (res.status == 0) {
+    //        //米为单位
+    //        console.log(res.result.elements[0].distance);
+    //        //表示从起点到终点的结合路况的时间，秒为单位
+    //        console.log(res.result.elements[0].duration);
+    //      }
+    //    }, 
+    //    fail: function(res) {
+    //       console.log(res);
+    //    },
+    //   complete: function(res) { 
+    //     console.log(res); 
+    //   } 
+    // })
+    // qqmapsdk.geocoder({
+    //   address: '贵州省贵阳市南明区贵乌中路27号',
+    //   success: function (res) {
+    //     console.log(res);
+    //   },
+    //   fail: function (res) {
+    //     console.log(res);
+    //   },
+    //   complete: function (res) {
+    //     console.log(res);
+    //   }
+    // })
+    // var distance = Util.getFlatternDistance(26.647661, 106.630154, 26.64766, 106.730153);
+    // console.log(distance + 'sdfsdfs')
   },
 
+  getCurrentLoc: function () {
+    Util.getLocationInfoCT(function (e) {
+      if (!((typeof e === "undefined") || (e == null))) {
+        wx.setStorageSync("latObj", e);
+        console.log('ctQQLoc' + e.latitude + ' ' + e.longitude + ' ')
+      }
+    })
+  },
   onLoad: function () {
-    
+    var that = this;
+    qqmapsdk = new QQMapWX({
+      key: 'ZNIBZ-3WJHJ-BP2FP-FJM5E-6ZBCQ-O2B5H'
+    });
+
+    wx.getSystemInfo({
+      success: function (res) {
+        console.info(res.windowHeight);
+        that.setData({
+          scrollHeight: res.windowHeight
+        });
+      }
+    });
+ 
     //预加载可接单数据
     var userInfo = app.getUserInfo();
     this.getOrderTaking();
@@ -283,30 +367,49 @@ Page({
     this.getUserCurStatus();
     this.setData({ weixinUserInfo: wx.getStorageSync("weixinUserInfo")});
     this.setData({ username: userInfo.name });
-
+    timer = setInterval(this.getCurrentLoc, 30 * 60 * 1000); //30分钟刷新一次
   },
-  getUserOrderFinish: function (status) {
+
+  onUnload: function() { 
+    clearInterval(timer); 
+  },
+
+  getUserOrderFinish: function (status,isnew) {
     var that = this;
+
+    if (isnew) {//如果是完成支付刷新的。。
+      that.setData({ pageNum: 0, hasMore: true, jsDetailVos: [], jsDetailVosFive: [], lastFinishArray: []});
+    } else { //一直是上拉加载更多的。
+
+    }
     wx.showLoading({
       title: '查询订单中...',
     })
+
     var userInfo = app.getUserInfo();
     // 提交数据
     Util.getUserOrderFinish(function (res) {
       wx.hideLoading();
       var code = res.data.code;
-      if (code == "1") {
+      if (code == '1') {
+        that.setData({ lastFinishArray: [] });
         // 数据成功
-        that.setData({ jsDetailVos: res.data.content });
-       if (status == '07') {
-          that.setData({ jsDetailVosFive: res.data.content });
+        that.setData({ jsDetailVos: that.data.jsDetailVosFive.concat(res.data.content)});
+        if(res.data.content.length == that.data.pageCount) {
+          // console.log((res.data.content.length == that.data.pageCount) + ' ' + (that.data.pageNum+1));
+          that.setData({ pageNum: that.data.pageNum+1, hasMore: true, jsDetailVosFive: that.data.jsDetailVosFive.concat(res.data.content)});
+        } else { //查到的总数小于pageCount
+          that.setData({ hasMore: false, lastFinishArray: res.data.content });
         }
+      } else if (code == '2') {//如果没数据表示没有了.
+        that.setData({ hasMore: false});
       } else {
         wx.showToast({
           title: '查询订单失败！',
         })
       }
-    }, userInfo.id)
+      that.setData({ isloading: false });
+    }, userInfo.id, that.data.pageCount, that.data.pageNum)
   },
   getUserOrderNOPAY: function (status) {
     var that = this;
@@ -378,8 +481,9 @@ Page({
   },
 
   getOrderTaking: function () {
+    var _this = this;
     var userInfo = app.getUserInfo();
-  
+    _this.setData({ jsDetailVos: []});
     if (!userInfo.id) {
       wx.showToast({
         title: '用户信息不正确或为空',
@@ -387,7 +491,7 @@ Page({
       });
       // 校验密码
     } else {
-      var _this = this;
+     
       // 获取订单详细
       app.request({
         url: "phone/js/orderview/getOrderViewTakingAll",
@@ -408,18 +512,16 @@ Page({
                 showCancel: false
               })
             } else {
-                console.log(res.data.content);
-                _this.setData({ jsDetailVos: res.data.content });
-               _this.setData({ jsDetailVosOne: res.data.content });
+                // console.log(res.data.content);
+                // _this.setData({ jsDetailVos: res.data.content });
+                // _this.setData({ jsDetailVosOne: res.data.content });
+                _this.filterByDistance(res.data.content);
             }
           } else if (res.data.code == 2) {
 
             _this.setData({ jsDetailVos: res.data.content });
             _this.setData({ jsDetailVosOne: res.data.content });
-            // wx.showToast({
-            //   title: '用户信息不正确或为空',
-            //   duration: 3000
-            // });
+        
           }
         },
         successFailFn: function () {
@@ -430,6 +532,96 @@ Page({
         }
       });
     }
+  },
+
+  filterByDistance: function (list) {
+ 
+    var that = this;
+    var listTemp = new Array();
+    var listShow = new Array();
+    var listDispatch = new Array();
+
+    var locObj = wx.getStorageSync('latObj');
+    var latitude = locObj.latitude;
+    var longitude = locObj.longitude;
+    console.log('ctllll' + latitude + ' ' + longitude)
+    for (var i = 0; i < list.length; i++) {
+      var obj = list[i];
+      if (obj.current_status == '01') {//只过滤抢单的
+        listTemp.push(obj);
+      } else {
+        listDispatch.push(obj);
+      }
+    }
+    var index = 0;
+    for (var i = 0; i < listTemp.length; i++) {
+      console.log(i+'sdsssss')
+      var obj = listTemp[i];
+      var addr = obj.popedom_name + obj.service_address;
+        // qqmapsdk.geocoder({
+        //   address: '贵州省贵阳市云岩区贵乌中路27号',
+        //   success: function (res) {
+           
+        //     if (status == 0) {
+          
+        //       console.log('ct' + latitude + ' ' + longitude + ' ' + res.result.location.lat + ' ' + res.result.location.lng);
+        //       var distance = parseInt(Util.getFlatternDistance(latitude, longitude, res.result.location.lat, res.result.location.lng));
+        //       console.log('distance = ' + distance)
+
+        //       wx.showToast({
+        //         title: '进入',
+        //         duration: 3000
+        //       });
+
+        //       if (distance < 1000) {//当半径大于2000米时，不允许抢单（不显示）
+        //         console.log('来这里了')
+        //         listShow.push(obj);          
+        //       }
+        //       // console.log(i + ' ' + listTemp.length)
+        //       // console.log(index == listTemp.length - 1)
+        //       if (index == listTemp.length - 1) {
+        //         // console.log(' listDispatch.length = ' + listDispatch.length)
+        //         listShow = listShow.concat(listDispatch); 
+        //         that.setData({ jsDetailVos: listShow });
+        //         that.setData({ jsDetailVosOne: listShow });
+        //       }
+        //     }
+        //     index++;
+        //   },
+        //   fail: function (res) {
+        //     console.log(res);
+        //   },
+        //   complete: function (res) {
+        //     console.log(res);
+        //   }
+        // })
+      Util.getLocationLatLonByAddr(addr, function (e) {
+        if (!((typeof e === "undefined") || (e == null))) {
+          console.log('ct' + latitude + ' ' + longitude + ' ' + e.location.lat + ' ' + e.location.lng + ' ');
+          var distance = parseInt(Util.getFlatternDistance(latitude, longitude, e.location.lat, e.location.lng));
+            console.log('distance = ' + distance)
+
+            // wx.showToast({
+            //   title: distance + '进入',
+            //   duration: 3000
+            // });
+
+            if (distance < 1000) {//当半径大于2000米时，不允许抢单（不显示）
+              console.log('来这里了')
+              listShow.push(obj);          
+            }
+            if (index == listTemp.length - 1) {
+              listShow = listShow.concat(listDispatch); 
+              that.setData({ jsDetailVos: listShow });
+              that.setData({ jsDetailVosOne: listShow });
+            }
+            index++;
+        }
+      })
+
+
+    }
+
   },
 
   getOrderViewAllCount: function () {
@@ -670,56 +862,50 @@ Page({
     this.getOrderTaking();
 
   },
-
-  onLaunch: function () {
-    wx.getUserInfo({
-      withCredentials: false,
-      success: function (res) {
-        var _this = this;
-        _this.setWeixinUserInfo(res.userInfo);
-        // console.log(JSON.stringify(res.userInfo))
-        // var _this = this;
-        // var userInfo = res.userInfo;
-        // var nickName = userInfo.nickName;
-        // var avatarUrl = userInfo.avatarUrl
-        // var gender = userInfo.gender //性别 0：未知、1：男、2：女 
-        // var province = userInfo.province
-        // var city = userInfo.city
-        // var country = userInfo.country
-      }
-    })
+  loadMoreData: function() {
+    var _this = this;
+    console.log('到了');
+    if (_this.data.orderstatus == '5') {
+      if (_this.data.hasMore && !_this.data.isloading) {
+        //阻塞不让重复请求
+        _this.setData({ isloading: true});
+        _this.getUserOrderFinish('07', false);
+      }  
+    }
   },
-  plusPrice: function () {
-    // var servicePrice = parseFloat(this.data.service_price);
-    // var addiservicePrice = parseFloat(this.data.additional_service_price);
-    var servicePrice = parseFloat('23');
-    var addiservicePrice = parseFloat('3.7');
-    var cun = servicePrice + addiservicePrice;
-    console.log(cun);
+  refreshCTData: function () {
+    var _this = this;
+    console.log('refresh到了');
+    if (_this.data.orderstatus == '5') {
+      if (!_this.data.refreshing) {
+        //阻塞不让重复请求
+        console.log('refreshing')
+        _this.setData({ refreshing: true });
+        updateRefreshIcon.call(this);
+        // _this.getUserOrderFinish('07', true);
+      }
+    }
   }
-
-  // splitArray: function (array) {
-  //   var _this = this;
-  //   var temArrayOne = new Array();
-  //   var temArrayTwo = new Array();
-  //   var temArrayThree = new Array();
-  //   var temArrayFour = new Array();
-  //   var temArrayFive = new Array();
-  //   for(var i = 0; i < array.length; i++) {
-  //     var obj = array[i];
-  //     //抢单和派单
-  //     if (obj.current_status == '02' || obj.current_status == '03') {
-  //       temArrayOne.push(obj);
-  //     } else if (obj.current_status == '04') {//已接单
-  //       temArrayTwo.push(obj);
-  //     } else if (obj.current_status == '05') {//已开工
-  //       temArrayThree.push(obj);
-  //     } else if (obj.current_status == '06') {//待支付
-  //       temArrayFour.push(obj);
-  //     } else if (obj.current_status == '07') {//已支付，完成
-  //       temArrayFive.push(obj);
-  //     }
-  //   }
-  //   _this.setData({ jsDetailVos: temArrayOne, jsDetailVosOne: temArrayOne, jsDetailVosTwo: temArrayTwo, jsDetailVosThree: temArrayThree, jsDetailVosFour: temArrayFour, jsDetailVosFive: temArrayFive});
-  // }
 })  
+
+/** 
+ * 旋转上拉加载图标 
+ */
+function updateRefreshIcon() {
+  var deg = 0;
+  var _this = this;
+  console.log('旋转开始了.....')
+  var animation = wx.createAnimation({
+    duration: 1000
+  });
+
+  var timer = setInterval(function () {
+    if (!_this.data.refreshing)
+      clearInterval(timer);
+    animation.rotateZ(deg).step();//在Z轴旋转一个deg角度  
+    deg += 360;
+    _this.setData({
+      refreshAnimation: animation.export()
+    })
+  }, 1000);
+}

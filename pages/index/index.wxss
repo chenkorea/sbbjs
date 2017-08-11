@@ -135,6 +135,9 @@
 }
 
 .order-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   border-bottom: 10rpx solid #F4F4F4;
   padding: 20rpx;
 }
@@ -142,12 +145,14 @@
 .order-no {
   color: #FF6666;
   font-size: 28rpx;
+  padding-top: 5rpx;
 }
 
 .order-status {
-  margin-top: 20rpx;
   color: #333333;
   font-size: 28rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
 }
 
 .content-view {
@@ -162,8 +167,6 @@
   display: flex;
   align-items: center;
   color: white;
-  padding-top: 20rpx;
-  padding-bottom: 20rpx;
   font-size: 28rpx;
 }
 
@@ -294,4 +297,73 @@ radio{
 
 .picker {
   -webkit-box-flex:1;box-flex:1;
+}
+
+.loading{  
+  width: 100%;
+  display: inline-block;
+  flex-direction: row;  
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  text-align: center;  
+  justify-content: center;
+  align-items: center;
+}  
+.loading:before{  
+  display: inline-block;  
+  margin-right: 5rpx;  
+  vertical-align: middle;  
+  margin: 10rpx;
+  content: '';  
+  width: 40rpx;  
+  height: 40rpx; 
+  background-size: contain;  
+  animation: rotate 1s linear 0s infinite;  
+  -webkit-animation:rotate 1s linear 0s infinite;
+} 
+
+.ct_loading_icon{  
+  width: 35rpx;  
+  height: 35rpx; 
+  display: inline-flex;  
+  flex-direction: row;
+  text-align: center;
+  margin-right: 5rpx;  
+  justify-content: center;
+  align-self: center;
+  order: 1;
+  align-items: center;
+  vertical-align: center;  
+  animation: rotate 2s linear 0s infinite;  
+  -webkit-animation:rotate 2s linear 0s infinite;
+} 
+
+.ct_loading_text{  
+  display: inline-block;
+  text-align: center;
+  justify-content: center;
+  align-self: center;
+  order: 2;
+  align-items: center;
+  vertical-align: center;  
+} 
+
+.refresh-block {  
+  padding: 15px;  
+  text-align: center  
+}
+
+.loading.complete:before{  
+  display: none;  
+}
+.search-result{  
+  flex: auto;  
+  position: relative;  
+}  
+.search-result scroll-view{  
+  position: absolute;  
+  bottom: 0;  
+  left: 0;  
+  right: 0;  
+  top: 0;  
 }
