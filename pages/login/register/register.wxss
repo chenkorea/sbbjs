@@ -63,7 +63,7 @@
 
 .verifycode-button {
   width: 35%;
-  background: #43CD80;
+  background: #FF7F24;
   color: #ffffff;
   height: 60rpx;
   border-bottom: 1rpx solid #CCCCCC;
@@ -103,7 +103,7 @@
   right: 20rpx;
   border-radius: 35rpx;
   height: 90rpx;
-  background: #43CD80;
+  background: #FF7F24;
   color: #FFFFFF;
   font-size: 30rpx;
 }
@@ -121,7 +121,7 @@
 }
 
 .agreeselect {
-  color: #43CD80;
+  color: #FF7F24;
 }
 
 .agreeunselect{

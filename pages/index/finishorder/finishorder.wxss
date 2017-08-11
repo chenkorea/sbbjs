@@ -51,7 +51,7 @@
   right: 0;
   color: #FFFFFF;
   font-size: 32rpx;
-  background: #43CD80;
+  background: #FF7F24;
   border-radius:0;
 }
 

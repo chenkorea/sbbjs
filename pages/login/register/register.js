@@ -10,7 +10,7 @@ Page({
     nickname:'',
     regverifycode:'',
     isagree:false,
-    agreeBg:'#43CD80',
+    agreeBg:'#FF7F24',
     agreeBg:'agreeunselect',
     register_btn:'register_un_btn'
   },

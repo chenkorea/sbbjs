@@ -1,5 +1,5 @@
 .head-view {
-  background: #43CD80;
+  background: #FF7F24;
   height: 200rpx;
   color: white;
   border-bottom: 20rpx solid #F0F0F0;

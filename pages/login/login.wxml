@@ -19,6 +19,5 @@
    <button class="register_btn" bindtap="bindRegisterBtnTap">注册</button>
 
    <text class="forget-text" bindtap="bindForgetTap">忘记密码？</text>
-
   </view>
 </view>

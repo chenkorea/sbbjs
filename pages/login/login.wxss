@@ -111,6 +111,7 @@
   position: absolute;
   left: 120rpx;
   top: 210rpx;
+  padding-top: 15rpx;
   width: 60%;
 }
 
@@ -118,5 +119,6 @@
   position: absolute;
   left: 120rpx;
   top: 330rpx;
+  padding-top: 15rpx;
   width: 60%;
 }

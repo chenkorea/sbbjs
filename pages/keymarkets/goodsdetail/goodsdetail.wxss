@@ -3,7 +3,7 @@
   padding: 20rpx;
   display: flex;
   justify-content: left;
-  color: #43CD80;
+  color: #FF7F24;
   font-size: 35rpx;
   background: #f5f5f5;
   left: 20rpx;

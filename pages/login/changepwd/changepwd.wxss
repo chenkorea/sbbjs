@@ -9,7 +9,7 @@
 .confirm_btn {
   margin: 60rpx;
   height: 90rpx;
-  background: #43CD80;
+  background: #FF7F24;
   color: #FFFFFF;
   font-size: 30rpx;
 }

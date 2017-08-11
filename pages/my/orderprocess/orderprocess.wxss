@@ -50,7 +50,7 @@
   width: 20rpx;
   height: 20rpx;
   border-radius: 20rpx;
-  background: #43CD80;
+  background: #FF7F24;
   left: -10rpx;
   top: 35rpx;
 }

@@ -5,7 +5,7 @@
   display: flex;
   width: 100%;
   height: 120rpx;
-  background: #43CD80;
+  background: #FF7F24;
   align-items: center;
 }
 
@@ -32,7 +32,7 @@
 
 .total-text {
   font-size: 40rpx;
-  color: #43CD80;
+  color: #FF7F24;
   height: 60rpx;
 }
 
@@ -56,7 +56,7 @@
   top: 200rpx;  
   right: 20rpx;  
   z-index: 100;  
-  background: #43CD80;
+  background: #FF7F24;
   border-radius: 50%;
   color: #FFF;
   font-size: 28rpx;
@@ -86,7 +86,7 @@
 }
 
 .img-style-3 {
-  background: #43CD80;
+  background: #FF7F24;
 }
 
 .top-view {
@@ -126,12 +126,12 @@
 }
 
 .selected {
-  color: #43CD80;
-  border-bottom: 6rpx solid #43CD80;
+  color: #FF7F24;
+  border-bottom: 6rpx solid #FF7F24;
 }
 
 .orsel {
-  color: #43CD80;
+  color: #FF7F24;
 }
 
 .order-item {
@@ -183,7 +183,7 @@
   align-items: center;
   width: 180rpx;
   height: 70rpx;
-  background: #43CD80;
+  background: #FF7F24;
 }
 .ct_menu {
   width: 150rpx;  

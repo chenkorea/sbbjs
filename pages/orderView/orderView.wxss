@@ -26,12 +26,12 @@
 }
 
 .selected {
-  color: #43CD80;
-  border-bottom: 6rpx solid #43CD80;
+  color: #FF7F24;
+  border-bottom: 6rpx solid #FF7F24;
 }
 
 .orsel {
-  color: #43CD80;
+  color: #FF7F24;
 }
 
 .order-item {
@@ -86,7 +86,7 @@
 }
 
 .bottomsel {
-  color: #43CD80;
+  color: #FF7F24;
 }
 
 .order_view {
@@ -133,7 +133,7 @@
 
 .score-val {
   margin-left: 20rpx;
-  color: #43CD80;
+  color: #FF7F24;
 }
 
 .my-view {
