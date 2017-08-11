@@ -10,8 +10,7 @@ Page({
     nickname:'',
     regverifycode:'',
     isagree:false,
-    agreeBg:'#FF7F24',
-    agreeBg:'agreeunselect',
+    agreeBg:'agree-un-btn',
     register_btn:'register_un_btn'
   },
   //事件处理函数
@@ -143,12 +142,12 @@ Page({
     });
     if(isagree){
       this.setData({
-        agreeBg:'agreeselect',
+        agreeBg:'agree-en-btn',
         register_btn:'register_en_btn'
       })
     }else{
       this.setData({
-        agreeBg: 'agreeunselect',
+        agreeBg: 'agree-un-btn',
         register_btn: 'register_un_btn'
       })
     }

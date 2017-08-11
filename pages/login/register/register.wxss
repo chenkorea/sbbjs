@@ -120,6 +120,22 @@
   font-size: 30rpx;
 }
 
+.agree-en-btn{
+  position: absolute;
+  height: 30rpx;
+  width: 30rpx;
+  background:#FF7F24;
+  left: 4rpx;
+}
+
+.agree-un-btn{
+  position: absolute;
+  height: 30rpx;
+  width: 30rpx;
+  background: #aaaaaa;
+  left: 2rpx;
+}
+
 .agreeselect {
   color: #FF7F24;
 }

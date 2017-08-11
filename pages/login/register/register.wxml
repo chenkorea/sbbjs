@@ -17,7 +17,7 @@
     </view>
     
      <view class="law-view">
-       <icon class="iconfont icon-xuanze1 {{agreeBg}}"  bindtap="chooseagree"/>
+       <icon class="{{agreeBg}}"  bindtap="chooseagree"/>
        <text class="law-text">我同意《锁帮帮平台服务协议》</text>
      </view>
 
