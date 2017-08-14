@@ -54,14 +54,52 @@
 
         <block wx:for="{{jsDetailVos}}" wx:for-item="detailvo" wx:for-index="position" wx:key="order_id">
           <view class="order-item" data-item="{{detailvo}}" bindtap="bindItemClick">
-            <view class="order-no">订单号：{{detailvo.order_no}}</view>
-            <view class="order-status">发起时间：{{detailvo.create_time}}</view>
-            <view class="order-status">服务类别：{{detailvo.service_type_name}}</view>
-            <view class="order-status">服务地址：{{detailvo.service_address}}</view>
-            <view class="order-status">服务时间：{{detailvo.service_time_describe}}</view>
-            <view class="order-status" hidden="{{detailvo.current_status != '07'||detailvo.current_status != '08'}}">填写备注：{{detailvo.remarks}}</view>
-            <view class="order-status" hidden="{{orderstatus=='1'}}">下单顾客：{{detailvo.user_name}}</view>
-            <view class="order-status" hidden="{{orderstatus=='1'}}">报 价：￥{{detailvo.tatal_price}}元</view>
+
+            <view class="ct-item">
+               <view class="order-no">订单号：</view>
+                <view class="order-no" style="color: #333333">{{detailvo.order_no}}</view>
+            </view>
+            <view class="ct-item">
+               <view class="order-no">发起时间：</view>
+               <view class="order-status">{{detailvo.create_time}}</view>
+            </view>
+            <view class="ct-item">
+               <view class="order-no">服务类别：</view>
+               <view class="order-status">{{detailvo.service_type_name}}</view>
+            </view>
+            <view class="ct-item">
+               <view class="order-no">服务地址：</view>
+               <view class="order-status">{{detailvo.service_address}}</view>
+            </view>
+            <view class="ct-item">
+               <view class="order-no">服务时间：</view>
+               <view class="order-status">{{detailvo.service_time_describe}}</view>
+            </view>
+            <view class="ct-item" hidden="{{detailvo.current_status != '07'||detailvo.current_status != '08'}}">
+               <view class="order-no">填写备注：</view>
+               <view class="order-status">{{detailvo.remarks}}</view>
+            </view>
+            <view class="ct-item" hidden="{{orderstatus=='1'}}">
+               <view class="order-no">下单顾客：</view>
+               <view class="order-status">{{detailvo.user_name}}</view>
+            </view>
+            <view class="ct-item" hidden="{{orderstatus=='1'}}">
+               <view class="order-no">报 价：</view>
+               <view class="order-status">￥{{detailvo.tatal_price}}元</view>
+            </view>
+            <view class="ct-item" wx:if="{{detailvo.current_status == '06'}}">
+               <view class="order-no">完工时间：</view>
+               <view class="order-status">{{detailvo.process_time}}</view>
+            </view>
+            <view class="ct-item" wx:elif="{{detailvo.current_status == '07' || detailvo.current_status == '08'}}">
+               <view class="order-no">完成时间：</view>
+               <view class="order-status">{{detailvo.process_time}}</view>
+            </view>
+            <view class="ct-item" style="border-bottom: 1rpx solid #F0F0F0">
+              <text class="order-status">查看详细</text>  
+              <icon class="right-arrow icon-icon iconfont" text="" />
+            </view>
+              
             <view class="btn-view" wx:if="{{detailvo.current_status == '04' || detailvo.current_status == '02'}}">
               <!-- <text class="cancel_btn">拒绝</text> -->
               <text class="confirm_btn" data-id="04" data-orderId="{{detailvo.order_id}}" catchtap="bindChangeStatusClick">开工</text>
@@ -75,12 +113,7 @@
             <view class="btn-view" wx:elif="{{detailvo.current_status == '05'}}">
               <text class="confirm_btn" data-id="05" data-orderId="{{detailvo.order_id}}" data-statu="open" data-item="{{detailvo}}" catchtap="bindChangeStatusClick">完工</text>
             </view>
-            <view class="btn-view" wx:elif="{{detailvo.current_status == '06'}}">
-              <view class="order-status">完工时间：{{detailvo.process_time}}</view>
-            </view>
-            <view class="btn-view" wx:elif="{{detailvo.current_status == '07' || detailvo.current_status == '08'}}">
-              <view class="order-status">完成时间：{{detailvo.process_time}}</view>
-            </view>
+           
           </view>  
         </block>
           <view wx:if="{{orderstatus == '5'}}" class="loading">

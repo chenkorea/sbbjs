@@ -3,7 +3,8 @@
 App({
   //----------[常量]----------//
   // 服务器地址
-  serverAddr: "http://106.14.217.147/sbb-web/",
+  // serverAddr: "http://106.14.217.147/sbb-web/",
+  serverAddr: "http://192.200.200.22:9000/sbb-web/",
   // 手机号正则表达式
   phoneRe: /^1[3-9]\d{9}$/i,
   /** 数字的正则表达式 */
@@ -1048,7 +1049,10 @@ App({
   ,
   globalData: {
     userInfo: null,
-    serverIp: "http://106.14.217.147/sbb-web/phone/",
-    imageServerIp: "http://106.14.217.147/sbb-web/"
+  // 手机号正则表达式
+    serverIp: "http://192.200.200.22:9000/sbb-web/phone/",
+    imageServerIp: "http://192.200.200.22:9000/sbb-web/"
+    // serverIp: "http://106.14.217.147/sbb-web/phone/",
+    // imageServerIp: "http://106.14.217.147/sbb-web/"
   }
 });
