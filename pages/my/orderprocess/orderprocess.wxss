@@ -9,9 +9,26 @@
 }
 
 .order-status {
-  margin-top: 20rpx;
+  flex: 1;
+  display: flex;
+  padding-top: 15rpx;
+  padding-bottom: 15rpx;
+  padding-left: 0rpx;
+  flex-direction: row;
   color: #333333;
   font-size: 28rpx;
+  justify-content: baseline;
+  text-align: center;
+  align-items: center;
+}
+
+.ct-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content:stretch;
+  padding:20rpx;
+  border-bottom: 0.9rpx solid #F0F0F0;
 }
 
 .null_view {
@@ -74,4 +91,12 @@
   font-size: 30rpx;
   font-weight: 500;
   color: #333333;
+}
+
+.order-no {
+  color: gray;
+  font-size: 28rpx;
+  width: 23%;
+  justify-content: left;
+  align-items: center;
 }

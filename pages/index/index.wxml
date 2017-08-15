@@ -85,7 +85,7 @@
             </view>
             <view class="ct-item" hidden="{{orderstatus=='1'}}">
                <view class="order-no">报 价：</view>
-               <view class="order-status">￥{{detailvo.tatal_price}}元</view>
+               <view class="order-status" style="color: orange; font-size: 35rpx">{{detailvo.tatal_price}}元</view>
             </view>
             <view class="ct-item" wx:if="{{detailvo.current_status == '06'}}">
                <view class="order-no">完工时间：</view>
