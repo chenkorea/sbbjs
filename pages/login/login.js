@@ -5,10 +5,42 @@ var Util = require('../../utils/address.js')
 Page({
   data: { // 页面的初始数据
     phone: '',
-    phoneFocus: false,
+    phoneFocus: true,
     passwd: '',
-    passwdFocus: false
+    passwdFocus: false,
+    phoneImg: '',
+    pwdImg: ''
   },
+  bindPhoneFocus:function(e) {
+    var _this = this;
+    _this.setData({
+      phoneFocus: true,
+      phoneImg: 'iconfont-img'
+    });
+  },
+  bindPhoneBlur:function(e) {
+    var _this = this;
+    _this.setData({
+      phoneFocus: false,
+      phoneImg: ''
+    });
+  },
+
+  bindPwdFocus: function (e) {
+    var _this = this;
+    _this.setData({
+      passwdFocus: true,
+      pwdImg: 'iconfont-img'
+    });
+  },
+  bindPwdBlur: function (e) {
+    var _this = this;
+    _this.setData({
+      passwdFocus: false,
+      pwdImg: ''
+    });
+  },
+
   bindPhoneInput: function (e) { // 设置手机号
     var _this = this;
 
@@ -44,7 +76,8 @@ Page({
         showCancel: false,
         complete: function (res) {
           _this.setData({
-            phoneFocus: true
+            phoneFocus: true,
+            phoneImg: 'iconfont-img'
           });
         }
       });
@@ -57,7 +90,8 @@ Page({
         showCancel: false,
         complete: function (res) {
           _this.setData({
-            passwdFocus: true
+            passwdFocus: true,
+            pwdImg: 'iconfont-img'
           });
         }
       });

@@ -4,20 +4,49 @@
   </view>
 
   <view class="login-view">
-   <text class="login-title">锁帮帮-技师版</text>
-   <view class="user-view">
-     <icon class="iconfont icon-user" />
-     <input class="user-text" type="number" focus="{{phoneFocus}}" value="{{phone}}" maxlength="11" bindinput="bindPhoneInput" placeholder="手机号码"/>
-   </view>
+    <view class="ct_title">
+      <icon class="iconfont icon-lock" style="color: orange" />
+      <text class="login-title">锁帮帮-你身边的开锁专家</text>
+     </view>
+  
+    <view class="ct-input-border">
+      
+      <icon class="iconfont icon-username1 {{phoneImg}}"  />
+      <input class="ct-input" bindfocus="bindPhoneFocus" bindblur="bindPhoneBlur" type="number" focus="{{phoneFocus}}" value="{{phone}}" maxlength="11" bindinput="bindPhoneInput" placeholder-class="placeholder-hint" placeholder="请输入手机号码"/>
+   
+    </view>
 
-   <view class="pwd-view">
-     <icon class="iconfont icon-yaochi" />
-     <input class="pwd-text" type="password" focus="{{passwdFocus}}" value="{{passwd}}" bindinput="bindPasswdInput" placeholder="密码"/>
-   </view>
+    <view wx:if="{{phoneFocus}}"> 
+      <view class="border-solid" style="background-color: #FF7F24"> </view>
+    </view>
+    <view wx:else>
+      <view class="border-solid"> </view>
+    </view>
+    
+    <view class="border-solid-inner"> </view>
 
-   <button class="login_btn" bindtap="bindLoginBtnTap">登录</button>
-   <button class="register_btn" bindtap="bindRegisterBtnTap">注册</button>
+    <view class="ct-input-border">
+      <icon class="iconfont icon-key1 {{pwdImg}}" />
+      <input class="ct-input" bindfocus="bindPwdFocus" bindblur="bindPwdBlur" type="password" focus="{{passwdFocus}}" value="{{passwd}}" bindinput="bindPasswdInput" placeholder-class="placeholder-hint" placeholder="请输入密码"/>
+    </view>
+    
+    <view wx:if="{{passwdFocus}}"> 
+      <view class="border-solid" style="background-color: #FF7F24"> </view>
+    </view>
+    <view wx:else>
+      <view class="border-solid"> </view>
+    </view>
+    <view class="border-solid-inner"> </view>
 
-   <text class="forget-text" bindtap="bindForgetTap">忘记密码？</text>
+    <view class="pwd-btn" bindtap="bindForgetTap">忘记密码？</view>
+
+    <button class="login_btn" bindtap="bindLoginBtnTap">登录</button>
+
+    <view class="ct_title">
+      <text class="login-title" style="margin-left: 0rpx">没有账户, </text>
+      <text class="login-title" style="color: #AB82FF" bindtap="bindRegisterBtnTap">立即注册</text>
+    </view>
+    <!-- <button class="register_btn" bindtap="bindRegisterBtnTap">注册</button> -->
+    <!-- <text class="forget-text" bindtap="bindForgetTap">忘记密码？</text> -->
   </view>
 </view>
