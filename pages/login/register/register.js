@@ -6,10 +6,18 @@ Page({
   data: {
     titleText: '',
     regusername:'',
+    name_icon: "../../images/phone_reg_nos.png",
+    bold_name_line:'bolder-un-line',
     regpasswd: '',
+    pwd_icon: "../../images/key_pwd_nor.png",
+    bold_pwd_line: 'bolder-un-line',
     conformpwd: '',
+    cpwd_icon: "../../images/reconform_reg_nos.png",
+    bold_cpwd_line: 'bolder-un-line',
     nickname:'',
     regverifycode:'',
+    verify_icon:'../../images/verify_reg_nos.png',
+    bold_verify_line:'bolder-un-line',
     isagree:false,
     agreeBg:'agree-un-btn',
     register_btn:'register_un_btn'
@@ -171,5 +179,54 @@ Page({
         register_btn: 'register_un_btn'
       })
     }
-  }
+  },
+  bindnamefocus:function(e){
+    this.setData({
+      bold_name_line: 'bolder-en-line',
+      name_icon: "../../images/phone_reg_sel.png"
+    })
+  },
+  bindnameblur: function (e) {
+    this.setData({
+      bold_name_line: 'bolder-un-line',
+      name_icon: "../../images/phone_reg_nos.png"
+    })
+  },
+  bindverifyfocus: function (e) {
+    this.setData({
+      bold_verify_line: 'bolder-en-line',
+      verify_icon: '../../images/verify_reg_sel.png',
+    })
+  },
+  bindverifyblur: function (e) {
+    this.setData({
+      bold_verify_line: 'bolder-un-line',
+      verify_icon: '../../images/verify_reg_nos.png',
+    })
+  },
+  bindpwdfocus: function (e) {
+    this.setData({
+      bold_pwd_line: 'bolder-en-line',
+      pwd_icon: '../../images/key_pwd_sel.png',
+    })
+  },
+  bindpwdblur: function (e) {
+    this.setData({
+      bold_pwd_line: 'bolder-un-line',
+      pwd_icon: '../../images/key_pwd_nor.png',
+    })
+  },
+  bindcpwdfocus: function (e) {
+    this.setData({
+      bold_cpwd_line: 'bolder-en-line',
+      cpwd_icon: "../../images/reconform_reg_sel.png",
+    })
+  },
+  bindcpwdblur: function (e) {
+    this.setData({
+      bold_cpwd_line: 'bolder-un-line',
+      cpwd_icon: "../../images/reconform_reg_nos.png",
+    })
+  },
+  
 })

@@ -195,7 +195,16 @@
   font-size: 30rpx;
   display: flex;
   align-items: center;
+}
+
+.bolder-en-line{
   border-bottom: 2rpx solid #FF7F24;
+  border-left: 1rpx solid #F0F0F0;
+  border-right: 1rpx solid #F0F0F0;
+}
+
+.bolder-un-line{
+  border-bottom: 2rpx solid #aaaaaa;
   border-left: 1rpx solid #F0F0F0;
   border-right: 1rpx solid #F0F0F0;
 }

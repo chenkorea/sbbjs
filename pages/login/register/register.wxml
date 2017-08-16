@@ -7,26 +7,26 @@
 
   <view class="reg-view">
     <text class="reg-title"></text> 
-   <view class="user-view">
-     <image class="user_img" src="../../images/phone_reg_nos.png"></image>
-     <input class="user-text" bindinput="getregname" placeholder="请输入您的手机号" type="number" value="{{username}}"/>
+   <view class="user-view {{bold_name_line}}">
+     <image class="user_img" src="{{name_icon}}"></image>
+     <input class="user-text" bindblur='bindnameblur' bindfocus='bindnamefocus' bindinput="getregname" placeholder="请输入您的手机号" type="number" value="{{username}}"/>
    </view>
    </view>
 
-   <view class="user-view">
-     <image class="pwd_img" src="../../images/verify_reg_nos.png"></image>
-     <input class="user-text" bindinput="getverifycode" type="number" placeholder="请输入验证码"  value="{{regverifycode}}"/>
+   <view class="user-view {{bold_verify_line}}">
+     <image class="pwd_img" src="{{verify_icon}}"></image>
+     <input class="user-text"  bindblur='bindverifyblur' bindfocus='bindverifyfocus'  bindinput="getverifycode" type="number" placeholder="请输入验证码"  value="{{regverifycode}}"/>
       <view class="verifycode-button" bindtap="getcode">获取验证码</view>
    </view>
 
-   <view class="user-view">
-     <image class="pwd_img" src="../../images/key_pwd_nor.png"></image>
-     <input class="user-text" bindinput="getregpasswd" type="password" placeholder="请输入密码"/>
+   <view class="user-view {{bold_pwd_line}}">
+     <image class="pwd_img" src="{{pwd_icon}}"></image>
+     <input class="user-text" bindfocus="bindpwdfocus" bindblur="bindpwdblur" bindinput="getregpasswd" type="password" placeholder="请输入密码"/>
    </view>
 
-   <view class="user-view">
-     <image class="pwd_img" src="../../images/reconform_reg_nos.png"></image>
-     <input class="user-text" bindinput="getconformpasswd" type="password" placeholder="再次输入密码"/>
+   <view class="user-view {{bold_cpwd_line}}">
+     <image class="pwd_img" src="{{cpwd_icon}}"></image>
+     <input class="user-text" bindfocus="bindcpwdfocus" bindblur="bindcpwdblur" bindinput="getconformpasswd" type="password" placeholder="再次输入密码"/>
    </view>
 
    <view class="law-view">
