@@ -7,36 +7,17 @@
     <view class="ct_title">
       <icon class="iconfont icon-lock" style="color: orange" />
       <text class="login-title">锁帮帮-你身边的开锁专家</text>
-     </view>
-  
-    <view class="ct-input-border">
-      
-      <icon class="iconfont icon-username1"  />
-      <input class="ct-input"  type="number" focus="{{phoneFocus}}" value="{{phone}}" maxlength="11" bindinput="bindPhoneInput" placeholder-class="placeholder-hint" placeholder="请输入手机号码"/>
-   
     </view>
-<!-- bindfocus="bindPhoneFocus" bindblur="bindPhoneBlur" -->
-    <!-- <view wx:if="{{phoneFocus}}"> 
-      <view class="border-solid" style="background-color: #FF7F24"> </view>
-    </view>
-    <view wx:else>
-      <view class="border-solid"> </view>
-    </view> -->
-    
-    <!-- <view class="border-solid-inner"> </view> -->
 
-    <view class="ct-input-border">
+    <view class="ct-input-border-outer">
+      <icon class="iconfont icon-username1" />
+      <input class="ct-input" type="number" focus="{{phoneFocus}}" value="{{phone}}" maxlength="11" bindinput="bindPhoneInput" placeholder-class="placeholder-hint" placeholder="请输入手机号码" />
+    </view>
+
+    <view class="ct-input-border-outer">
       <icon class="iconfont icon-key1" />
-      <input class="ct-input" type="password" focus="{{passwdFocus}}" value="{{passwd}}" bindinput="bindPasswdInput" placeholder-class="placeholder-hint" placeholder="请输入密码"/>
+      <input class="ct-input" type="password" focus="{{passwdFocus}}" value="{{passwd}}" bindinput="bindPasswdInput" placeholder-class="placeholder-hint" placeholder="请输入密码" />
     </view>
-    <!-- bindfocus="bindPwdFocus" bindblur="bindPwdBlur"  -->
-    <!-- <view wx:if="{{passwdFocus}}"> 
-      <view class="border-solid" style="background-color: #FF7F24"> </view>
-    </view>
-    <view wx:else>
-      <view class="border-solid"> </view>
-    </view>
-    <view class="border-solid-inner"> </view> -->
 
     <view class="pwd-btn" bindtap="bindForgetTap">忘记密码？</view>
 

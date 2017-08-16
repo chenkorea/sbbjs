@@ -11,35 +11,35 @@ Page({
     phoneImg: '',
     pwdImg: ''
   },
-  bindPhoneFocus:function(e) {
-    var _this = this;
-    _this.setData({
-      phoneFocus: true,
-      phoneImg: 'iconfont-img'
-    });
-  },
-  bindPhoneBlur:function(e) {
-    var _this = this;
-    _this.setData({
-      phoneFocus: false,
-      phoneImg: ''
-    });
-  },
+  // bindPhoneFocus:function(e) {
+  //   var _this = this;
+  //   _this.setData({
+  //     phoneFocus: true,
+  //     phoneImg: 'iconfont-img'
+  //   });
+  // },
+  // bindPhoneBlur:function(e) {
+  //   var _this = this;
+  //   _this.setData({
+  //     phoneFocus: false,
+  //     phoneImg: ''
+  //   });
+  // },
 
-  bindPwdFocus: function (e) {
-    var _this = this;
-    _this.setData({
-      passwdFocus: true,
-      pwdImg: 'iconfont-img'
-    });
-  },
-  bindPwdBlur: function (e) {
-    var _this = this;
-    _this.setData({
-      passwdFocus: false,
-      pwdImg: ''
-    });
-  },
+  // bindPwdFocus: function (e) {
+  //   var _this = this;
+  //   _this.setData({
+  //     passwdFocus: true,
+  //     pwdImg: 'iconfont-img'
+  //   });
+  // },
+  // bindPwdBlur: function (e) {
+  //   var _this = this;
+  //   _this.setData({
+  //     passwdFocus: false,
+  //     pwdImg: ''
+  //   });
+  // },
 
   bindPhoneInput: function (e) { // 设置手机号
     var _this = this;
