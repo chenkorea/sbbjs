@@ -100,3 +100,10 @@
   justify-content: left;
   align-items: center;
 }
+
+.phone_img {
+  position: absolute;
+  right: 30rpx;
+  width: 40rpx;
+  height: 40rpx;
+}

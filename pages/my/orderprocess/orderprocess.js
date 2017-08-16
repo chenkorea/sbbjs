@@ -7,7 +7,8 @@ Page({
    */
   data: {
     userOrder: {},
-    ordersProcess:[]
+    ordersProcess:[],
+    hidePhone:''
   },
   getUserShiFuOrdersProcess: function (orderId) {
     wx.showLoading({ title: '数据加载中...', })
@@ -40,13 +41,21 @@ Page({
 
     console.log(userOrder);
 
-    this.setData({ userOrder: userOrder})
+    this.setData({ 
+      userOrder: userOrder,
+      hidePhone: userOrder.user_phone.replace(/(\d{3})(\d{4})(\d{4})/, "$1****$3")
+    })
 
     console.log(userOrder.order_id);
 
     this.getUserShiFuOrdersProcess(userOrder.order_id);
   },
-
+  toPhone: function () {
+    var that = this;
+    wx.makePhoneCall({
+      phoneNumber: that.data.userOrder.user_phone,
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
