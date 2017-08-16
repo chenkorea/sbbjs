@@ -14,11 +14,19 @@
       <input class="ct-input" type="number" focus="{{phoneFocus}}" value="{{phone}}" maxlength="11" bindinput="bindPhoneInput" placeholder-class="placeholder-hint" placeholder="请输入手机号码" />
     </view>
 
+    <view class="ct-border-bottom">
+      <view class="ct-border-bottom-big"></view>
+      <view class="ct-border-bottom-inner"></view>
+    </view>
+
     <view class="ct-input-border-outer">
       <icon class="iconfont icon-key1" />
       <input class="ct-input" type="password" focus="{{passwdFocus}}" value="{{passwd}}" bindinput="bindPasswdInput" placeholder-class="placeholder-hint" placeholder="请输入密码" />
     </view>
-
+    <view class="ct-border-bottom">
+      <view class="ct-border-bottom-big"></view>
+      <view class="ct-border-bottom-inner"></view>
+    </view>
     <view class="pwd-btn" bindtap="bindForgetTap">忘记密码？</view>
 
     <button class="login_btn" bindtap="bindLoginBtnTap">登录</button>
