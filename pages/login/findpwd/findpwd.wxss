@@ -4,27 +4,14 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: url('http://b.zol-img.com.cn/sjbizhi/images/6/320x510/1395732915539.jpg');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
-.login-view-bg {
-  position: absolute;
-  left: 60rpx;
-  top: 60rpx;
-  bottom: 60rpx;
-  right: 60rpx;
-  background: #F9F9F9;
-  opacity: 0.4; 
+  background-color: #F0F0F0;
 }
 
 .login-view {
-  position: absolute;
-  left: 60rpx;
-  top: 160rpx;
-  bottom: 60rpx;
-  right: 60rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  background: #FFFFFF;
+  margin-top: 40rpx;
 }
 
 .login-title {
@@ -101,16 +88,21 @@
 }
 
 .user-view {
-  width: 80%;
+  position: relative;
   height: 90rpx;
-  border-radius: 40rpx;
-  margin-left: 60rpx;
-  margin-top: 50rpx;
-  background: #999999;
+  background: #FFF;
   font-size: 30rpx;
+  border-bottom: 1rpx solid #F0F0F0;
+}
+
+.or_title {
+  position: absolute;
   display: flex;
-  flex-direction:row;
-  justify-content: space-between;
+  align-items: center;
+  left: 0;
+  top: 0;
+  height: 90rpx;
+  width: 120rpx;
 }
 
 .pwd-view {
@@ -133,9 +125,11 @@
 
 .user-text {
   position: absolute;
-  left: 120rpx;
-  top: 75rpx;
-  width: 60%;
+  display: flex;
+  align-items: center;
+  left: 180rpx;
+  height: 90rpx;
+  top: 0;
 }
 
 .pwd-text {
@@ -156,4 +150,50 @@
   background: #FF6666;
   color: #FFFFFF;
   font-size: 30rpx;
+}
+
+.send_code_text {
+  position: absolute;
+  height: 60rpx;
+  top: 15rpx;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1rpx solid #F0F0F0;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  color: #00B2EE;
+  font-size: 30rpx;
+}
+
+.nextstep_but {
+  color: #FFFFFF;
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 40rpx;
+  background-color: #FF7F24;
+  height: 90rpx;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+}
+
+.logo_view {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40rpx;
+}
+
+.logo_phone {
+  width: 60rpx;
+  height: 60rpx;
+  margin-left: 45%;
+  margin-top: 50rpx;
+}
+
+.logo_text {
+  color: #333333;
+  font-size: 32rpx;
 }
