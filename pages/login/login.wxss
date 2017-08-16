@@ -189,7 +189,7 @@
   flex-flow: row-reverse;
   justify-content: right;
   align-items: center;
-  color: #AB82FF;
+  color: #5CACEE;
   margin-top:40rpx;
 }
 .border-solid {

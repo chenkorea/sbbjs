@@ -44,7 +44,7 @@
 
     <view class="ct_title">
       <text class="login-title" style="margin-left: 0rpx">没有账户, </text>
-      <text class="login-title" style="color: #AB82FF" bindtap="bindRegisterBtnTap">立即注册</text>
+      <text class="login-title" style="color: #5CACEE" bindtap="bindRegisterBtnTap">立即注册</text>
     </view>
     <!-- <button class="register_btn" bindtap="bindRegisterBtnTap">注册</button> -->
     <!-- <text class="forget-text" bindtap="bindForgetTap">忘记密码？</text> -->
