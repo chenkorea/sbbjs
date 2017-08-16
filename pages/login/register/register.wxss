@@ -95,10 +95,10 @@
 }
 
  .register_en_btn {
-  position: absolute;
-  bottom: 20rpx;
-  left: 20rpx;
-  right: 20rpx;
+  position: relative;
+  margin-top: 40rpx;
+  margin-left: 60rpx;
+  margin-right: 60rpx;
   border-radius: 35rpx;
   height: 90rpx;
   background: #FF7F24;
@@ -107,10 +107,10 @@
 } 
 
 .register_un_btn {
-  position: absolute;
-  bottom: 20rpx;
-  left: 20rpx;
-  right: 20rpx;
+  position: relative;
+  margin-top: 40rpx;
+  margin-left: 60rpx;
+  margin-right: 60rpx;
   border-radius: 35rpx;
   height: 90rpx;
   background: #BEBEBE;
