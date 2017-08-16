@@ -73,6 +73,14 @@ Page({
                }
              })
            },
+           successFailFn:function(){
+             wx.hideLoading();
+             wx.showModal({
+               title: '提示',
+               content: '抱歉，手机号【' + that.data.regusername+'】已被别人注册！',
+               showCancel: false
+             })
+           },
            fail: function () {
              wx.hideLoading();
 
