@@ -4,7 +4,7 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: url('http://b.zol-img.com.cn/sjbizhi/images/6/320x510/1395732915539.jpg');
+  /* background: url('http://b.zol-img.com.cn/sjbizhi/images/6/320x510/1395732915539.jpg'); */
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -36,15 +36,6 @@
   height: 90rpx;
 }
 
-.user-text {
-  background: #F6F6F6;
-  color: #333333;
-  height: 90rpx;
-  border-bottom: 1rpx solid #CCCCCC;
-  font-size: 30rpx;
-  padding-left: 20rpx;
-}
-
 .verifycode-text {
   width: 65%;
   background: #F6F6F6;
@@ -62,10 +53,14 @@
 }
 
 .verifycode-button {
+  position: absolute;
   width: 35%;
+  height: 60rpx;
+  border-radius: 50rpx;
+  right: 20rpx;
+  bottom: 10rpx;
   background: #FF7F24;
   color: #ffffff;
-  height: 62rpx;
   border-bottom: 1rpx solid #CCCCCC;
   font-size: 30rpx;
   padding-left: 20rpx;
@@ -82,7 +77,8 @@
 
 .law-view {
   height: 40rpx;
-  margin-left: 20rpx;
+  margin-left: 10%;
+  margin-top: 20rpx;
   color: #666666;
   font-size: 28rpx;
 }
@@ -94,11 +90,11 @@
 
 .law-text {
   position: absolute;
-  margin-left: 35rpx;
+  margin-left: 60rpx;
   margin-top: 10rpx;
 }
 
-.register_en_btn {
+ .register_en_btn {
   position: absolute;
   bottom: 20rpx;
   left: 20rpx;
@@ -108,7 +104,7 @@
   background: #FF7F24;
   color: #FFFFFF;
   font-size: 30rpx;
-}
+} 
 
 .register_un_btn {
   position: absolute;
@@ -126,9 +122,9 @@
   position: absolute;
   height: 30rpx;
   width: 30rpx;
+  left: 10%;
   border-radius: 50%;
-  background:#FF7F24;
-  left: 4rpx;
+  background: #FF7F24;
   padding: 10rpx;
 }
 
@@ -136,9 +132,9 @@
   position: absolute;
   height: 30rpx;
   width: 30rpx;
+  left: 10%;
   border-radius: 50%;
   background: #aaaaaa;
-  left: 4rpx;
   padding: 10rpx;
 }
 
@@ -149,4 +145,130 @@
 .agreeunselect{
   color: #BEBEBE; 
 }
+.lock-log{
+  background: url('../../images/lock_login.png') no-repeat;
+  height: 40rpx;
+  width: 40rpx;
+  margin-right: 20rpx;
+}
 
+.title-log{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100rpx;
+}
+
+.lock-log{
+  background: url('../../images/lock_login.png') no-repeat;
+  height: 40rpx;
+  width: 40rpx;
+  margin-right: 20rpx;
+}
+
+.content-log{
+  position: absolute;
+  height: 40rpx;
+  width: 100%;
+  top: 16%;
+}
+
+.reg-view{
+
+}
+
+.reg-title {
+  color: #228B22;
+  font-size: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100rpx;
+}
+
+.user-view {
+  position: relative;
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 30rpx;
+  height: 90rpx;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+  border-bottom: 2rpx solid #FF7F24;
+  border-left: 1rpx solid #F0F0F0;
+  border-right: 1rpx solid #F0F0F0;
+}
+
+.user_img {
+  position: absolute;
+  left: 10rpx;
+  top: 30rpx;
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.pwd_img {
+  position: absolute;
+  left: 10rpx;
+  top: 30rpx;
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.user-text {
+  position: absolute;
+  color: #333333;
+  margin-top: 20rpx;
+  height: 70rpx;
+  left: 80rpx;
+  top: 0;
+}
+
+.pwd-text {
+  position: absolute;
+  color: #FFFFFF;
+  left: 120rpx;
+  top: 330rpx;
+  padding-top: 15rpx;
+  width: 60%;
+}
+
+.reg_en_btn {
+  width: 80%;
+  height: 90rpx;
+  background: #FF7F24;
+  border-radius: 40rpx;
+  color: #FFFFFF;
+  margin-left: 60rpx;
+  margin-top: 30rpx;
+  font-size: 30rpx;
+  text-align: center;
+}
+
+.reg_un_btn {
+  width: 80%;
+  height: 90rpx;
+  border-radius: 40rpx;
+  background: #eeeeee;
+  color: #666666;
+  margin-left: 60rpx;
+  margin-top: 30rpx;
+  font-size: 30rpx;
+  text-align: center;
+}
+
+.register_view{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50rpx;
+  color: #333333;
+  font-size: 30rpx;
+  margin-top: 30rpx;
+}
+
+.register_text
+{
+  color: #FF7F24;
+}

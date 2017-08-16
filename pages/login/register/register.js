@@ -6,7 +6,8 @@ Page({
   data: {
     titleText: '',
     regusername:'',
-    regpasswd:'',
+    regpasswd: '',
+    conformpwd: '',
     nickname:'',
     regverifycode:'',
     isagree:false,
@@ -24,10 +25,16 @@ Page({
           content: '手机号码格式有误',
           showCancel: false
         })
-      } else if (app.isBlank(that.data.regpasswd) || (that.data.regpasswd.length < 6)){
+      } else if (app.isBlank(that.data.regpasswd) || (that.data.regpasswd.length < 6)) {
         wx.showModal({
           title: '提示',
           content: '请设置至少六位登录密码',
+          showCancel: false
+        })
+      } else if (that.data.regpasswd != that.data.conformpwd) {
+        wx.showModal({
+          title: '提示',
+          content: '两次输入的密码不一致',
           showCancel: false
         })
       } else if (that.data.regverifycode != verifycode) {
@@ -127,6 +134,11 @@ Page({
   getregpasswd: function (e) {
     this.setData({
       regpasswd: e.detail.value
+    })
+  },
+  getconformpasswd: function (e) {
+    this.setData({
+      conformpwd: e.detail.value
     })
   },
   getverifycode: function (e) {
