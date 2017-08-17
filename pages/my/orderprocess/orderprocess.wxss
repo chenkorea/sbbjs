@@ -22,6 +22,15 @@
   align-items: center;
 }
 
+.right-arrow {
+  font-size: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  padding-right: 10rpx;
+  color: gainsboro;
+}
+
 .ct-item {
   display: flex;
   flex-direction: row;
