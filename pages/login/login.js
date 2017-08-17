@@ -9,37 +9,39 @@ Page({
     passwd: '',
     passwdFocus: false,
     phoneImg: '',
-    pwdImg: ''
+    pwdImg: '',
+    borderBottomBg: 'ct-border-bottom-img',
+    borderBottomPwdBg: ''
   },
-  // bindPhoneFocus:function(e) {
-  //   var _this = this;
-  //   _this.setData({
-  //     phoneFocus: true,
-  //     phoneImg: 'iconfont-img'
-  //   });
-  // },
-  // bindPhoneBlur:function(e) {
-  //   var _this = this;
-  //   _this.setData({
-  //     phoneFocus: false,
-  //     phoneImg: ''
-  //   });
-  // },
+  bindPhoneFocus:function(e) {
+    var _this = this;
+    _this.setData({
+      phoneImg: 'iconfont-img',
+      borderBottomBg: 'ct-border-bottom-img'
+    });
+  },
+  bindPhoneBlur:function(e) {
+    var _this = this;
+    _this.setData({
+      phoneImg: '',
+      borderBottomBg: ''
+    });
+  },
 
-  // bindPwdFocus: function (e) {
-  //   var _this = this;
-  //   _this.setData({
-  //     passwdFocus: true,
-  //     pwdImg: 'iconfont-img'
-  //   });
-  // },
-  // bindPwdBlur: function (e) {
-  //   var _this = this;
-  //   _this.setData({
-  //     passwdFocus: false,
-  //     pwdImg: ''
-  //   });
-  // },
+  bindPwdFocus: function (e) {
+    var _this = this;
+    _this.setData({
+      pwdImg: 'iconfont-img',
+      borderBottomPwdBg: 'ct-border-bottom-img'
+    });
+  },
+  bindPwdBlur: function (e) {
+    var _this = this;
+    _this.setData({
+      pwdImg: '',
+      borderBottomPwdBg: ''
+    });
+  },
 
   bindPhoneInput: function (e) { // 设置手机号
     var _this = this;
