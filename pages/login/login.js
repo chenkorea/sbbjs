@@ -17,7 +17,9 @@ Page({
     var _this = this;
     _this.setData({
       phoneImg: 'iconfont-img',
-      borderBottomBg: 'ct-border-bottom-img'
+      borderBottomBg: 'ct-border-bottom-img',
+      pwdImg: '',
+      borderBottomPwdBg: ''
     });
   },
   bindPhoneBlur:function(e) {
@@ -31,6 +33,8 @@ Page({
   bindPwdFocus: function (e) {
     var _this = this;
     _this.setData({
+      phoneImg: '',
+      borderBottomBg: '',
       pwdImg: 'iconfont-img',
       borderBottomPwdBg: 'ct-border-bottom-img'
     });

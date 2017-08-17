@@ -222,11 +222,3 @@
   align-items: center;
   z-index: 9999;
 }
-
-/* .iconfont:focus {
-  color: orange;
-}
-
-.iconfont:hover {
-  color: orange;
-} */
