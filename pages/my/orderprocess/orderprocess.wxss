@@ -103,7 +103,9 @@
 
 .phone_img {
   position: absolute;
+  margin-top: 10rpx;
   right: 30rpx;
   width: 40rpx;
   height: 40rpx;
 }
+

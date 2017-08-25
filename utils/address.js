@@ -325,6 +325,23 @@ function getUserOrderAllPrice(callback, dispatching_id) {
   })
 }
 
+
+function gettechlocation(callback, tech_id) {
+  var remoteUrl = getApp().globalData.serverIp + "openkey/gettechlocation";
+  wx.request({
+    url: remoteUrl,
+    data: {
+      tech_id: tech_id
+    },
+    method: 'POST',
+    header: { 'content-type': 'application/x-www-form-urlencoded' },
+    success: function (res) {
+      console.log(res);
+      callback(res);
+    }
+  })
+}
+
 function getLocationInfo(callback) {
   wx.getLocation({
     type: 'wgs84',
@@ -371,6 +388,7 @@ function getLocationLatLonByAddr(addr, callback) {
     }
   });
 }
+
 
 
 
@@ -446,5 +464,6 @@ module.exports = {
   getCityName: getCityName,
   getFlatternDistance: getFlatternDistance,
   getLocationInfoCT: getLocationInfoCT,
-  getLocationLatLonByAddr: getLocationLatLonByAddr
+  getLocationLatLonByAddr: getLocationLatLonByAddr,
+  gettechlocation: gettechlocation
 } 
