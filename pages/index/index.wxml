@@ -81,7 +81,7 @@
             </view>
             <view class="ct-item" hidden="{{orderstatus=='1'}}">
                <view class="order-no">下单顾客：</view>
-               <view class="order-status">{{detailvo.user_name}}</view>
+               <view class="order-status">{{detailvo.user_name}}{{detailvo.is_vip=='1'?' (VIP客户)':' (普通客户)'}}</view>
             </view>
             <view class="ct-item" hidden="{{orderstatus=='1'}}">
                <view class="order-no">报 价：</view>

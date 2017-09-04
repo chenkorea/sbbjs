@@ -153,7 +153,6 @@ Page({
               clearInterval(id);//关闭定时器
               that.data.loopid.pop(id);
             }
-            console.log('getIsUpdatePrice-------->>>' + JSON.stringify(res));
             that.data.userOrder.service_price = (res.data.content[0].service_price == '' ? 0.0 : res.data.content[0].service_price * 1)
             that.data.userOrder.additional_service_price = (res.data.content[0].additional_service_price == '' ? 0.0 : res.data.content[0].additional_service_price * 1)
             that.setData({
@@ -224,8 +223,61 @@ Page({
       }
     })
   },
+  updateOrderPayStatus: function(uid, uname, orderId) {
+    app.request({
+      url: "/phone/openkey/updateOrderPayStatus",
+      data: {
+        uid: uid,
+        uname: uname,
+        orderId: orderId
+      },
+      method: 'POST',
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      successFn: function (res) {
+        console.log('updateOrderPayStatus-----------' + JSON.stringify(res));
+        if (res.data.code == '1'){
+            var pages = getCurrentPages();
+            var currPage = pages[pages.length - 1]; //当前页面
+            var prevPage = pages[pages.length - 2];
+            //上一个页面 //直接调用上一个页面的setData()方法，把数据存到上一个页面中去 
+            console.log('-----------' + prevPage.data.orderstatus)
+            prevPage.setData({
+              orderstatus: '5',
+              isCommitSuccess: true
+            })
+            wx.navigateBack({})
+        }else{
+          wx.showModal({
+            title: '提示',
+            content: '订单提交失败...',
+            showCancel:false
+          })
+        }
+      },
+      failFn:function(res){
+        wx.showModal({
+          title: '提示',
+          content: '订单提交异常...',
+          showCancel: false
+        })
+      }
+    })
+  },
   saveData: function () {
     var that = this
+    if (that.data.userOrder.is_vip == '1'){
+      wx.showModal({
+        title: '提示',
+        content: 'VIP客户不需要收取任何费用',
+        showCancel: false,
+        success: function (res) {
+          if (res.confirm) {
+            that.updateOrderPayStatus(that.data.userOrder.user_id, that.data.userOrder.user_name, that.data.userOrder.order_id)
+          }
+        }
+      })
+      return;
+    }
     if (this.data.savebutton == "save-un-button"){
         wx.showModal({
           title: '提示',
@@ -237,7 +289,6 @@ Page({
       var uservice_price = (that.data.userOrder.service_price == '' ? 0.0 : that.data.userOrder.service_price * 1)
       var additional_service_price = (that.data.additional_service_price == '' ? 0.0 : that.data.additional_service_price * 1)
       var uadditional_service_price = (that.data.userOrder.additional_service_price == '' ? 0.0 : that.data.userOrder.additional_service_price * 1)
-      console.log('saveData-------->>>service_price:' + service_price + ',uservice_price:' + uservice_price + ',additional_service_price:' + additional_service_price + ',uadditional_service_price:' + uadditional_service_price);
       if (service_price != uservice_price || additional_service_price != uadditional_service_price) {
         wx.showModal({
           title: '提示',
@@ -381,7 +432,11 @@ Page({
     var that = this
     var jsonclStr = options.jsonclStr;
     var userOrder = JSON.parse(jsonclStr);
-    console.log(userOrder);
+    if (userOrder.is_vip == '1'){
+      this.setData({
+        savebutton: "save-en-button"
+      })
+    }
     var jsonStr = options.jsonStr;
     var processObj = JSON.parse(jsonStr);
 
