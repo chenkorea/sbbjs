@@ -25,7 +25,9 @@ Page({
     additional_service_price: '',
     dispatching_id:'',
     zhifuprice: 0,
-    isShowPay: true
+    isShowPay: true,
+    savebutton:"save-en-button",
+    loopid:[],
   },
   listenerRadioGroup: function (e) {
     //改变index值，通过setData()方法重绘界面
@@ -123,8 +125,141 @@ Page({
     this.setData({ additional_service_price: price })
     this.plusPrice();
   },
-  saveData: function () {
+  //查询当前页面是否有更改服务价格行为
+  getIsUpdatePrice:function(id){
+    var that = this
+    app.request({
+      url: '/phone/js/user/getOderUpdateProcess',
+      data: {
+        dispatching_id: this.data.userOrder.dispatching_id,
+        order_id: this.data.userOrder.order_id,
+        tech_id: this.data.userOrder.technician_id
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      method: 'POST',
+      // loading: true,
+      // loadingMsg: "正在查询",
+      successFn: function (res) {
+        if (res.data.code == '1' && res.data.content.length>0){
+          that.setData({
+            service_price: res.data.content[0].service_price == '' ? 0.0 : res.data.content[0].service_price*1,
+            additional_service_price: res.data.content[0].additional_service_price == '' ? 0.0 : res.data.content[0].additional_service_price * 1
+          })
+          that.plusPrice();
+          if (res.data.content[0].is_current == '1' && res.data.content[0].is_pass=='1'){
+            if(id != ''){
+              clearInterval(id);//关闭定时器
+              that.data.loopid.pop(id);
+            }
+            console.log('getIsUpdatePrice-------->>>' + JSON.stringify(res));
+            that.data.userOrder.service_price = (res.data.content[0].service_price == '' ? 0.0 : res.data.content[0].service_price * 1)
+            that.data.userOrder.additional_service_price = (res.data.content[0].additional_service_price == '' ? 0.0 : res.data.content[0].additional_service_price * 1)
+            that.setData({
+              savebutton: "save-en-button",
+            })
+            wx.showModal({
+              title: '提示',
+              content: '管理员核准了您的价格变更请求',
+              showCancel: false
+            })
+          } else if (res.data.content[0].is_current == '1' && res.data.content[0].is_pass == '0') {
+            if (id != '') {
+              clearInterval(id);//关闭定时器
+              that.data.loopid.pop(id);
+            }
+            that.setData({
+              savebutton: "save-en-button",
+            })
 
+            wx.showModal({
+              title: '提示',
+              content: '管理员驳回了您的价格变更请求',
+              showCancel: false
+            })
+            that.plusPrice();
+          }else{
+            that.setData({
+              savebutton: "save-un-button",
+            })
+          }
+        }else{
+          clearInterval(id);//关闭定时器
+          that.data.loopid.pop(id);
+        }
+      }
+    })
+  },
+  //查询当前页面是否有更改服务价格行为
+  updatePrice: function () {
+    var that = this
+    app.request({
+      url: '/phone/js/user/updateOrderPrice',
+      data: {
+        dispatching_id: this.data.userOrder.dispatching_id,
+        order_id: this.data.userOrder.order_id,
+        tech_id: this.data.userOrder.technician_id,
+        service_price: this.data.service_price == '' ? 0.0 : this.data.service_price * 1,
+        additional_service_price: this.data.additional_service_price == '' ? 0.0 : this.data.additional_service_price * 1,
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      method: 'POST',
+      loading: true,
+      loadingMsg: "正在提交更改..",
+      successFn: function (res) {
+        if (res.data.code == '-1') {
+          wx.showToast({
+            title: '更新服务价格失败，请稍后重试',
+          })
+        } else if (res.data.code == '1'){
+          var id = setInterval(function () {
+            //定时执行的代码
+            that.getIsUpdatePrice(id);
+          }, 3000);
+          that.data.loopid.push(id);
+        }
+      }
+    })
+  },
+  saveData: function () {
+    var that = this
+    if (this.data.savebutton == "save-un-button"){
+        wx.showModal({
+          title: '提示',
+          content: '费用更改后处于审核状态,暂时不能提交',
+          showCancel:false
+      })
+    }else{
+      var service_price = (that.data.service_price == '' ? 0.0 : that.data.service_price * 1)
+      var uservice_price = (that.data.userOrder.service_price == '' ? 0.0 : that.data.userOrder.service_price * 1)
+      var additional_service_price = (that.data.additional_service_price == '' ? 0.0 : that.data.additional_service_price * 1)
+      var uadditional_service_price = (that.data.userOrder.additional_service_price == '' ? 0.0 : that.data.userOrder.additional_service_price * 1)
+      console.log('saveData-------->>>service_price:' + service_price + ',uservice_price:' + uservice_price + ',additional_service_price:' + additional_service_price + ',uadditional_service_price:' + uadditional_service_price);
+      if (service_price != uservice_price || additional_service_price != uadditional_service_price) {
+        wx.showModal({
+          title: '提示',
+          content: '是否要更改服务费用',
+          success: function (res) {
+            if (res.confirm) {
+              that.setData({
+                savebutton: "save-un-button"
+              })
+              that.updatePrice()
+            } else if (res.cancel) {
+              // that.submitSaveData();
+            }
+          }
+        })
+      } else {
+        this.submitSaveData();
+      }
+    }
+  },
+  //订单提交
+  submitSaveData:function(){
     // 构建
     var selcAr = [];
     for (var i = 0; i < this.data.selctgoodsAr.length; i++) {
@@ -159,7 +294,7 @@ Page({
       this.data.processObj.process_stage = '06';
       pants = '1';
     }
-    
+
     var oneStr = JSON.stringify(this.data.processObj);
     var twoStr = JSON.stringify(selcAr);
 
@@ -243,14 +378,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
     var jsonclStr = options.jsonclStr;
     var userOrder = JSON.parse(jsonclStr);
     console.log(userOrder);
     var jsonStr = options.jsonStr;
     var processObj = JSON.parse(jsonStr);
 
-    this.setData({ service_price: userOrder.service_price })
-    this.setData({ additional_service_price: userOrder.additional_service_price })
+    this.setData({ service_price: userOrder.service_price == '' ? 0.0 : userOrder.service_price*1})
+    this.setData({ additional_service_price: userOrder.additional_service_price == '' ? 0.0 : userOrder.additional_service_price * 1 })
     
     this.setData({ userOrder: userOrder })
     this.setData({ processObj: processObj})
@@ -264,14 +400,23 @@ Page({
     }
     
     this.setData({ dispatching_id: userOrder.dispatching_id })
-
     this.getUserOrderGoods(this.data.dispatching_id);
+    var id = setInterval(function () {
+      //定时执行的代码
+      that.getIsUpdatePrice(id);
+    }, 3000);
+
+    this.data.loopid.push(id);
   },
   commitOrderViewStatus: function (objStr, goodsStr, payType) {
     var _this = this;
     // 获取订单详细
     app.request({
+<<<<<<< HEAD
       url: 'https://www.gywnks.com/sbb-web' + "/phone/js/orderview/commitOrderViewStatus",
+=======
+      url: "/phone/js/orderview/commitOrderViewStatus",
+>>>>>>> origin/master
       data: {
         objStr: objStr,
         goodsStr: goodsStr,
@@ -325,13 +470,15 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
+    for(var i=0;i<this.data.loopid;i++){
+      clearInterval(this.data.loopid[i]);//关闭定时器
+    }
     wx.removeStorage({
       key: 'selctgoodsAr',
       success: function (res) { },
@@ -366,10 +513,10 @@ Page({
   
   },
   plusPrice: function () {
-    var servicePrice = parseFloat(this.data.service_price);
+    var servicePrice = parseFloat(this.data.service_price == "" ? 0.0:this.data.service_price*1);
     var addiservicePrice = 0;
     if (this.data.additional_service_price) {
-      addiservicePrice = parseFloat(this.data.additional_service_price);
+      addiservicePrice = parseFloat(this.data.additional_service_price == "" ? 0.0 : this.data.additional_service_price * 1);
     }
     // 计算商品价格
     var allP = 0;

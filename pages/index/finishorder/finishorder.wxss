@@ -43,15 +43,27 @@
  color: #3CC51F; 
 } 
 
-.save-button {
+.save-en-button {
   height: 100rpx;
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 0;
   right: 0;
   color: #FFFFFF;
   font-size: 32rpx;
   background: #FF7F24;
+  border-radius:0;
+}
+
+.save-un-button {
+  height: 100rpx;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: #FFFFFF;
+  font-size: 32rpx;
+  background: #bbbbbb;
   border-radius:0;
 }
 

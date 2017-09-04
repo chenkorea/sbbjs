@@ -515,6 +515,7 @@ Page({
                 // console.log(res.data.content);
                 // _this.setData({ jsDetailVos: res.data.content });
                 // _this.setData({ jsDetailVosOne: res.data.content });
+
                 _this.filterByDistance(res.data.content);
             }
           } else if (res.data.code == 2) {
@@ -544,26 +545,28 @@ Page({
     var locObj = wx.getStorageSync('latObj');
     var latitude = locObj.latitude;
     var longitude = locObj.longitude;
-    console.log('ctllll' + latitude + ' ' + longitude)
+    console.log('ctllll' + latitude + ' ' + longitude + JSON.stringify(list));
     for (var i = 0; i < list.length; i++) {
       var obj = list[i];
-      if (obj.current_status == '01') {//只过滤抢单的
+      if (obj.current_status == '02') {//只过滤抢单的
         listTemp.push(obj);
       } else {
         listDispatch.push(obj);
       }
     }
+    console.log('ct2222' + JSON.stringify(listDispatch));
     var index = 0;
-    for (var i = 0; i < listTemp.length; i++) {
-      console.log(i+'sdsssss')
-      var obj = listTemp[i];
-      var addr = obj.popedom_name + obj.service_address;
+    if (listTemp.length > 0) {
+      for (var i = 0; i < listTemp.length; i++) {
+        console.log(i + 'sdsssss')
+        var obj = listTemp[i];
+        var addr = obj.popedom_name + obj.service_address;
         // qqmapsdk.geocoder({
         //   address: '贵州省贵阳市云岩区贵乌中路27号',
         //   success: function (res) {
-           
+
         //     if (status == 0) {
-          
+
         //       console.log('ct' + latitude + ' ' + longitude + ' ' + res.result.location.lat + ' ' + res.result.location.lng);
         //       var distance = parseInt(Util.getFlatternDistance(latitude, longitude, res.result.location.lat, res.result.location.lng));
         //       console.log('distance = ' + distance)
@@ -595,10 +598,10 @@ Page({
         //     console.log(res);
         //   }
         // })
-      Util.getLocationLatLonByAddr(addr, function (e) {
-        if (!((typeof e === "undefined") || (e == null))) {
-          console.log('ct' + latitude + ' ' + longitude + ' ' + e.location.lat + ' ' + e.location.lng + ' ');
-          var distance = parseInt(Util.getFlatternDistance(latitude, longitude, e.location.lat, e.location.lng));
+        Util.getLocationLatLonByAddr(addr, function (e) {
+          if (!((typeof e === "undefined") || (e == null))) {
+            console.log('ct' + latitude + ' ' + longitude + ' ' + e.location.lat + ' ' + e.location.lng + ' ');
+            var distance = parseInt(Util.getFlatternDistance(latitude, longitude, e.location.lat, e.location.lng));
             console.log('distance = ' + distance)
 
             // wx.showToast({
@@ -608,19 +611,22 @@ Page({
 
             if (distance < 1000) {//当半径大于2000米时，不允许抢单（不显示）
               console.log('来这里了')
-              listShow.push(obj);          
+              listShow.push(obj);
             }
             if (index == listTemp.length - 1) {
-              listShow = listShow.concat(listDispatch); 
+              listShow = listShow.concat(listDispatch);
               that.setData({ jsDetailVos: listShow });
               that.setData({ jsDetailVosOne: listShow });
             }
             index++;
-        }
-      })
-
-
+          }
+        })
+      }
+    } else {
+      that.setData({ jsDetailVos: listDispatch });
+      that.setData({ jsDetailVosOne: listDispatch });
     }
+   
 
   },
 
