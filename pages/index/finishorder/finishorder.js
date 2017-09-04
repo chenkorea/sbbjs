@@ -271,7 +271,7 @@ Page({
     var _this = this;
     // 获取订单详细
     app.request({
-      url: 'http://106.14.217.147/sbb-web' + "/phone/js/orderview/commitOrderViewStatus",
+      url: 'https://www.gywnks.com/sbb-web' + "/phone/js/orderview/commitOrderViewStatus",
       data: {
         objStr: objStr,
         goodsStr: goodsStr,
