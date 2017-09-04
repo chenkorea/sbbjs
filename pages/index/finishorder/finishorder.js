@@ -412,11 +412,7 @@ Page({
     var _this = this;
     // 获取订单详细
     app.request({
-<<<<<<< HEAD
-      url: 'https://www.gywnks.com/sbb-web' + "/phone/js/orderview/commitOrderViewStatus",
-=======
       url: "/phone/js/orderview/commitOrderViewStatus",
->>>>>>> origin/master
       data: {
         objStr: objStr,
         goodsStr: goodsStr,
