@@ -407,3 +407,8 @@ radio{
   right: 0;  
   top: 0;  
 }
+
+.vip_icon {
+  width: 40rpx;
+  height: 40rpx;
+}
