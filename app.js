@@ -5,7 +5,6 @@ App({
   //----------[常量]----------//
   // 服务器地址
   serverAddr: "https://www.gywnks.com/sbb-web/",
-  serverAddr: "http://192.200.200.22:9000/sbb-web/",
   // 手机号正则表达式
   phoneRe: /^1[3-9]\d{9}$/i,
   /** 数字的正则表达式 */
