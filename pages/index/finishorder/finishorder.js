@@ -268,7 +268,7 @@ Page({
     if (that.data.userOrder.is_vip == '1'){
       wx.showModal({
         title: '提示',
-        content: 'VIP客户不需要收取任何费用',
+        content: '皇冠VIP客户免除电子锁具和汽车钥匙，所有APP服务费用',
         showCancel: false,
         success: function (res) {
           if (res.confirm) {
@@ -277,6 +277,12 @@ Page({
         }
       })
       return;
+    } else if (that.data.userOrder.is_vip == '2') {
+      wx.showModal({
+        title: '提示',
+        content: '蓝钻VIP客户免机械锁具产品和开锁服务费用',
+        showCancel: false,
+      })
     }
     if (this.data.savebutton == "save-un-button"){
         wx.showModal({
