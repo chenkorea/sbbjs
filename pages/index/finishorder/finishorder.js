@@ -435,9 +435,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
     var that = this
     var jsonclStr = options.jsonclStr;
+    console.log("jsonclStr = " + jsonclStr);
     var userOrder = JSON.parse(jsonclStr);
+    
     if (userOrder.is_vip == '1'){
       this.setData({
         savebutton: "save-en-button"

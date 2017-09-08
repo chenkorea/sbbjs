@@ -48,6 +48,7 @@ Page({
     pageNum: 0,
     lastFinishArray: [],
     scrollHeight:0,
+    open_id: '0000',
     clientY: 0,//触摸时Y轴坐标
     refreshHeight: 0,//获取高度  
     refreshing: false//是否在刷新中
@@ -68,6 +69,10 @@ Page({
       fdmindex: e.detail.value
     });
   }, 
+  binddd: function (e) {
+    var formId = e.detail.formId;
+    console.log('formId = ' + formId);
+  },
   //事件处理函数
   bindStatusViewTap: function (e) {
     var that = this;
@@ -256,6 +261,11 @@ Page({
 
   onShow: function () {
     var that = this;
+
+    if (that.data.open_id = '0000') {
+      that.wxLogin();
+    }
+
     var status = that.data.orderstatus;
     console.log(status + 'sdfsdfsf');
     if (that.data.isCommitSuccess) {
@@ -342,6 +352,57 @@ Page({
       if (!((typeof e === "undefined") || (e == null))) {
         wx.setStorageSync("latObj", e);
         console.log('ctQQLoc' + e.latitude + ' ' + e.longitude + ' ')
+      }
+    })
+  },
+
+  /**
+   * 获取微信登录
+   */
+  wxLogin: function (e) {
+    var that = this;
+    wx.login({
+      success: function (res) {
+        that.getOpenId(res.code, e);
+      }
+    });
+  },
+  /**
+   * 获取openId
+   */
+  getOpenId: function (code, e) {
+    var that = this;
+    wx.request({
+      url: getApp().globalData.serverIp + 'openkey/getWXJSopenId',
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: { code: code },
+      success: function (res) {
+        var openIdStr = res.data.content[0];
+        var jsonObj = JSON.parse(openIdStr);
+        console.log('open_id = ' + jsonObj.openid);
+        that.setData({ open_id: jsonObj.openid });
+        var userInfo = app.getUserInfo();
+        that.saveOpenId(jsonObj.openid, userInfo.id);
+      }
+    })
+  },
+  // 保存open_id
+  saveOpenId: function (open_id, uid) {
+    var that = this;
+    wx.request({
+      url: getApp().globalData.serverIp + 'openkey/saveWXopenId',
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        open_id: open_id,
+        uid: uid
+      },
+      success: function (res) {
       }
     })
   },
@@ -742,14 +803,50 @@ Page({
       });
     }
   },
-
+  /**
+   * 保存微信表单ID
+   */
+  saveWXFormId: function (form_id, uid) {
+    app.request({
+      url: "/phone/openkey/saveWXFormId",
+      data: {
+        form_id: form_id,
+        uid: uid
+      },
+      method: 'POST',
+      loading: false,
+      successFn: function (res) {
+        // 不做任何操作
+      }
+    });
+  },
+  saveWXOrderFormId: function (form_id, order_id) {
+    app.request({
+      url: "/phone/openkey/saveWXOrderFormId",
+      data: {
+        form_id: form_id,
+        order_id: order_id,
+        utype: '2'
+      },
+      method: 'POST',
+      loading: false,
+      successFn: function (res) {
+        // 不做任何操作
+      }
+    });
+  },
   bindChangeStatusClick: function (e) {
     var that = this;
+    var formId = e.detail.formId;
     var userInfo = app.getUserInfo();
     var id = e.currentTarget.dataset.id;
     var orderId = e.currentTarget.dataset.orderid;
     console.log(orderId)
-    
+
+    // 保存FormId
+    console.log('formId = ' + formId);
+    that.saveWXFormId(formId, userInfo.id);
+    that.saveWXOrderFormId(formId, orderId);
     //构建添加额外商品list
     var goods = new Array();
 
@@ -783,13 +880,13 @@ Page({
       })
     
     } else {
-      that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType);
+      that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType, orderId, obj);
       console.log(jsonStr)
     }
     
   },
 
-  commitOrderViewStatus: function (objStr, beforeStatus, goodsStr, payType) {
+  commitOrderViewStatus: function (objStr, beforeStatus, goodsStr, payType, orderId, obj) {
     var userInfo = app.getUserInfo();
     
     if (!userInfo.id) {
@@ -826,7 +923,8 @@ Page({
               _this.getUserOrderNOPAY('06');
               // _this.changeOrderTop(3);
             }
-
+            // 发送消息
+            _this.sendMsgForStatus(orderId, obj.process_stage, userInfo.id);
             console.log('成功')
           } else if (res.data.code == -19) {
             wx.showToast({
@@ -843,6 +941,30 @@ Page({
         }
       });
     }
+  },
+  /**
+   * 发送通知消息
+   */
+  sendMsgForStatus: function (orderId, status, jsId) {
+    app.request({
+      url: "/phone/openkey/sendMsgForStatus",
+      data: {
+        orderId: orderId,
+        status: status,
+        jsId: jsId
+      },
+      method: 'POST',
+      loading: false,
+      successFn: function (res) {
+        
+      },
+      successFailFn: function () {
+
+      },
+      failFn: function () {
+
+      }
+    });
   },
   
   bindItemClick: function (e) {
