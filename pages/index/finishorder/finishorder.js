@@ -266,24 +266,25 @@ Page({
   saveData: function () {
     var that = this
     if (that.data.userOrder.is_vip == '1'){
-      wx.showModal({
+      that.updateOrderPayStatus(that.data.userOrder.user_id, that.data.userOrder.user_name, that.data.userOrder.order_id)
+      /*wx.showModal({
         title: '提示',
         content: '皇冠VIP客户免除电子锁具和汽车钥匙，所有APP服务费用',
         showCancel: false,
         success: function (res) {
           if (res.confirm) {
-            that.updateOrderPayStatus(that.data.userOrder.user_id, that.data.userOrder.user_name, that.data.userOrder.order_id)
           }
         }
-      })
+      })*/
       return;
-    } else if (that.data.userOrder.is_vip == '2') {
+    } 
+    /*else if (that.data.userOrder.is_vip == '2') {
       wx.showModal({
         title: '提示',
         content: '蓝钻VIP客户免机械锁具产品和开锁服务费用',
         showCancel: false,
       })
-    }
+    }*/
     if (this.data.savebutton == "save-un-button"){
         wx.showModal({
           title: '提示',
@@ -435,12 +436,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
     var that = this
     var jsonclStr = options.jsonclStr;
-    console.log("jsonclStr = " + jsonclStr);
     var userOrder = JSON.parse(jsonclStr);
-    
     if (userOrder.is_vip == '1'){
       this.setData({
         savebutton: "save-en-button"
