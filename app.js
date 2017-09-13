@@ -820,7 +820,7 @@ App({
             wx.hideLoading();
           }
         }
-
+  
         try {
           if (typeof res.data === "string") {
             res.data = JSON.parse(res.data);
