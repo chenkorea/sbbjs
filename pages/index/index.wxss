@@ -228,6 +228,8 @@
   border-radius: 0.2rem;
   background: #FF7F24;
 }
+
+
 .ct_menu {
   width: 150rpx;  
   height: 150rpx;  
@@ -406,4 +408,24 @@ radio{
   left: 0;  
   right: 0;  
   top: 0;  
+}
+
+.vip_icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+
+.but-lay-view {
+  text-align: right;
+}
+
+.pay_but {
+  border: none;
+  height: 75rpx;
+  background: #FF7F24;
+  color: white;
+  font-size: 30rpx;
+  margin: 10rpx;
+  align-items: right;
 }

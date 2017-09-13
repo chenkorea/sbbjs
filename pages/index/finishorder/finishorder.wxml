@@ -49,4 +49,4 @@
 
 
   <!-- 提交按钮 -->
-  <button class="save-button" bindtap="saveData">提交</button>
+  <button class="{{savebutton}}" bindtap="saveData">提交</button>
