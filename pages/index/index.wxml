@@ -139,7 +139,7 @@
       <text class="img-style-2 img-style" animation="{{animTranspond}}" bindtap="transpond">休息中</text>
       <text class="img-style-3 img-style" animation="{{animInput}}" bindtap="input">接单中</text>
       <!--菜单键-->
-      <text class="{{showClass}}" animation="{{animPlus}}" bindtap="plus">{{userstatusname}}</text>
+      <text class="{{showClass}} img-style-1" animation="{{animPlus}}" bindtap="plus">{{userstatusname}}</text>
     </view>
   </view>
 

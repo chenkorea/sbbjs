@@ -78,15 +78,15 @@
   font-size: 28rpx;
 }
 
-.img-style-1 {
-  background: #c2c2c2;
+.img-style-3 {
+  background: #CDB38B;
 }
 
 .img-style-2 {
   background: #f66;
 }
 
-.img-style-3 {
+.img-style-1 {
   background: #ff7f24;
 }
 
