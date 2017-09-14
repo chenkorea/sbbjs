@@ -6,41 +6,34 @@ Page({
   data: {
     titleText: '',
     fogcode:'',
+    verifycode:'',
     fogphone:'',
-    nextstep:'next_un_btn'
-  },
+    nextstep: 'next_un_btn',
+    is_click: true,
+    second: 60,
+    tips: '发送'
+  },  
   //事件处理函数
   bindViewTap: function () {
-    var verifycode = '';
     var that = this;
-    wx.getStorage({
-      key: 'fogcode',
-      success: function (res) {
-        verifycode = res.data;
-      },
-      fail: function (res) { },
-      complete: function (res) {
-        if (!app.phoneRe.test(that.data.fogphone)) {
-          wx.showModal({
-            title: "提示",
-            content: "手机号格式不正确！",
-            showCancel: false
-          });
+    if (!app.phoneRe.test(that.data.fogphone)) {
+      wx.showModal({
+        title: "提示",
+        content: "手机号格式不正确！",
+        showCancel: false
+      });
 
           // 校验密码
-        }else if (that.data.fogcode != verifycode){
-          wx.showToast({
-            title: '验证码错误',
-            duration: 1500,
-          })
-        }else{
-          wx.redirectTo({
-            url: '../changepwd/changepwd?phone=' + that.data.fogphone
-          })
-        }
-      },
-    });
-   
+    } else if (that.data.fogcode != that.data.verifycode){
+       wx.showToast({
+        title: '验证码错误',
+         duration: 1500,
+       })
+    }else{
+      wx.redirectTo({
+        url: '../changepwd/changepwd?phone=' + that.data.fogphone
+      })
+     }
   },
   onLoad: function () {
     var that = this
@@ -59,30 +52,73 @@ Page({
   //获取验证码
   getcode: function () {
     var that = this;
-    if (this.data.fogphone.length != 11) {
-      wx.showToast({
-        title: '手机号码格式有误',
-      })
-    } else {
-      app.request({
-        url: '/phone/userinfor/getverifycode',
-        method: 'POST',
-        loading: true,
-        loadingMsg: "正在获取",
-        successFn: function (res) {
-        if (res.data.code == '1') {
-          wx.setStorage({
-            key: "fogcode",
-            data: res.data.content[0],
-          });
-          that.setData({
-            fogcode: res.data.content[0],
-            nextstep:'next_en_btn'
-          });
-        }
+    if(this.data.is_click){
+      if (!app.phoneRe.test(this.data.fogphone)) {
+        wx.showToast({
+          title: '手机号码格式有误',
+        })
+      } else {
+        app.request({
+          url: '/phone/userinfor/getverifycode',
+          data: {
+            phone: that.data.fogphone
+          },
+          header: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          method: 'POST',
+          loading: true,
+          loadingMsg: "正在获取",
+          successFn: function (res) {
+            if (res.data.code == '1') {
+              that.setData({
+                verifycode: res.data.content[0],
+                nextstep: 'next_en_btn',
+                is_click: false,
+              });
+
+              that.countdown()
+            }
+          }, completeFn: function (res) {
+            if (res.data.code == '-1') {
+              wx.showModal({
+                title: '提示',
+                content: res.data.errmsg,
+                showCancel: false
+              })
+            }
+            that.setData({
+              nextstep: 'next_en_btn'
+            });
+          }
+        })
       }
-      })
     }
+    
+  },
+  //发送冷却
+  //倒计时
+  countdown: function () {
+    var that = this
+    var id = setInterval(function () {
+      //定时执行的代码
+      var second = that.data.second;
+      if (second == 0) {
+        that.setData({
+          second: 60,
+          is_click: true,
+          tips: '发送'
+        })
+        clearInterval(id);//关闭定时器
+      } else {
+        second = second - 1;
+        that.setData({
+          second: second,
+          tips: second + '秒后再次获取'
+        })
+      }
+
+    }, 1000);
   },
   //验证码
   getfogcode: function(e) {

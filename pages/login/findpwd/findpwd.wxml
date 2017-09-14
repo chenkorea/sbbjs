@@ -35,7 +35,7 @@
    <view class="user-view">
      <text class="or_title">验证码</text>
      <input class="user-text" bindinput="getfogcode" placeholder="验证码" value="{{fogcode}}"/>
-     <text class="send_code_text" bindtap="getcode">发送</text>
+     <text class="send_code_text" bindtap="getcode">{{tips}}</text>  
    </view>
   </view>
 

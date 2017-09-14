@@ -16,15 +16,18 @@ Page({
     bold_cpwd_line: 'bolder-un-line',
     nickname:'',
     regverifycode:'',
+    verifycode:'',
     verify_icon:'../../images/verify_reg_nos.png',
     bold_verify_line:'bolder-un-line',
     isagree:false,
     agreeBg:'agree-un-btn',
-    register_btn:'register_un_btn'
+    register_btn: 'register_un_btn',
+    is_click: true,
+    second: 60,
+    tips: '获取验证码'
   },
   //事件处理函数
   bindViewTap: function () {
-    var verifycode = wx.getStorageSync('regverifycode');
     var that = this;
     if (that.data.isagree) {
       if (!app.phoneRe.test(that.data.regusername)) {
@@ -45,7 +48,7 @@ Page({
           content: '两次输入的密码不一致',
           showCancel: false
         })
-      } else if (that.data.regverifycode != verifycode) {
+      } else if (that.data.regverifycode != that.data.verifycode) {
         wx.showModal({
           title: '提示',
           content: '验证码错误',
@@ -117,31 +120,72 @@ Page({
   },
   getcode:function(){
     var that = this;
-    if (!app.phoneRe.test(that.data.regusername)){
-      wx.showToast({
-        title: '手机号码格式有误',
-      })
-    }else{
-      app.request({
-        url: "/phone/userinfor/getverifycode",
-        loading: true,
-        loadingMsg: "正在获取",
-        method: 'POST',
-        successFn: function (res) {
-          if (res.data.code == '1') {
-          wx.setStorage({
-            key: "regverifycode",
-            data: res.data.content[0],
-          });
-          that.setData({
-            regverifycode: res.data.content[0]
-          });
-        }
-        }
-      })
-    }
-  },
+    if(this.data.is_click){
+      if (!app.phoneRe.test(that.data.regusername)) {
+        wx.showToast({
+          title: '手机号码格式有误',
+        })
+      } else {
+        app.request({
+          url: "/phone/userinfor/getverifycode",
+          data: {
+            phone: that.data.regusername
+          },
+          header: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          method: 'POST',
+          loading: true,
+          loadingMsg: "正在获取",
+          successFn: function (res) {
+            console.log('successFn-----' + JSON.stringify(res))
+            if (res.data.code == '1') {
+              that.setData({
+                verifycode: res.data.content[0],
+                is_click: false
+              });
+              // 倒计时60之后
+              that.countdown()
+            }
+          }, completeFn: function (res) {
 
+            console.log('completeFn-----' + JSON.stringify(res))
+            if (res.data.code == '-1') {
+              wx.showModal({
+                title: '提示',
+                content: res.data.errmsg,
+                showCancel: false
+              })
+            }
+          }
+        })
+      }
+    }
+    
+  },
+  //倒计时
+  countdown: function () {
+    var that = this
+    var id = setInterval(function () {
+      //定时执行的代码
+      var second = that.data.second;
+      if (second == 0) {
+        that.setData({
+          second: 60,
+          is_click: true,
+          tips: '获取验证码'
+        })
+        clearInterval(id);//关闭定时器
+      } else {
+        second = second - 1;
+        that.setData({
+          second: second,
+          tips: second + '秒后再次获取'
+        })
+      }
+
+    }, 1000);
+  },
   getregname: function (e) {
     this.setData({
       regusername: e.detail.value

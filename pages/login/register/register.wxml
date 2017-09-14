@@ -16,7 +16,7 @@
    <view class="user-view {{bold_verify_line}}">
      <image class="pwd_img" src="{{verify_icon}}"></image>
      <input class="user-text"  bindblur='bindverifyblur' bindfocus='bindverifyfocus'  bindinput="getverifycode" type="number" placeholder="请输入验证码"  value="{{regverifycode}}"/>
-      <view class="verifycode-button" bindtap="getcode">获取验证码</view>
+      <view class="verifycode-button" bindtap="getcode">{{tips}}</view>
    </view>
 
    <view class="user-view {{bold_pwd_line}}">
