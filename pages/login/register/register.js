@@ -16,6 +16,7 @@ Page({
     bold_cpwd_line: 'bolder-un-line',
     nickname:'',
     regverifycode:'',
+    verifycode:'',
     verify_icon:'../../images/verify_reg_nos.png',
     bold_verify_line:'bolder-un-line',
     isagree:false,
@@ -24,7 +25,6 @@ Page({
   },
   //事件处理函数
   bindViewTap: function () {
-    var verifycode = wx.getStorageSync('regverifycode');
     var that = this;
     if (that.data.isagree) {
       if (!app.phoneRe.test(that.data.regusername)) {
@@ -45,7 +45,7 @@ Page({
           content: '两次输入的密码不一致',
           showCancel: false
         })
-      } else if (that.data.regverifycode != verifycode) {
+      } else if (that.data.regverifycode != that.data.verifycode) {
         wx.showModal({
           title: '提示',
           content: '验证码错误',
@@ -121,20 +121,22 @@ Page({
       wx.showToast({
         title: '手机号码格式有误',
       })
-    }else{
+    } else {
       app.request({
         url: "/phone/userinfor/getverifycode",
+        data: {
+          phone: that.data.regusername
+        },
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        method: 'POST',
         loading: true,
         loadingMsg: "正在获取",
-        method: 'POST',
         successFn: function (res) {
           if (res.data.code == '1') {
-          wx.setStorage({
-            key: "regverifycode",
-            data: res.data.content[0],
-          });
           that.setData({
-            regverifycode: res.data.content[0]
+            verifycode: res.data.content[0]
           });
         }
         }

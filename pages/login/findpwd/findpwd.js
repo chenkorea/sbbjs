@@ -6,41 +6,31 @@ Page({
   data: {
     titleText: '',
     fogcode:'',
+    verifycode:'',
     fogphone:'',
     nextstep:'next_un_btn'
   },
   //事件处理函数
   bindViewTap: function () {
-    var verifycode = '';
     var that = this;
-    wx.getStorage({
-      key: 'fogcode',
-      success: function (res) {
-        verifycode = res.data;
-      },
-      fail: function (res) { },
-      complete: function (res) {
-        if (!app.phoneRe.test(that.data.fogphone)) {
-          wx.showModal({
-            title: "提示",
-            content: "手机号格式不正确！",
-            showCancel: false
-          });
+    if (!app.phoneRe.test(that.data.fogphone)) {
+      wx.showModal({
+        title: "提示",
+        content: "手机号格式不正确！",
+        showCancel: false
+      });
 
           // 校验密码
-        }else if (that.data.fogcode != verifycode){
-          wx.showToast({
-            title: '验证码错误',
-            duration: 1500,
-          })
-        }else{
-          wx.redirectTo({
-            url: '../changepwd/changepwd?phone=' + that.data.fogphone
-          })
-        }
-      },
-    });
-   
+    } else if (that.data.fogcode != that.data.verifycode){
+       wx.showToast({
+        title: '验证码错误',
+         duration: 1500,
+       })
+    }else{
+      wx.redirectTo({
+        url: '../changepwd/changepwd?phone=' + that.data.fogphone
+      })
+     }
   },
   onLoad: function () {
     var that = this
@@ -66,17 +56,19 @@ Page({
     } else {
       app.request({
         url: '/phone/userinfor/getverifycode',
+        data: {
+          phone: that.data.fogphone
+        },
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
         method: 'POST',
         loading: true,
         loadingMsg: "正在获取",
         successFn: function (res) {
         if (res.data.code == '1') {
-          wx.setStorage({
-            key: "fogcode",
-            data: res.data.content[0],
-          });
           that.setData({
-            fogcode: res.data.content[0],
+            verifycode: res.data.content[0],
             nextstep:'next_en_btn'
           });
         }
