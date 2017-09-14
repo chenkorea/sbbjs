@@ -134,11 +134,20 @@ Page({
         loading: true,
         loadingMsg: "正在获取",
         successFn: function (res) {
+          console.log('successFn-----' + JSON.stringify(res))
           if (res.data.code == '1') {
           that.setData({
             verifycode: res.data.content[0]
           });
-        }
+          }
+        },completeFn:function(res){
+          if (res.data.code = '-1') {
+            wx.showModal({
+              title: '提示',
+              content: res.data.errmsg,
+              showCancel: false
+            })
+          }
         }
       })
     }

@@ -71,8 +71,16 @@ Page({
             verifycode: res.data.content[0],
             nextstep:'next_en_btn'
           });
+          }
+        }, completeFn: function (res) {
+          if (res.data.code = '-1') {
+            wx.showModal({
+              title: '提示',
+              content: res.data.errmsg,
+              showCancel: false
+            })
+          }
         }
-      }
       })
     }
   },
