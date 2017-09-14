@@ -104,16 +104,16 @@
           </view>
 
           <view class="but-lay-view">
-            <form wx:if="{{detailvo.current_status == '04' || detailvo.current_status == '02'}}"  data-id="04" data-orderId="{{detailvo.order_id}}" report-submit bindsubmit='bindChangeStatusClick'>
+            <form wx:if="{{detailvo.current_status == '04' || detailvo.current_status == '02'}}" data-id="04" data-orderId="{{detailvo.order_id}}" report-submit bindsubmit='bindChangeStatusClick'>
               <button class="pay_but" form-type="submit">开工</button>
             </form>
-            <form  wx:elif="{{detailvo.current_status == '01' && userstatus == '1'}}"  data-id="02" data-orderId="{{detailvo.order_id}}" report-submit bindsubmit='bindChangeStatusClick'>
+            <form wx:elif="{{detailvo.current_status == '01' && userstatus == '1'}}" data-id="02" data-orderId="{{detailvo.order_id}}" report-submit bindsubmit='bindChangeStatusClick'>
               <button class="pay_but" form-type="submit">抢单</button>
             </form>
-            <form  wx:elif="{{detailvo.current_status == '03' && userstatus == '1'}}" data-id="03" data-orderId="{{detailvo.order_id}}" report-submit bindsubmit='bindChangeStatusClick'>
+            <form wx:elif="{{detailvo.current_status == '03' && userstatus == '1'}}" data-id="03" data-orderId="{{detailvo.order_id}}" report-submit bindsubmit='bindChangeStatusClick'>
               <button class="pay_but" form-type="submit">接单</button>
             </form>
-            <form  wx:elif="{{detailvo.current_status == '05'}}"  data-id="05" data-orderId="{{detailvo.order_id}}" data-statu="open" data-item="{{detailvo}}" report-submit bindsubmit='bindChangeStatusClick'>
+            <form wx:elif="{{detailvo.current_status == '05'}}" data-id="05" data-orderId="{{detailvo.order_id}}" data-statu="open" data-item="{{detailvo}}" report-submit bindsubmit='bindChangeStatusClick'>
               <button class="pay_but" form-type="submit">完工</button>
             </form>
           </view>
@@ -143,4 +143,29 @@
     </view>
   </view>
 
+
+  <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+  <view class="modal-dialog" wx:if="{{showModal}}">
+    <view class="modal-title">请完善信息</view>
+    <view class="modal-content">
+      <view class="modal-input">
+        <input placeholder-class="input-holder" data-id='11' type="idcard" bindinput="inputChange" class="input" placeholder="请输入身份证号"></input>
+      </view>
+      <view hidden="{{isNeed == '1'}}">
+        <view class="modal-input">
+          <input placeholder-class="input-holder" data-id='12' type="idcard" bindinput="inputChange" class="input" placeholder="请输入驾驶证号"></input>
+        </view>
+        <view class="modal-input">
+          <input placeholder-class="input-holder"  data-id='13' bindinput="inputChange" class="input" placeholder="请输入行驶证号"></input>
+        </view>
+      </view>
+      <view class="modal-input">
+        <input placeholder-class="input-holder" data-id='14' bindinput="inputChange" class="input" placeholder="请输入其他信息"></input>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
+      <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">确定</view>
+    </view>
+  </view>
 </view>

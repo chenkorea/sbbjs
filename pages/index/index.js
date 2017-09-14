@@ -15,8 +15,8 @@ Page({
     classone: 'selected',
     classtwo: '',
     classThree: '',
-    classFour:'',
-    classFive:'',
+    classFour: '',
+    classFive: '',
     orderstatus: '1',   // 1待接单  2 开工中  3完工
     userstatus: '1',  // 1待接单 2做单中  3停单中
     userstatusname: '接单中',
@@ -29,29 +29,38 @@ Page({
     jsDetailVosFive: [],
     orderAllCount: 0,
     showModalStatus: false,
-    userOrder:{},
+    userOrder: {},
     selctgoods: {},
     inputOneValue: '',
     inputTwoValue: '',
     inputThreeValue: '',
-    allPrice:'',
+    allPrice: '',
     payment: '在线支付',
     payments: ['在线支付', '现金支付'],
     fdmindex: 0,
     weixinUserInfo: {},
     orderAllCount: 0,
-    username:'',
+    username: '',
     isCommitSuccess: false,
     hasMore: true,
     isloading: false,
     pageCount: 3,
     pageNum: 0,
     lastFinishArray: [],
-    scrollHeight:0,
+    scrollHeight: 0,
     open_id: '0000',
     clientY: 0,//触摸时Y轴坐标
     refreshHeight: 0,//获取高度  
-    refreshing: false//是否在刷新中
+    refreshing: false,//是否在刷新中
+    showModal: false,
+    isNeed:'0',
+    idcardNo:'',
+    otherCard:'',
+    carCard:'',
+    driveCard:'',
+    tempOrderId: '',
+    jsonclStrTemp: '',
+    jsonStrTemp: ''
   },
   toMyCenter: function () {
     wx.navigateTo({
@@ -61,14 +70,14 @@ Page({
   listenerPickerFDMSelected: function (e) {
     //改变index值，通过setData()方法重绘界面
     if (e.detail.value == 0) {
-      this.setData({ payment: '在线支付'});  
+      this.setData({ payment: '在线支付' });
     } else {
-      this.setData({ payment: '现金支付' });  
+      this.setData({ payment: '现金支付' });
     }
     this.setData({
       fdmindex: e.detail.value
     });
-  }, 
+  },
   binddd: function (e) {
     var formId = e.detail.formId;
     console.log('formId = ' + formId);
@@ -91,28 +100,28 @@ Page({
       that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1' });
       that.getOrderTaking();
       // if (app.isArray(that.data.jsDetailVosOne) && that.data.jsDetailVosOne.length == 0) {
-       
+
       // } else {
       //   that.setData({ jsDetailVos: that.data.jsDetailVosOne });
       // }
 
     } else if (id == 2) {
       that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2' })
-        that.getOrderListByStatus('04,02');
+      that.getOrderListByStatus('04,02');
       // if (app.isArray(that.data.jsDetailVosTwo) && that.data.jsDetailVosTwo.length == 0) {
       // } else {
       //   that.setData({ jsDetailVos: that.data.jsDetailVosTwo });
       // }
     } else if (id == 3) {
       that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3' })
-        that.getOrderListByStatus('05');
+      that.getOrderListByStatus('05');
       // if (app.isArray(that.data.jsDetailVosThree) && that.data.jsDetailVosThree.length == 0) {
       // } else {
       //   that.setData({ jsDetailVos: that.data.jsDetailVosThree });
       // }
     } else if (id == 4) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4' })
-        that.getUserOrderNOPAY('06');
+      that.getUserOrderNOPAY('06');
       // if (app.isArray(that.data.jsDetailVosFour) && that.data.jsDetailVosFour.length == 0) {
       // } else {
       //   that.setData({ jsDetailVos: that.data.jsDetailVosFour });
@@ -120,7 +129,7 @@ Page({
     } else if (id == 5) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5' })
       if (app.isArray(that.data.jsDetailVosFive) && that.data.jsDetailVosFive.length == 0) {
-          that.getUserOrderFinish('07',true);
+        that.getUserOrderFinish('07', true);
       } else {
         that.setData({ jsDetailVos: that.data.jsDetailVosFive.concat(that.data.lastFinishArray) });
       }
@@ -133,13 +142,13 @@ Page({
       that.setData({ classone: 'selected', classtwo: '', classThree: '', classFour: '', classFive: '', orderstatus: '1' });
     } else if (id == 2) {
       that.setData({ classone: '', classtwo: 'selected', classThree: '', classFour: '', classFive: '', orderstatus: '2' })
-      
+
     } else if (id == 3) {
       that.setData({ classone: '', classtwo: '', classThree: 'selected', classFour: '', classFive: '', orderstatus: '3' })
-      
+
     } else if (id == 4) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: 'selected', classFive: '', orderstatus: '4' })
-      
+
     } else if (id == 5) {
       that.setData({ classone: '', classtwo: '', classThree: '', classFour: '', classFive: 'selected', orderstatus: '5' })
     }
@@ -172,7 +181,7 @@ Page({
 
     this.changeUserStatus('3');
     // 待接单
-    this.setData({ userstatus: '3', userstatusname: '休息中', showClass: 'img-plus-style img-style-2'})
+    this.setData({ userstatus: '3', userstatusname: '休息中', showClass: 'img-plus-style img-style-2' })
     this.plus();
 
   },
@@ -210,7 +219,7 @@ Page({
     animationPlus.rotateZ(360).step();
     // animationcollect.translate(-100, -100).rotateZ(180).opacity(1).step();
     animationTranspond.translate(-90, 0).rotateZ(360).opacity(1).step();
-    animationInput.translate(-60, -70).rotateZ(360).opacity(1).step();  
+    animationInput.translate(-60, -70).rotateZ(360).opacity(1).step();
 
 
     this.setData({
@@ -272,11 +281,12 @@ Page({
       that.changeOrderTop(status);
       that.getOrderListByStatus('05');
       if (status == '4') {
+
         that.getUserOrderFinish('07', true);
         that.getUserOrderNOPAY('06');
-      } else if(status == '5') {
+      } else if (status == '5') {
         that.getUserOrderNOPAY('06');
-        that.getUserOrderFinish('07',true);
+        that.getUserOrderFinish('07', true);
       }
     }
 
@@ -295,10 +305,10 @@ Page({
         loadingMsg: "",
         successFn: function (res) {
 
-      }
+        }
+      })
     })
-    })
-    
+
     // 调用接口
     // qqmapsdk.search({
     //   keyword: '酒店',
@@ -420,26 +430,26 @@ Page({
         });
       }
     });
- 
+
     //预加载可接单数据
     var userInfo = app.getUserInfo();
     this.getOrderTaking();
     this.getOrderViewAllCount();
     this.getUserCurStatus();
-    this.setData({ weixinUserInfo: wx.getStorageSync("weixinUserInfo")});
+    this.setData({ weixinUserInfo: wx.getStorageSync("weixinUserInfo") });
     this.setData({ username: userInfo.name });
     timer = setInterval(this.getCurrentLoc, 30 * 60 * 1000); //30分钟刷新一次
   },
 
-  onUnload: function() { 
-    clearInterval(timer); 
+  onUnload: function () {
+    clearInterval(timer);
   },
 
-  getUserOrderFinish: function (status,isnew) {
+  getUserOrderFinish: function (status, isnew) {
     var that = this;
 
     if (isnew) {//如果是完成支付刷新的。。
-      that.setData({ pageNum: 0, hasMore: true, jsDetailVos: [], jsDetailVosFive: [], lastFinishArray: []});
+      that.setData({ pageNum: 0, hasMore: true, jsDetailVos: [], jsDetailVosFive: [], lastFinishArray: [] });
     } else { //一直是上拉加载更多的。
 
     }
@@ -455,15 +465,15 @@ Page({
       if (code == '1') {
         that.setData({ lastFinishArray: [] });
         // 数据成功
-        that.setData({ jsDetailVos: that.data.jsDetailVosFive.concat(res.data.content)});
-        if(res.data.content.length == that.data.pageCount) {
+        that.setData({ jsDetailVos: that.data.jsDetailVosFive.concat(res.data.content) });
+        if (res.data.content.length == that.data.pageCount) {
           // console.log((res.data.content.length == that.data.pageCount) + ' ' + (that.data.pageNum+1));
-          that.setData({ pageNum: that.data.pageNum+1, hasMore: true, jsDetailVosFive: that.data.jsDetailVosFive.concat(res.data.content)});
+          that.setData({ pageNum: that.data.pageNum + 1, hasMore: true, jsDetailVosFive: that.data.jsDetailVosFive.concat(res.data.content) });
         } else { //查到的总数小于pageCount
           that.setData({ hasMore: false, lastFinishArray: res.data.content });
         }
       } else if (code == '2') {//如果没数据表示没有了.
-        that.setData({ hasMore: false});
+        that.setData({ hasMore: false });
       } else {
         wx.showToast({
           title: '查询订单失败！',
@@ -487,7 +497,7 @@ Page({
         that.setData({ jsDetailVos: res.data.content });
         if (status == '06') {
           that.setData({ jsDetailVosFour: res.data.content });
-        } 
+        }
       } else {
         wx.showToast({
           title: '查询订单失败！',
@@ -520,7 +530,7 @@ Page({
           if (res.data.code == 1) {
             console.log(res.data.content);
             _this.setData({ jsDetailVos: res.data.content });
-            if (status == '04,02') {         
+            if (status == '04,02') {
               _this.setData({ jsDetailVosTwo: res.data.content });
             } else if (status == '05') {
               _this.setData({ jsDetailVosThree: res.data.content });
@@ -544,7 +554,7 @@ Page({
   getOrderTaking: function () {
     var _this = this;
     var userInfo = app.getUserInfo();
-    _this.setData({ jsDetailVos: []});
+    _this.setData({ jsDetailVos: [] });
     if (!userInfo.id) {
       wx.showToast({
         title: '用户信息不正确或为空',
@@ -552,10 +562,10 @@ Page({
       });
       // 校验密码
     } else {
-     
+
       // 获取订单详细
       app.request({
-        url: "phone/js/orderview/getOrderViewTakingAll",
+        url: "/phone/js/orderview/getOrderViewTakingAll",
         data: {
           jsID: userInfo.id,
           serviceType: app.getUserInfo().service_types
@@ -565,7 +575,7 @@ Page({
         loadingMsg: "正在查询订单...",
         successFn: function (res) {
           if (res.data.code == 1) {
-            
+
             if ('不可接单状态' == res.data.content[0]) {
               wx.showModal({
                 title: '提示',
@@ -573,17 +583,17 @@ Page({
                 showCancel: false
               })
             } else {
-                // console.log(res.data.content);
-                // _this.setData({ jsDetailVos: res.data.content });
-                // _this.setData({ jsDetailVosOne: res.data.content });
+              // console.log(res.data.content);
+              // _this.setData({ jsDetailVos: res.data.content });
+              // _this.setData({ jsDetailVosOne: res.data.content });
 
-                _this.filterByDistance(res.data.content);
+              _this.filterByDistance(res.data.content);
             }
           } else if (res.data.code == 2) {
 
             _this.setData({ jsDetailVos: res.data.content });
             _this.setData({ jsDetailVosOne: res.data.content });
-        
+
           }
         },
         successFailFn: function () {
@@ -597,7 +607,7 @@ Page({
   },
 
   filterByDistance: function (list) {
- 
+
     var that = this;
     var listTemp = new Array();
     var listShow = new Array();
@@ -687,7 +697,7 @@ Page({
       that.setData({ jsDetailVos: listDispatch });
       that.setData({ jsDetailVosOne: listDispatch });
     }
-   
+
 
   },
 
@@ -713,7 +723,7 @@ Page({
         loadingMsg: "正在查询...",
         successFn: function (res) {
           if (res.data.code == 1) {
-              _this.setData({ orderAllCount: res.data.content[0].order_count });
+            _this.setData({ orderAllCount: res.data.content[0].order_count });
           } else {
             _this.setData({ orderAllCount: 0 });
           }
@@ -752,7 +762,7 @@ Page({
           if (res.data.code == 1) {
             console.log(res.data.content.status_str)
             if (res.data.content[0].status == '2') {
-              _this.setData({ userstatus: res.data.content[0].status, userstatusname: res.data.content[0].status_str, showClass: 'img-plus-style img-style-2'});
+              _this.setData({ userstatus: res.data.content[0].status, userstatusname: res.data.content[0].status_str, showClass: 'img-plus-style img-style-2' });
             } else {
               _this.setData({ userstatus: res.data.content[0].status, userstatusname: res.data.content[0].status_str, showClass: 'img-plus-style' });
             }
@@ -791,7 +801,7 @@ Page({
         loadingMsg: "正在修改用户状态...",
         successFn: function (res) {
           if (res.data.code == 1) {
-            
+
           }
         },
         successFailFn: function () {
@@ -850,19 +860,19 @@ Page({
     //构建添加额外商品list
     var goods = new Array();
 
-    var obj = new Object(); 
+    var obj = new Object();
     obj.process_person_id = userInfo.id;
     obj.process_person_name = userInfo.name;
     obj.order_id = orderId;
     //支付方式 1：在线支付 2：现金
     var payType = "";
-  
-    if(id == '04') {//点击开工
+
+    if (id == '04') {//点击开工
       obj.process_stage = '05';
       that.changeOrderTop(3);
     } else if (id == '02') {//点击抢单
       obj.process_stage = '02';
-      that.changeOrderTop(2);
+      that.changeOrderTop(2); 
     } else if (id == '03') {//点击接单
       obj.process_stage = '04';
       that.changeOrderTop(2);
@@ -873,22 +883,18 @@ Page({
     if (id == '05') {
       // 跳转
       var item = e.currentTarget.dataset.item;
-      var jsonclStr = JSON.stringify(item);
-      that.setData({ isCommitSuccess: false });
-      wx.navigateTo({
-        url: '../index/finishorder/finishorder?jsonclStr=' + jsonclStr + '&jsonStr=' + jsonStr,
-      })
-    
+      that.getFinishNeedStatus(item, jsonStr);
+      that.setData({ jsonclStrTemp: JSON.stringify(item)});
+      that.setData({ jsonStrTemp: jsonStr })
     } else {
       that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType, orderId, obj);
       console.log(jsonStr)
     }
-    
   },
 
   commitOrderViewStatus: function (objStr, beforeStatus, goodsStr, payType, orderId, obj) {
     var userInfo = app.getUserInfo();
-    
+
     if (!userInfo.id) {
       wx.showToast({
         title: '用户信息不正确或为空',
@@ -902,7 +908,7 @@ Page({
         url: "/phone/js/orderview/commitOrderViewStatus",
         data: {
           objStr: objStr,
-          goodsStr: goodsStr, 
+          goodsStr: goodsStr,
           pay_type: payType
         },
         method: 'POST',
@@ -914,11 +920,11 @@ Page({
               _this.getOrderTaking();
               _this.getOrderListByStatus('04,02');
               _this.changeOrderTop(2);
-            } else if (beforeStatus == '04'){
+            } else if (beforeStatus == '04') {
               _this.getOrderListByStatus('04,02');
               _this.getOrderListByStatus('05');
               _this.changeOrderTop(3);
-            } else if (beforeStatus == '05') {           
+            } else if (beforeStatus == '05') {
               _this.getOrderListByStatus(beforeStatus);
               _this.getUserOrderNOPAY('06');
               // _this.changeOrderTop(3);
@@ -956,7 +962,7 @@ Page({
       method: 'POST',
       loading: false,
       successFn: function (res) {
-        
+
       },
       successFailFn: function () {
 
@@ -966,7 +972,7 @@ Page({
       }
     });
   },
-  
+
   bindItemClick: function (e) {
     var that = this;
     var userInfo = app.getUserInfo();
@@ -990,15 +996,15 @@ Page({
     this.getOrderTaking();
 
   },
-  loadMoreData: function() {
+  loadMoreData: function () {
     var _this = this;
     console.log('到了');
     if (_this.data.orderstatus == '5') {
       if (_this.data.hasMore && !_this.data.isloading) {
         //阻塞不让重复请求
-        _this.setData({ isloading: true});
+        _this.setData({ isloading: true });
         _this.getUserOrderFinish('07', false);
-      }  
+      }
     }
   },
   refreshCTData: function () {
@@ -1013,8 +1019,168 @@ Page({
         // _this.getUserOrderFinish('07', true);
       }
     }
+  },
+
+  getFinishNeedStatus: function (item, jsonStr) {
+    console.log('ctdd--' + JSON.stringify(item))
+    var _this = this;
+    app.request({
+      url:'/phone/js/orderview/getFinishNeedStatus',
+      data:{
+        service_item_id: item.service_item_id
+      },
+      method: 'GET',
+      loading: false,
+      loadingMsg: "正在查询...",
+      successFn: function (res) {
+        if (res.data.code == 1) {
+          console.log(JSON.stringify(res.data.content));
+          _this.setData({isNeed: res.data.content[0].is_need});
+          _this.setData({ tempOrderId: item.order_id});
+          _this.showDialogBtn();
+        } else if (res.data.code == 2) {
+          var jsonclStr = JSON.stringify(item);
+          that.setData({ isCommitSuccess: false });
+          wx.navigateTo({
+            url: '../index/finishorder/finishorder?jsonclStr=' + jsonclStr + '&jsonStr=' + jsonStr,
+          })
+        }    
+      },
+      successFailFn: function () {
+        wx.showToast({
+          title: '查询服务类型状态失败',
+        })
+      },
+      failFn: function () {
+        wx.showToast({
+          title: '网络连接异常',
+        })
+      }
+    })  
+
+  },
+
+  inputChange: function(event) {
+    var id = event.currentTarget.dataset.id;
+    if(id == '11') {
+      this.setData({ idcardNo: event.detail.value});
+    } else if(id == '12') {
+      this.setData({ driveCard : event.detail.value});
+    } else if(id == '13') {
+      this.setData({ carCard: event.detail.value });
+    } else if(id == '14'){
+      this.setData({ otherCard: event.detail.value });
+    }
+  },
+
+  /**
+     * 弹窗
+     */
+  showDialogBtn: function () {
+    this.setData({ showModal: true })
+  },
+  /**
+   * 弹出框蒙层截断touchmove事件
+   */
+  preventTouchMove: function () {
+  },
+  /**
+   * 隐藏模态对话框
+   */
+  hideModal: function () {
+    this.setData({ showModal: false });
+  },
+  /**
+   * 对话框取消按钮点击事件
+   */
+  onCancel: function () {
+    var that = this;
+    that.hideModal();
+    that.setData({ idcardNo: '' });
+    that.setData({ otherCard: '' });
+    that.setData({ carCard: '' });
+    that.setData({ driveCard: '' });
+    that.setData({ tempOrderId: '' });
+    that.setData({ jsonclStrTemp: '' });
+    that.setData({ jsonStrTemp: '' });
+  },
+  /**
+   * 对话框确认按钮点击事件
+   */
+  onConfirm: function () {
+    var _this = this;
+    //验证
+    if (app.isNotBlank(_this.data.idcardNo)) {
+      if (!app.checkIdNumber(_this.data.idcardNo)) {
+        wx.showToast({
+          title: '身份证号格式错误！',
+          duration: 3000
+        });
+        return;
+      }
+    } else {
+      wx.showToast({
+        title: '身份证号不能为空！',
+        duration: 3000
+      });
+      return;
+    }
+    if (_this.data.isNeed == '1') {//普通
+     
+
+    } else if (_this.data.isNeed == '2') {  //汽车
+      if (app.isBlank(_this.data.carCard)) {
+        wx.showToast({
+          title: '行驶证号不能为空！',
+          duration: 3000
+        });
+        return;
+      }
+      if (app.isBlank(_this.data.driveCard)) {
+        wx.showToast({
+          title: '驾驶证号不能为空！',
+          duration: 3000
+        });
+        return;
+      }
+    }
+ 
+    //提交数据
+    app.request({
+      url: '/phone/js/orderview/updateOrdersCertiStatus',
+      data: {
+        order_id: _this.data.tempOrderId,
+        idCardNo: _this.data.idcardNo,
+        carCard: _this.data.carCard,
+        driveCard: _this.data.driveCard,
+        otherCard: _this.data.otherCard
+      },
+      method: 'POST',
+      loading: true,
+      loadingMsg: "正在提交...",
+      successFn: function (res) {
+        if (res.data.code == 1) {
+          _this.hideModal();
+          _this.setData({ idcardNo: '' });
+          _this.setData({ otherCard: '' });
+          _this.setData({ carCard: '' });
+          _this.setData({ driveCard: '' });
+          _this.setData({ tempOrderId: '' });
+          _this.setData({ isCommitSuccess: false });
+          wx.navigateTo({
+            url: '../index/finishorder/finishorder?jsonclStr=' + _this.data.jsonclStrTemp + '&jsonStr=' + _this.data.jsonStrTemp,
+          })
+        }
+      },
+      successFailFn: function () {
+
+      },
+      failFn: function () {
+
+      }
+    })  
   }
-})  
+})
 
 /** 
  * 旋转上拉加载图标 
