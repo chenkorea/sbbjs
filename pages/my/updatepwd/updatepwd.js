@@ -17,19 +17,19 @@ Page({
     var that = this;
     if (this.data.oldpwd.length < 6){
       wx.showModal({
-        title: '提手',
+        title: '提示',
         content: '登录密码不得少于6位',
         showCancel:false
       })
     } else if (this.data.newpwd != this.data.conformpwd) {
       wx.showModal({
-        title: '提手',
+        title: '提示',
         content: '确认密码和新密码不一致',
         showCancel: false
       })
     } else if (this.data.newpwd == this.data.oldpwd) {
       wx.showModal({
-        title: '提手',
+        title: '提示',
         content: '新设置的密码不能和原来的密码一样',
         showCancel: false
       })

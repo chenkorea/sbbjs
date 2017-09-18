@@ -60,6 +60,15 @@ Page({
               title: '重置密码失败了',
             })
           }
+        },
+        completeFn: function(res) {
+          if ('-1' == res.data.code) {
+            wx.showModal({
+              title: '提示',
+              content: '该手机号未注册！',
+              showCancel: false
+            })
+          }
         }
       });
     }
