@@ -15,13 +15,17 @@ Page({
   conforupdate: function () {
     var that = this;
     if (this.data.newpwd.length < 6){
-      wx.showToast({
-        title: '登录密码不得少于六位',
+      wx.showModal({
+        title: '提示',
+        content: '登录密码不得少于六位',
+        showCancel:false
       })
     } else if (this.data.newpwd != this.data.conformpwd) {
-      wx.showToast({
-        title: '两次填写的密码不一致',
-      });
+      wx.showModal({
+        title: '提示',
+        content: '两次填写的密码不一致',
+        showCancel: false
+      })
     } else {
       app.request({
         url: '/phone/userinfor/updatepasswd',

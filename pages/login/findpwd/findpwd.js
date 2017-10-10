@@ -24,7 +24,7 @@ Page({
       });
 
           // 校验密码
-    } else if (that.data.fogcode != that.data.verifycode){
+    } else if (that.data.fogcode == '' || that.data.fogcode != that.data.verifycode){
        wx.showToast({
         title: '验证码错误',
          duration: 1500,
