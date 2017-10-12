@@ -48,7 +48,8 @@ Page({
           content: '两次输入的密码不一致',
           showCancel: false
         })
-      } else if (that.data.regverifycode != that.data.verifycode) {
+      } else if (that.data.regverifycode == ''
+        || that.data.regverifycode != that.data.verifycode) {
         wx.showModal({
           title: '提示',
           content: '验证码错误',
@@ -122,8 +123,10 @@ Page({
     var that = this;
     if(this.data.is_click){
       if (!app.phoneRe.test(that.data.regusername)) {
-        wx.showToast({
-          title: '手机号码格式有误',
+        wx.showModal({
+          title: '提示',
+          content: '手机号码格式有误',
+          showCancel:false
         })
       } else {
         app.request({

@@ -36,7 +36,7 @@ App({
     try {
       if ((typeof o === "undefined") || (o == null)) {
         return true;
-      }22
+      }
 
       return false;
     } catch (e) {
