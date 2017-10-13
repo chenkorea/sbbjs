@@ -376,15 +376,22 @@ function getLocationCityByLatLon(lat, lon, callback) {
   });
 }
 
-function getLocationLatLonByAddr(addr, callback) {
+function getLocationLatLonByAddr(addr, o) {
   var appkey = "ZNIBZ-3WJHJ-BP2FP-FJM5E-6ZBCQ-O2B5H";
+  
   // http://apis.map.qq.com/ws/geocoder/v1/?address=北京市海淀区彩和坊路海淀西大街74号&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77
   var locationUrl = "http://apis.map.qq.com/ws/geocoder/v1/?address=" + addr + "&key=" + appkey;
   wx.request({
     url: locationUrl,
     success: function (res) {
       var locationData = res.data.result;
-      callback(locationData);
+      o.success(locationData);
+    },
+    fail:function(err) {
+      o.failure(err)
+    },
+    complete:function(rescom) {
+      o.completeFn(rescom)
     }
   });
 }

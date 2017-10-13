@@ -24,7 +24,7 @@ Page({
       });
     } else {
       app.request({
-        url: '/phone/userinfor/updatepasswd',
+        url: 'phone/userinfor/updatepasswd',
         data: {
           username: this.data.phone,
           passwd: this.data.conformpwd,

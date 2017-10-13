@@ -59,7 +59,7 @@ Page({
         })
       } else {
         app.request({
-          url: '/phone/userinfor/getverifycode',
+          url: 'phone/userinfor/getverifycode',
           data: {
             phone: that.data.fogphone
           },

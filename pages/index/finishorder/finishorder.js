@@ -33,7 +33,7 @@ Page({
     //改变index值，通过setData()方法重绘界面
     if (e.detail.value == '1') {
       this.setData({ payment: '在线支付' });
-    } else {
+    } else {//2
       this.setData({ payment: '现金支付' });
     }
     this.setData({
@@ -129,7 +129,7 @@ Page({
   getIsUpdatePrice:function(id){
     var that = this
     app.request({
-      url: '/phone/js/user/getOderUpdateProcess',
+      url: 'phone/js/user/getOderUpdateProcess',
       data: {
         dispatching_id: this.data.userOrder.dispatching_id,
         order_id: this.data.userOrder.order_id,
@@ -194,7 +194,7 @@ Page({
   updatePrice: function () {
     var that = this
     app.request({
-      url: '/phone/js/user/updateOrderPrice',
+      url: 'phone/js/user/updateOrderPrice',
       data: {
         dispatching_id: this.data.userOrder.dispatching_id,
         order_id: this.data.userOrder.order_id,
@@ -225,7 +225,7 @@ Page({
   },
   updateOrderPayStatus: function(uid, uname, orderId) {
     app.request({
-      url: "/phone/openkey/updateOrderPayStatus",
+      url: "phone/openkey/updateOrderPayStatus",
       data: {
         uid: uid,
         uname: uname,
@@ -474,7 +474,7 @@ Page({
     var _this = this;
     // 获取订单详细
     app.request({
-      url: "/phone/js/orderview/commitOrderViewStatus",
+      url: "phone/js/orderview/commitOrderViewStatus",
       data: {
         objStr: objStr,
         goodsStr: goodsStr,

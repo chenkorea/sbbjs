@@ -294,7 +294,7 @@ Page({
       var uid = app.getUserInfo().id;
       console.log('getCityName--->locationData:' + JSON.stringify(locationData) + ',uid:' + uid)
       app.request({
-        url: "/phone/userinfor/recordcurloc",
+        url: "phone/userinfor/recordcurloc",
         data: {
           longitude: locationData.location.lng,
           latitude: locationData.location.lat,
@@ -518,7 +518,7 @@ Page({
       var _this = this;
       // 获取订单详细
       app.request({
-        url: "/phone/js/orderview/getOrderViewAll",
+        url: "phone/js/orderview/getOrderViewAll",
         data: {
           order_type: status,
           jsID: userInfo.id
@@ -565,7 +565,7 @@ Page({
 
       // 获取订单详细
       app.request({
-        url: "/phone/js/orderview/getOrderViewTakingAll",
+        url: "phone/js/orderview/getOrderViewTakingAll",
         data: {
           jsID: userInfo.id,
           serviceType: app.getUserInfo().service_types
@@ -607,6 +607,7 @@ Page({
   },
 
   filterByDistance: function (list) {
+    //26.647661106.630154,26.601088,106.728226
 
     var that = this;
     var listTemp = new Array();
@@ -619,19 +620,19 @@ Page({
     console.log('ctllll' + latitude + ' ' + longitude + JSON.stringify(list));
     for (var i = 0; i < list.length; i++) {
       var obj = list[i];
-      if (obj.current_status == '02') {//只过滤抢单的
+      if (obj.current_status == '01') {//只过滤抢单的
         listTemp.push(obj);
       } else {
         listDispatch.push(obj);
       }
     }
-    console.log('ct2222' + JSON.stringify(listDispatch));
+    console.log('ct2222' + listDispatch.length + listTemp.length);
     var index = 0;
     if (listTemp.length > 0) {
       for (var i = 0; i < listTemp.length; i++) {
         console.log(i + 'sdsssss')
-        var obj = listTemp[i];
-        var addr = obj.popedom_name + obj.service_address;
+        let obj = listTemp[i];
+        let addr = obj.popedom_name + obj.service_address;
         // qqmapsdk.geocoder({
         //   address: '贵州省贵阳市云岩区贵乌中路27号',
         //   success: function (res) {
@@ -669,21 +670,37 @@ Page({
         //     console.log(res);
         //   }
         // })
-        Util.getLocationLatLonByAddr(addr, function (e) {
-          if (!((typeof e === "undefined") || (e == null))) {
-            console.log('ct' + latitude + ' ' + longitude + ' ' + e.location.lat + ' ' + e.location.lng + ' ');
-            var distance = parseInt(Util.getFlatternDistance(latitude, longitude, e.location.lat, e.location.lng));
-            console.log('distance = ' + distance)
 
-            // wx.showToast({
-            //   title: distance + '进入',
-            //   duration: 3000
-            // });
+        console.log(addr+ i)
+        Util.getLocationLatLonByAddr(addr, {
+          success: function(e) {
+            if (!((typeof e === "undefined") || (e == null))) {
+              console.log('ct' + latitude + ' ' + longitude + ' ' + e.location.lat + ' ' + e.location.lng + ' ');
+              var distance = parseInt(Util.getFlatternDistance(latitude, longitude, e.location.lat, e.location.lng));
+              console.log('distance = ' + distance + JSON.stringify(e))
 
-            if (distance < 1000) {//当半径大于2000米时，不允许抢单（不显示）
-              console.log('来这里了')
-              listShow.push(obj);
+              // wx.showToast({
+              //   title: distance + '进入',
+              //   duration: 3000
+              // });
+
+              if (distance < 1000) {//当半径大于2000米时，不允许抢单（不显示）
+
+                console.log('来这里了' + addr + JSON.stringify(obj))
+                listShow.push(obj);
+              }
             }
+          },
+          failure:function(err) {
+            console.log('fail--' + index)
+            if (index == listTemp.length - 1) {
+              listShow = listShow.concat(listDispatch);
+              that.setData({ jsDetailVos: listShow });
+              that.setData({ jsDetailVosOne: listShow });
+            }
+          },
+          completeFn: function(rescom) {
+            console.log('completeFn--' + index)
             if (index == listTemp.length - 1) {
               listShow = listShow.concat(listDispatch);
               that.setData({ jsDetailVos: listShow });
@@ -714,7 +731,7 @@ Page({
       var _this = this;
       // 获取订单详细
       app.request({
-        url: "/phone/js/orderview/getOrderViewAllCount",
+        url: "phone/js/orderview/getOrderViewAllCount",
         data: {
           jsID: userInfo.id
         },
@@ -751,7 +768,7 @@ Page({
       var _this = this;
       // 获取订单详细
       app.request({
-        url: "/phone/js/orderview/getUserCurStatus",
+        url: "phone/js/orderview/getUserCurStatus",
         data: {
           jsID: userInfo.id
         },
@@ -791,7 +808,7 @@ Page({
       var _this = this;
       // 获取订单详细
       app.request({
-        url: "/phone/js/orderview/changeUserStatus",
+        url: "phone/js/orderview/changeUserStatus",
         data: {
           userId: userInfo.id,
           status: status
@@ -818,7 +835,7 @@ Page({
    */
   saveWXFormId: function (form_id, uid) {
     app.request({
-      url: "/phone/openkey/saveWXFormId",
+      url: "phone/openkey/saveWXFormId",
       data: {
         form_id: form_id,
         uid: uid
@@ -832,7 +849,7 @@ Page({
   },
   saveWXOrderFormId: function (form_id, order_id) {
     app.request({
-      url: "/phone/openkey/saveWXOrderFormId",
+      url: "phone/openkey/saveWXOrderFormId",
       data: {
         form_id: form_id,
         order_id: order_id,
@@ -905,7 +922,7 @@ Page({
       var _this = this;
       // 获取订单详细
       app.request({
-        url: "/phone/js/orderview/commitOrderViewStatus",
+        url: "phone/js/orderview/commitOrderViewStatus",
         data: {
           objStr: objStr,
           goodsStr: goodsStr,
@@ -953,7 +970,7 @@ Page({
    */
   sendMsgForStatus: function (orderId, status, jsId) {
     app.request({
-      url: "/phone/openkey/sendMsgForStatus",
+      url: "phone/openkey/sendMsgForStatus",
       data: {
         orderId: orderId,
         status: status,
@@ -1025,7 +1042,7 @@ Page({
     console.log('ctdd--' + JSON.stringify(item))
     var _this = this;
     app.request({
-      url:'/phone/js/orderview/getFinishNeedStatus',
+      url:'phone/js/orderview/getFinishNeedStatus',
       data:{
         service_item_id: item.service_item_id
       },
@@ -1147,7 +1164,7 @@ Page({
  
     //提交数据
     app.request({
-      url: '/phone/js/orderview/updateOrdersCertiStatus',
+      url: 'phone/js/orderview/updateOrdersCertiStatus',
       data: {
         order_id: _this.data.tempOrderId,
         idCardNo: _this.data.idcardNo,
