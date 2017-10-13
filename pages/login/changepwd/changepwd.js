@@ -15,13 +15,17 @@ Page({
   conforupdate: function () {
     var that = this;
     if (this.data.newpwd.length < 6){
-      wx.showToast({
-        title: '登录密码不得少于六位',
+      wx.showModal({
+        title: '提示',
+        content: '登录密码不得少于六位',
+        showCancel:false
       })
     } else if (this.data.newpwd != this.data.conformpwd) {
-      wx.showToast({
-        title: '两次填写的密码不一致',
-      });
+      wx.showModal({
+        title: '提示',
+        content: '两次填写的密码不一致',
+        showCancel: false
+      })
     } else {
       app.request({
         url: 'phone/userinfor/updatepasswd',
@@ -58,6 +62,15 @@ Page({
           }else{
             wx.showToast({
               title: '重置密码失败了',
+            })
+          }
+        },
+        completeFn: function(res) {
+          if ('-1' == res.data.code) {
+            wx.showModal({
+              title: '提示',
+              content: '该手机号未注册！',
+              showCancel: false
             })
           }
         }

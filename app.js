@@ -6,6 +6,8 @@ App({
   // 服务器地址
   // serverAddr: "https://www.gywnks.com/sbb-web/",
   serverAddr: "http://192.200.200.23:9000/sbb-web/",
+  // serverAddr: "http://192.200.200.21:9000/sbb-web/",
+  // serverAddr: "https://www.gzwnks.com/sbb-web/",
   // 手机号正则表达式
   phoneRe: /^1[3-9]\d{9}$/i,
   /** 数字的正则表达式 */
@@ -36,7 +38,7 @@ App({
     try {
       if ((typeof o === "undefined") || (o == null)) {
         return true;
-      }22
+      }
 
       return false;
     } catch (e) {
@@ -1053,6 +1055,11 @@ App({
   // 手机号正则表达式
     // serverIp: "https://www.gywnks.com/sbb-web/phone/",
     serverIp: "http://192.200.200.23:9000/sbb-web/phone/",
-    imageServerIp: "https://www.gywnks.com/sbb-web/"
+    // imageServerIp: "https://www.gywnks.com/sbb-web/"
+
+    // serverIp: "https://www.gzwnks.com/sbb-web/phone/",
+    // serverIp: "http://192.200.200.21:9000/sbb-web/phone/",
+    imageServerIp: "https://www.gzwnks.com/sbb-web/"
+    // imageServerIp: "http://192.200.200.21:9000/sbb-web/"
   }
 });

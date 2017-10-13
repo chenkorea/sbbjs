@@ -16,21 +16,23 @@ Page({
   bindViewTap: function () {
     var that = this;
     if (this.data.oldpwd.length < 6){
-      wx.showToast({
-        title: '登录密码不得少于6位',
+      wx.showModal({
+        title: '提示',
+        content: '登录密码不得少于6位',
+        showCancel:false
       })
     } else if (this.data.newpwd != this.data.conformpwd) {
-      wx.showToast({
-        title: '确认密码和新密码不一致',
-      });
-    } else if (this.data.newpwd.length < 6) {
-      wx.showToast({
-        title: '设置登录密码不得少于6位',
-      });
+      wx.showModal({
+        title: '提示',
+        content: '确认密码和新密码不一致',
+        showCancel: false
+      })
     } else if (this.data.newpwd == this.data.oldpwd) {
-      wx.showToast({
-        title: '新设置的密码不能和原来的密码一样',
-      });
+      wx.showModal({
+        title: '提示',
+        content: '新设置的密码不能和原来的密码一样',
+        showCancel: false
+      })
     }else{
       var userinfor = app.getUserInfo();
       app.request({
@@ -47,8 +49,7 @@ Page({
         method: 'POST',
         loading: true,
         loadingMsg: "正在努力加载...",
-        successFn: function (res) {
-          console.log('-----------update successFn----:' + JSON.stringify(res))
+        completeFn:function(res){
           if (res.data.code == '1') {
             wx.showModal({
               title: '提示',
@@ -64,27 +65,24 @@ Page({
                     url: '../../login/login'
                   })
                 } else if (res.cancel) {
-                  
-                }
-              }
-            })
-            
-          } else {
-            wx.showModal({
-              title: '提示',
-              content: '重置密码失败,请重试',
-              success: function (res) {
-                if (res.confirm) {
-                  
-                } else if (res.cancel) {
 
                 }
               }
             })
+
+          } else if (res.data.code == '-1') {
+            wx.showModal({
+              title: '提示',
+              content: '登录密码错误,请重新尝试..',
+              showCancel:false,
+            })
+          }else{
+            wx.showModal({
+              title: '提示',
+              content: '重置密码异常,请重新尝试..',
+              showCancel: false,
+            })
           }
-        },
-        completeFn:function(res){
-          console.log('-----------update completeFn----:' + JSON.stringify(res))
         }
       });
     }

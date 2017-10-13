@@ -73,7 +73,6 @@ Page({
   },
   bindLoginBtnTap: function () { // 点击登录按钮
     var _this = this;
-
     // 校验手机号
     if (!app.phoneRe.test(_this.data.phone)) {
       wx.showModal({
@@ -117,28 +116,31 @@ Page({
         loading: true,
         loadingMsg: "正在登录",
         successFn: function (res) {
-          // 设置登录信息
-          app.setLoginInfo({
-            phone: _this.data.phone,
-            passwd: _this.data.passwd
-          });
-          // 设置用户信息
-          app.setUserInfo(res.data.content[0]);
-          // 设置已登录
-          app.setLoginFlag(true);
-          // 如果用户已登录，重定向到首页
-          if (app.getLoginFlag()) {
-            // 如果已完善用户信息，则重定向到首页
-            if (app.isPerfectUserInfo()) {
-              wx.redirectTo({
-                url: "../index/index"
-              });
+          console.log('successFn------' + JSON.stringify(res))
+          if(res.data.code == '1'){
+            // 设置登录信息
+            app.setLoginInfo({
+              phone: _this.data.phone,
+              passwd: _this.data.passwd
+            });
+            // 设置用户信息
+            app.setUserInfo(res.data.content[0]);
+            // 设置已登录
+            app.setLoginFlag(true);
+            // 如果用户已登录，重定向到首页
+            if (app.getLoginFlag()) {
+              // 如果已完善用户信息，则重定向到首页
+              if (app.isPerfectUserInfo()) {
+                wx.redirectTo({
+                  url: "../index/index"
+                });
 
-              // 否则，重定向到完善用户用户信息界面
-            } else {
-              wx.redirectTo({
-                url: "../userinfo/userinfo?redirectUrl=../index/index"
-              });
+                // 否则，重定向到完善用户用户信息界面
+              } else {
+                wx.redirectTo({
+                  url: "../userinfo/userinfo?redirectUrl=../index/index"
+                });
+              }
             }
           }
         },
@@ -153,6 +155,20 @@ Page({
           app.clearUserInfo();
           // 设置未登录
           app.setLoginFlag(false);
+          wx.showModal({
+            title: '提示',
+            content: '登录时异常，请重新尝试',
+            showCancel: false
+          })
+        },
+        completeFn:function(res){
+          if(res.data.code == '-1') {
+          wx.showModal({
+            title: '提示',
+            content: '登录密码错误，请重新尝试',
+            showCancel: false
+          })
+        }
         }
       });
     }

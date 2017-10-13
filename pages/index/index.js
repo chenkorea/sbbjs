@@ -862,7 +862,7 @@ Page({
       }
     });
   },
-  bindChangeStatusClick: function (e) {
+  bindChangeStatus: function (e) {
     var that = this;
     var formId = e.detail.formId;
     var userInfo = app.getUserInfo();
@@ -907,6 +907,48 @@ Page({
       that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType, orderId, obj);
       console.log(jsonStr)
     }
+  },
+  //获取订单状态
+  bindChangeStatusClick: function (e) {
+    var order_id = e.currentTarget.dataset.orderid;
+    var that = this;
+    app.request({
+      url: "/phone/userinfor/getOrderStatu",
+      data: {
+        order_id: order_id
+      },
+      method: 'POST',
+      loading: true,
+      loadingMsg: "查询订单状态中...",
+      completeFn: function (res) {
+        if (res.data.code == '1'){
+          if (res.data.content[0].process_stage == '09'){
+            wx.showModal({
+              title: '提示',
+              content: '用户已取消该订单...',
+              showCancel: false,
+              success: function (res) {
+                if (res.confirm) {
+                  that.getOrderTaking();
+                }
+              }
+            })
+          }else{
+            that.bindChangeStatus(e);
+          }
+        }else{
+          wx.showModal({
+            title: '提示',
+            content: '订单状态异常...',
+            showCancel:false,
+            success:function(res){
+              if(res.confirm){
+              }
+            }
+          })
+        }
+      }
+    })
   },
 
   commitOrderViewStatus: function (objStr, beforeStatus, goodsStr, payType, orderId, obj) {
