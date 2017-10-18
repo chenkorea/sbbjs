@@ -16,7 +16,7 @@ Page({
   onLoad: function () {
     var that = this;
     var date = new Date();
-    var time = date.getFullYear() + '-' + ((date.getMonth() + 1) > 10 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1))
+    var time = date.getFullYear() + '-' + ((date.getMonth() + 2) > 10 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1))
     this.setData({
       date: time
     })    
