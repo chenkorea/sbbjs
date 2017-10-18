@@ -142,6 +142,7 @@ Page({
       // loading: true,
       // loadingMsg: "正在查询",
       successFn: function (res) {
+        console.log('ctres==' + JSON.stringify(res))
         if (res.data.code == '1' && res.data.content.length>0){
           that.setData({
             service_price: res.data.content[0].service_price == '' ? 0.0 : res.data.content[0].service_price*1,
