@@ -179,9 +179,9 @@ Page({
   },
   transpond: function () {
 
-    this.changeUserStatus('3');
+    this.changeUserStatus('2');
     // 待接单
-    this.setData({ userstatus: '3', userstatusname: '休息中', showClass: 'img-plus-style img-style-2' })
+    this.setData({ userstatus: '2', userstatusname: '休息中', showClass: 'img-plus-style img-style-2' })
     this.plus();
 
   },
@@ -507,7 +507,7 @@ Page({
   },
   getOrderListByStatus: function (status) {
     var userInfo = app.getUserInfo();
-
+   
     if (!userInfo.id) {
       wx.showToast({
         title: '用户信息不正确或为空',
@@ -527,7 +527,24 @@ Page({
         loading: true,
         loadingMsg: "正在查询订单...",
         successFn: function (res) {
-          if (res.data.code == 1) {
+          console.log('res.data.code = ' + JSON.stringify(res))
+          if (res.data.code == 1 || res.data.code == 39) {
+            if (res.data.code == 39) {
+              // 待接单
+              _this.setData({ userstatus: '2', userstatusname: '休息中', showClass: 'img-plus-style img-style-2' })
+            } else {
+              if ('不可接单状态' == res.data.content[0]) {
+                wx.showModal({
+                  title: '提示',
+                  content: '用户信息出错，不能接单',
+                  showCancel: false
+                })
+                return;
+              } else {
+                // 接单中
+                _this.setData({ userstatus: '1', userstatusname: '接单中', showClass: 'img-plus-style' })
+              }   
+            }
             console.log(res.data.content);
             _this.setData({ jsDetailVos: res.data.content });
             if (status == '04,02') {
@@ -574,21 +591,25 @@ Page({
         loading: true,
         loadingMsg: "正在查询订单...",
         successFn: function (res) {
-          if (res.data.code == 1) {
-
-            if ('不可接单状态' == res.data.content[0]) {
-              wx.showModal({
-                title: '提示',
-                content: '当前为休息状态，不能接单',
-                showCancel: false
-              })
-            } else {
-              // console.log(res.data.content);
-              // _this.setData({ jsDetailVos: res.data.content });
-              // _this.setData({ jsDetailVosOne: res.data.content });
-
-              _this.filterByDistance(res.data.content);
-            }
+          if (res.data.code == 1 || res.data.code == 39) {
+            
+              if (res.data.code == 39){
+                
+                _this.setData({ userstatus: '2', userstatusname: '休息中', showClass: 'img-plus-style img-style-2' }) 
+                _this.filterByDistance(res.data.content);
+              } else {
+                if ('不可接单状态' == res.data.content[0]) {
+                  wx.showModal({
+                    title: '提示',
+                    content: '用户信息出错，不能接单',
+                    showCancel: false
+                  })
+                } else {
+                  // 接单中
+                  _this.setData({ userstatus: '1', userstatusname: '接单中', showClass: 'img-plus-style' })
+                  _this.filterByDistance(res.data.content);
+                }  
+              }
           } else if (res.data.code == 2) {
 
             _this.setData({ jsDetailVos: res.data.content });

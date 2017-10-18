@@ -830,7 +830,7 @@ App({
           }
 
           // 成功
-          if (res.data.code == 1 || res.data.code == 2 || res.data.code == -19) {
+          if (res.data.code == 1 || res.data.code == 2 || res.data.code == -19 || res.data.code == 39) {
             if (_this.isFunction(o.successFn)) {
               o.successFn(res);
             }
