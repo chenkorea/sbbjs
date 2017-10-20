@@ -1114,6 +1114,7 @@ Page({
       loading: false,
       loadingMsg: "正在查询...",
       successFn: function (res) {
+       
         if (res.data.code == 1) {
           console.log(JSON.stringify(res.data.content));
           _this.setData({isNeed: res.data.content[0].is_need});
@@ -1121,7 +1122,7 @@ Page({
           _this.showDialogBtn();
         } else if (res.data.code == 2) {
           var jsonclStr = JSON.stringify(item);
-          that.setData({ isCommitSuccess: false });
+          _this.setData({ isCommitSuccess: false });
           wx.navigateTo({
             url: '../index/finishorder/finishorder?jsonclStr=' + jsonclStr + '&jsonStr=' + jsonStr,
           })
