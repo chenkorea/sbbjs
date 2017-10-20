@@ -13,10 +13,11 @@
    </view>
    </view>
 
-   <view class="user-view {{bold_verify_line}}">
+   <view class="ct-user-view {{bold_verify_line}}">
      <image class="pwd_img" src="{{verify_icon}}"></image>
-     <input class="user-text"  bindblur='bindverifyblur' bindfocus='bindverifyfocus'  bindinput="getverifycode" type="number" placeholder="请输入验证码"  value="{{regverifycode}}"/>
-      <view class="verifycode-button" bindtap="getcode">{{tips}}</view>
+      <input class="ct-user-text"  bindblur='bindverifyblur' bindfocus='bindverifyfocus'  bindinput="getverifycode" type="number" placeholder="请输入验证码"  value="{{regverifycode}}"/> 
+     <view class="verifycode-button" catchtap="getcode">{{tips}}</view>
+      
    </view>
 
    <view class="user-view {{bold_pwd_line}}">

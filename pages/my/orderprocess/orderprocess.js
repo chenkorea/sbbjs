@@ -87,6 +87,7 @@ Page({
 
 
     var tech_id = this.data.userOrder.process_person_id;
+    console.log('tech_id==' + tech_id)
     this.getUserLocation(tech_id);
   },
   toPhone: function () {

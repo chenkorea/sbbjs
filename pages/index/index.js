@@ -1058,6 +1058,7 @@ Page({
     var userInfo = app.getUserInfo();
     var item = e.currentTarget.dataset.item;
     var jsonStr = JSON.stringify(item);
+    console.log('ctwantto==' + jsonStr)
     wx.navigateTo({
       url: '../my/orderprocess/orderprocess?jsonStr=' + jsonStr,
     })

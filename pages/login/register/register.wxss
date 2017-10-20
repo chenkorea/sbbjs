@@ -53,18 +53,23 @@
 }
 
 .verifycode-button {
-  position: absolute;
-  width: 35%;
-  height: 60rpx;
-  border-radius: 50rpx;
+  position: relative;
+  display: flex;
+  height: 80rpx;
+  width: 160rpx;
+  border-radius: 10rpx;
+  margin-left: 10rpx;
   right: 20rpx;
   bottom: 10rpx;
   background: #FF7F24;
+  flex-direction: row;
   color: #ffffff;
+  align-items: center;
+  justify-content: center;
   border-bottom: 1rpx solid #CCCCCC;
   font-size: 30rpx;
-  padding-left: 20rpx;
-  padding-top: 30rpx;
+  align-content: center;
+  align-self: flex-end;
 }
 
 .send_btn {
@@ -95,11 +100,14 @@
 }
 
  .register_en_btn {
-  position: relative;
+  display: flex;
   margin-top: 40rpx;
   margin-left: 60rpx;
   margin-right: 60rpx;
   border-radius: 35rpx;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
   height: 90rpx;
   background: #FF7F24;
   color: #FFFFFF;
@@ -107,7 +115,10 @@
 } 
 
 .register_un_btn {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
   margin-top: 40rpx;
   margin-left: 60rpx;
   margin-right: 60rpx;
@@ -186,6 +197,22 @@
   margin-top: 100rpx;
 }
 
+.ct-user-view {
+  position: relative;
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 30rpx;
+  height: 90rpx;
+  font-size: 30rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: flex-start;
+  align-self: flex-start;
+  align-items: center;
+
+}
+
 .user-view {
   position: relative;
   width: 80%;
@@ -196,6 +223,7 @@
   display: flex;
   align-items: center;
 }
+
 
 .bolder-en-line{
   border-bottom: 2rpx solid #FF7F24;
@@ -223,6 +251,15 @@
   top: 30rpx;
   width: 40rpx;
   height: 40rpx;
+}
+
+.ct-user-text {
+  position: relative;
+  width: 320rpx;
+  color: #333333;
+  height: 70rpx;
+  left: 80rpx;
+  top: 0;
 }
 
 .user-text {
