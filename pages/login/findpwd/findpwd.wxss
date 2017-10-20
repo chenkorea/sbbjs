@@ -132,6 +132,16 @@
   top: 0;
 }
 
+.verifycode-text {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 180rpx;
+  width: 45%;
+  height: 90rpx;
+  top: 0;
+}
+
 .pwd-text {
   position: absolute;
   padding-left:30rpx; 
@@ -154,15 +164,13 @@
 
 .send_code_text {
   position: absolute;
-  height: 60rpx;
-  top: 15rpx;
+  height: 100%;
+  width: 30%;
   right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-left: 1rpx solid #F0F0F0;
-  padding-left: 40rpx;
-  padding-right: 40rpx;
+   border-left: 1rpx solid #F0F0F0; 
   color: #00B2EE;
   font-size: 30rpx;
 }

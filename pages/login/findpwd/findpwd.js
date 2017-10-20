@@ -54,9 +54,11 @@ Page({
     var that = this;
     if(this.data.is_click){
       if (!app.phoneRe.test(this.data.fogphone)) {
-        wx.showToast({
-          title: '手机号码格式有误',
-        })
+        wx.showModal({
+          title: "提示",
+          content: "手机号格式不正确！",
+          showCancel: false
+        });
       } else {
         app.request({
           url: 'phone/userinfor/getverifycode',
