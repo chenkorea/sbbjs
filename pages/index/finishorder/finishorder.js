@@ -376,7 +376,7 @@ Page({
         // 上传数据成功
         wx.showModal({
           title: '提交订单成功',
-          content: '请稍等，将会有师傅和您联系！',
+          content: '订单已完工成功！',
           showCancel: false,
         })
 
