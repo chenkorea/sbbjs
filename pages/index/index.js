@@ -460,7 +460,7 @@ Page({
     var userInfo = app.getUserInfo();
     // 提交数据
     Util.getUserOrderFinish(function (res) {
-      wx.hideLoading();
+      if(wx.hideLoading()){wx.hideLoading();}
       var code = res.data.code;
       if (code == '1') {
         that.setData({ lastFinishArray: [] });
@@ -490,7 +490,7 @@ Page({
     var userInfo = app.getUserInfo();
     // 提交数据
     Util.getUserOrderNOPAY(function (res) {
-      wx.hideLoading();
+      if(wx.hideLoading()){wx.hideLoading();}
       var code = res.data.code;
       if (code == "1") {
         // 数据成功

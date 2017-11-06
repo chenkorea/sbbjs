@@ -370,7 +370,7 @@ Page({
     })
     // 提交数据
     Util.finishOrder(function (data) {
-      wx.hideLoading();
+      if(wx.hideLoading()){wx.hideLoading();}
       var code = data.data.code;
       if (code == "1") {
         // 上传数据成功
@@ -414,7 +414,7 @@ Page({
     })
     // 提交数据
     Util.getUserOrderGoods(function (data) {
-      wx.hideLoading();
+      if(wx.hideLoading()){wx.hideLoading();}
       var code = data.data.code;
       if (code == "1") {
         var goodsAr = data.data.content;

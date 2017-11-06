@@ -16,7 +16,7 @@ Page({
     var that = this;
     
     Util.getUserShiFuOrdersProcess(function (data) {
-      wx.hideLoading();
+      if(wx.hideLoading()){wx.hideLoading();}
       var code = data.data.code;
       if (code == "1") {
         that.setData({ ordersProcess: data.data.content })
