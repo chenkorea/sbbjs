@@ -29,7 +29,7 @@
   <view class="login-view">
    <view class="user-view">
      <text class="or_title">手机号</text>
-     <input class="user-text" bindinput="getfogname" placeholder="请输入手机号" type="number" value="{{fogphone}}"/>
+     <input class="user-text" bindinput="getfogname" focus='true' placeholder="请输入手机号" type="number" value="{{fogphone}}"/>
    </view>
 
    <view class="user-view">

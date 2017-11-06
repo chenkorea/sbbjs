@@ -42,7 +42,7 @@
   color: #333333;
   height: 90rpx;
   border-bottom: 1rpx solid #CCCCCC;
-  font-size: 30rpx;
+  font-size: 20rpx;
   padding-left: 20rpx;
 }
 
@@ -56,10 +56,11 @@
   position: relative;
   display: flex;
   height: 80rpx;
-  width: 160rpx;
+  width: 220rpx;
+  padding: 5rpx;
   border-radius: 10rpx;
   margin-left: 10rpx;
-  right: 20rpx;
+  right: 0rpx;
   bottom: 10rpx;
   background: #FF7F24;
   flex-direction: row;
@@ -157,7 +158,7 @@
   color: #BEBEBE; 
 }
 .lock-log{
-  background: url('../../images/lock_login.png') no-repeat;
+  /* background: url('../../images/lock_login.png') no-repeat; */
   height: 40rpx;
   width: 40rpx;
   margin-right: 20rpx;
@@ -171,7 +172,7 @@
 }
 
 .lock-log{
-  background: url('../../images/lock_login.png') no-repeat;
+  /* background: url('../../images/lock_login.png') no-repeat; */
   height: 40rpx;
   width: 40rpx;
   margin-right: 20rpx;
