@@ -9,7 +9,7 @@
     <text class="reg-title"></text> 
    <view class="user-view {{bold_name_line}}">
      <image class="user_img" src="{{name_icon}}"></image>
-     <input class="user-text" bindblur='bindnameblur' bindfocus='bindnamefocus' bindinput="getregname" placeholder="请输入您的手机号" type="number" value="{{username}}"/>
+     <input class="user-text" bindblur='bindnameblur' focus='true' bindfocus='bindnamefocus' bindinput="getregname" placeholder="请输入您的手机号" type="number" value="{{username}}"/>
    </view>
    </view>
 
