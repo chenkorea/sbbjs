@@ -416,6 +416,23 @@ Page({
       }
     })
   },
+  // 发送极光推送通知
+  sendJPushMsg: function (user_id, status) {
+    var that = this;
+    wx.request({
+      url: getApp().globalData.serverIp + 'openkey/sendJPushMsg',
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        user_id: user_id,
+        status: status
+      },
+      success: function (res) {
+      }
+    })
+  },
   onLoad: function () {
     var that = this;
     qqmapsdk = new QQMapWX({
@@ -889,7 +906,9 @@ Page({
     var userInfo = app.getUserInfo();
     var id = e.currentTarget.dataset.id;
     var orderId = e.currentTarget.dataset.orderid;
-    console.log(orderId)
+    var orderItem = e.currentTarget.dataset.item;
+    // console.log('-----------orderItem-------------')
+    // console.log(orderItem)
 
     // 保存FormId
     console.log('formId = ' + formId);
@@ -925,7 +944,7 @@ Page({
       that.setData({ jsonclStrTemp: JSON.stringify(item)});
       that.setData({ jsonStrTemp: jsonStr })
     } else {
-      that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType, orderId, obj);
+      that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType, orderId, obj, orderItem);
       console.log(jsonStr)
     }
   },
@@ -972,7 +991,7 @@ Page({
     })
   },
 
-  commitOrderViewStatus: function (objStr, beforeStatus, goodsStr, payType, orderId, obj) {
+  commitOrderViewStatus: function (objStr, beforeStatus, goodsStr, payType, orderId, obj, orderItem) {
     var userInfo = app.getUserInfo();
 
     if (!userInfo.id) {
@@ -1010,6 +1029,7 @@ Page({
               // _this.changeOrderTop(3);
             }
             // 发送消息
+            _this.sendJPushMsg(orderItem.user_id, obj.process_stage);
             _this.sendMsgForStatus(orderId, obj.process_stage, userInfo.id);
             console.log('成功')
           } else if (res.data.code == -19) {

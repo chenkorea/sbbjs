@@ -264,6 +264,24 @@ Page({
       }
     })
   },
+
+  // 发送极光推送通知
+  sendJPushMsg: function (user_id, status) {
+    var that = this;
+    wx.request({
+      url: getApp().globalData.serverIp + 'openkey/sendJPushMsg',
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        user_id: user_id,
+        status: status
+      },
+      success: function (res) {
+      }
+    })
+  },
   saveData: function () {
     var that = this
     if (that.data.userOrder.is_vip == '1'){
@@ -368,6 +386,7 @@ Page({
     wx.showLoading({
       title: '数据提交中...',
     })
+    var that = this;
     // 提交数据
     Util.finishOrder(function (data) {
       if(wx.hideLoading()){wx.hideLoading();}
@@ -396,6 +415,9 @@ Page({
             isCommitSuccess: true
           })
         }
+
+        // 推送消息
+        that.sendJPushMsg(that.data.userOrder.user_id, '06');
         wx.navigateBack({})
       } else {
         wx.showToast({
