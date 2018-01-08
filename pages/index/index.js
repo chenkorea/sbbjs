@@ -36,7 +36,7 @@ Page({
     inputThreeValue: '',
     allPrice: '',
     payment: '在线支付',
-    payments: ['在线支付', '现金支付'],
+    payments: ['在线支付', '技师代付'],
     fdmindex: 0,
     weixinUserInfo: {},
     orderAllCount: 0,
@@ -72,7 +72,7 @@ Page({
     if (e.detail.value == 0) {
       this.setData({ payment: '在线支付' });
     } else {
-      this.setData({ payment: '现金支付' });
+      this.setData({ payment: '技师代付' });
     }
     this.setData({
       fdmindex: e.detail.value
