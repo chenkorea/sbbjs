@@ -2,6 +2,7 @@
 //获取应用实例
 var app = getApp();
 var Util = require('../../utils/address.js')
+var payUtil = require('../../utils/wxpay.js')
 var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 var qqmapsdk;
 var timer;
@@ -364,18 +365,6 @@ Page({
         console.log('ctQQLoc' + e.latitude + ' ' + e.longitude + ' ')
       }
     })
-  },
-
-  /**
-   * 获取微信登录
-   */
-  wxLogin: function (e) {
-    var that = this;
-    wx.login({
-      success: function (res) {
-        that.getOpenId(res.code, e);
-      }
-    });
   },
   /**
    * 获取openId
@@ -901,6 +890,7 @@ Page({
     });
   },
   bindChangeStatus: function (e) {
+
     var that = this;
     var formId = e.detail.formId;
     var userInfo = app.getUserInfo();
@@ -937,13 +927,16 @@ Page({
 
     var jsonStr = JSON.stringify(obj);
     var jsonGoodsStr = JSON.stringify(goods);
+
     if (id == '05') {
       // 跳转
       var item = e.currentTarget.dataset.item;
       that.getFinishNeedStatus(item, jsonStr);
       that.setData({ jsonclStrTemp: JSON.stringify(item)});
       that.setData({ jsonStrTemp: jsonStr })
-    } else {
+    } else if(id == '06'){
+      payUtil.wxLogin(e)
+    } else{
       that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType, orderId, obj, orderItem);
       console.log(jsonStr)
     }

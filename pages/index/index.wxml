@@ -116,6 +116,9 @@
             <form wx:elif="{{detailvo.current_status == '05'}}" data-id="05" data-orderId="{{detailvo.order_id}}" data-item="{{detailvo}}" report-submit bindsubmit='bindChangeStatusClick'>
               <button class="pay_but" form-type="submit">完工</button>
             </form>
+            <form wx:elif="{{detailvo.current_status == '06'}}" data-id="06" data-orderId="{{detailvo.order_id}}" data-item="{{detailvo}}" report-submit bindsubmit='bindChangeStatusClick' hidden='{{detailvo.pay_type=="1"}}'>
+              <button class="pay_but" form-type="submit">去支付</button>
+            </form>
           </view>
 
         </view>
