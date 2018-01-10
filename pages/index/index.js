@@ -367,6 +367,17 @@ Page({
     })
   },
   /**
+    * 获取微信登录
+  */
+  wxLogin: function (e) {
+    var that = this;
+    wx.login({
+      success: function (res) {
+        that.getOpenId(res.code, e);
+      }
+    });
+  },
+  /**
    * 获取openId
    */
   getOpenId: function (code, e) {

@@ -339,6 +339,29 @@ Page({
       // } else {
       //   this.submitSaveData();
       // }
+      if(this.data.guarantee == 0){
+        wx.showModal({
+          title: '提示',
+          content: '确认本次服务没有保修期？',
+          success: function (res) {
+            if (res.confirm) {
+              wx.showModal({
+                title: '提示',
+                content: '确认提交该订单？',
+                success: function (res) {
+                  if (res.confirm) {
+                    that.submitSaveData()
+                  } else if (res.cancel) {
+                    // that.submitSaveData();
+                  }
+                }
+              })
+            } else if (res.cancel) {
+              // that.submitSaveData();
+            }
+          }
+        })
+      }else{
         wx.showModal({
           title: '提示',
           content: '确认提交该订单？',
@@ -350,6 +373,8 @@ Page({
             }
           }
         })
+      }
+        
     }
   },
   //订单提交

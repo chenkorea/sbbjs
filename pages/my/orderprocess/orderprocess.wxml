@@ -6,6 +6,10 @@
       <view class="order-status">{{userOrder.order_no}}</view>
       <icon class="right-arrow icon-icon iconfont" text="" />
     </view>
+    <view hidden='{{!hasGuarantee}}' class="ct-item">
+      <view class="order-no">保修时间：</view>
+      <view class="order-status">{{userOrder.guarantee + (userOrder.guarantee_date_type == '1'?'月':'年')}}</view>
+    </view>
     <view class="ct-item">
       <view class="order-no">时   间：</view>
       <view class="order-status">{{userOrder.service_time_describe}}</view>
