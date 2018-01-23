@@ -68,7 +68,7 @@ Page({
   },
   bindRegisterBtnTap: function () { // 跳转至注册界面
     wx.navigateTo({
-      url: '../login/register/register'
+      url: '../login/reg/newregister'
     })
   },
   bindLoginBtnTap: function () { // 点击登录按钮
@@ -116,7 +116,6 @@ Page({
         loading: true,
         loadingMsg: "正在登录",
         successFn: function (res) {
-          console.log('successFn------' + JSON.stringify(res))
           if(res.data.code == '1'){
             // 设置登录信息
             app.setLoginInfo({

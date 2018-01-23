@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/login/reg/newregister",
     "pages/login/login",
     "pages/my/my",
     "pages/my/order/order",
@@ -11,7 +12,6 @@
     "pages/my/orderprocess/orderprocess",
     "pages/my/myorder/myorder",
     "pages/userinfo/userinfo",
-    "pages/login/register/register",
     "pages/keymarkets/keymarkets",
     "pages/keymarkets/goodsdetail/goodsdetail",
     "pages/keymarkets/goodsclsfy/goodsclsfy",
