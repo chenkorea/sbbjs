@@ -1213,13 +1213,13 @@ Page({
     var _this = this;
     //验证
     if (app.isNotBlank(_this.data.idcardNo)) {
-      if (!app.checkIdNumber(_this.data.idcardNo)) {
-        wx.showToast({
-          title: '身份证号格式错误！',
-          duration: 3000
-        });
-        return;
-      }
+      // if (!app.checkIdNumber(_this.data.idcardNo)) {
+      //   wx.showToast({
+      //     title: '身份证号格式错误！',
+      //     duration: 3000
+      //   });
+      //   return;
+      // }
     } else {
       wx.showToast({
         title: '身份证号不能为空！',

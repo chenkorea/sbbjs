@@ -182,20 +182,22 @@ Page({
       });
 
       // 校验身份证号格式是否正确
-    } else if (!app.checkIdNumber(_this.data.idNumber)) {
-      wx.showModal({
-        title: "提示",
-        content: "身份证号格式不正确！",
-        showCancel: false,
-        complete: function (res) {
-          _this.setData({
-            idNumberFocus: true
-          });
-        }
-      });
+    } 
+    // else if (!app.checkIdNumber(_this.data.idNumber)) {
+    //   wx.showModal({
+    //     title: "提示",
+    //     content: "身份证号格式不正确！",
+    //     showCancel: false,
+    //     complete: function (res) {
+    //       _this.setData({
+    //         idNumberFocus: true
+    //       });
+    //     }
+    //   });
 
-      // 校验是否选择服务项目
-    } else if (!app.isArray(_this.data.serviceTypesItems) || (_this.data.serviceTypesItems.length == 0)) {
+    //   // 校验是否选择服务项目
+    // } 
+    else if (!app.isArray(_this.data.serviceTypesItems) || (_this.data.serviceTypesItems.length == 0)) {
       wx.showModal({
         title: "提示",
         content: "至少选择一个服务项目！",
