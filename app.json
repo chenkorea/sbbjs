@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/login/reg/newregister",
     "pages/login/login",
     "pages/my/my",
     "pages/my/order/order",
@@ -18,7 +17,8 @@
     "pages/index/finishorder/finishorder",
     "pages/my/updatepwd/updatepwd",
     "pages/login/findpwd/findpwd",
-    "pages/login/changepwd/changepwd"
+    "pages/login/changepwd/changepwd",
+    "pages/login/reg/newregister"
   ],
   "window": {
     "backgroundTextStyle": "light",
