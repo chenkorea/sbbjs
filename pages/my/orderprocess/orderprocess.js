@@ -9,7 +9,8 @@ Page({
     userOrder: {},
     ordersProcess:[],
     hidePhone: '',
-    userLocation: {}
+    userLocation: {},
+    hasGuarantee:true
   },
   getUserShiFuOrdersProcess: function (orderId) {
     wx.showLoading({ title: '数据加载中...', })
@@ -73,9 +74,12 @@ Page({
     var jsonStr = options.jsonStr;
     
     var userOrder = JSON.parse(jsonStr);
-
-    console.log(userOrder);
-
+    if (typeof userOrder.guarantee === "undefined"
+      || userOrder.guarantee == ""
+      || typeof userOrder.guarantee_date_type === "undefined"
+      || userOrder.guarantee_date_type == ""){
+      this.setData({ hasGuarantee: false })
+    }
     this.setData({ 
       userOrder: userOrder,
       hidePhone: userOrder.user_phone.replace(/(\d{3})(\d{4})(\d{4})/, "$1****$3")

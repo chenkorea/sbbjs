@@ -18,7 +18,7 @@ Page({
     payment: '在线支付',
     payments: [
       { name: '1', value: '在线支付', checked: true },
-      { name: '2', value: '现金支付'}],
+      { name: '2', value: '技师代付'}],
     fdmindex: 0,
     processObj:{},
     service_price:'',
@@ -28,13 +28,15 @@ Page({
     isShowPay: true,
     savebutton:"save-en-button",
     loopid:[],
+    guarantee:0,
+    guarantee_date_type:'1'
   },
   listenerRadioGroup: function (e) {
     //改变index值，通过setData()方法重绘界面
     if (e.detail.value == '1') {
       this.setData({ payment: '在线支付' });
     } else {//2
-      this.setData({ payment: '现金支付' });
+      this.setData({ payment: '技师代付' });
     }
     this.setData({
       fdmindex: e.detail.value
@@ -124,6 +126,10 @@ Page({
     var price = e.detail.value;
     this.setData({ additional_service_price: price })
     this.plusPrice();
+  },
+  bindguaranteePInput: function (e) {
+    var period = e.detail.value;
+    this.setData({ guarantee: period })
   },
   //查询当前页面是否有更改服务价格行为
   getIsUpdatePrice:function(id){
@@ -315,24 +321,60 @@ Page({
       var uservice_price = (that.data.userOrder.service_price == '' ? 0.0 : that.data.userOrder.service_price * 1)
       var additional_service_price = (that.data.additional_service_price == '' ? 0.0 : that.data.additional_service_price * 1)
       var uadditional_service_price = (that.data.userOrder.additional_service_price == '' ? 0.0 : that.data.userOrder.additional_service_price * 1)
-      if (service_price != uservice_price || additional_service_price != uadditional_service_price) {
+      // if (service_price != uservice_price || additional_service_price != uadditional_service_price) {
+      //   wx.showModal({
+      //     title: '提示',
+      //     content: '是否要更改服务费用',
+      //     success: function (res) {
+      //       if (res.confirm) {
+      //         that.setData({
+      //           savebutton: "save-un-button"
+      //         })
+      //         that.updatePrice()
+      //       } else if (res.cancel) {
+      //         // that.submitSaveData();
+      //       }
+      //     }
+      //   })
+      // } else {
+      //   this.submitSaveData();
+      // }
+      if(this.data.guarantee == 0){
         wx.showModal({
           title: '提示',
-          content: '是否要更改服务费用',
+          content: '确认本次服务没有保修期？',
           success: function (res) {
             if (res.confirm) {
-              that.setData({
-                savebutton: "save-un-button"
+              wx.showModal({
+                title: '提示',
+                content: '确认提交该订单？',
+                success: function (res) {
+                  if (res.confirm) {
+                    that.submitSaveData()
+                  } else if (res.cancel) {
+                    // that.submitSaveData();
+                  }
+                }
               })
-              that.updatePrice()
             } else if (res.cancel) {
               // that.submitSaveData();
             }
           }
         })
-      } else {
-        this.submitSaveData();
+      }else{
+        wx.showModal({
+          title: '提示',
+          content: '确认提交该订单？',
+          success: function (res) {
+            if (res.confirm) {
+              that.submitSaveData()
+            } else if (res.cancel) {
+              // that.submitSaveData();
+            }
+          }
+        })
       }
+        
     }
   },
   //订单提交
@@ -364,8 +406,8 @@ Page({
     console.log(selcAr);
 
     var pants = '1';
-    if (this.data.payment == '现金支付') {
-      this.data.processObj.process_stage = '07';
+    if (this.data.payment == '技师代付') {
+      this.data.processObj.process_stage = '06';
       pants = '2';
     } else if (this.data.payment == '在线支付') {
       this.data.processObj.process_stage = '06';
@@ -374,7 +416,6 @@ Page({
 
     var oneStr = JSON.stringify(this.data.processObj);
     var twoStr = JSON.stringify(selcAr);
-
     console.log(oneStr);
     console.log(twoStr);
     console.log(pants);
@@ -411,7 +452,7 @@ Page({
           })
         } else if (pants == '2') {
           prevPage.setData({
-            orderstatus: '5',
+            orderstatus: '4',//由技师代付客户消费金额，客户现金支付给技师
             isCommitSuccess: true
           })
         }
@@ -424,7 +465,8 @@ Page({
           title: '提交订单失败！',
         })
       }
-    }, oneStr, twoStr, pants, prone, prtwo)
+    }, oneStr, twoStr, pants, prone, prtwo
+      , that.data.guarantee,that.data.guarantee_date_type)
   },
   /**
    * 获取商品
@@ -478,7 +520,7 @@ Page({
     this.setData({ zhifuprice: userOrder.tatal_price })
     
     if (userOrder.user_id == undefined || userOrder.user_id == '') {
-      this.setData({ payment: '现金支付' });
+      this.setData({ payment: '技师代付' });
       this.setData({ isShowPay: false});
     } else {
       this.setData({ isShowPay: true });
@@ -486,12 +528,12 @@ Page({
     
     this.setData({ dispatching_id: userOrder.dispatching_id })
     this.getUserOrderGoods(this.data.dispatching_id);
-    var id = setInterval(function () {
-      //定时执行的代码
-      that.getIsUpdatePrice(id);
-    }, 3000);
+    // var id = setInterval(function () {
+    //   //定时执行的代码
+    //   that.getIsUpdatePrice(id);
+    // }, 3000);
 
-    this.data.loopid.push(id);
+    // this.data.loopid.push(id);
   },
   commitOrderViewStatus: function (objStr, goodsStr, payType) {
     var _this = this;

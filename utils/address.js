@@ -219,7 +219,7 @@ function getUserOrderPic(callback, orderId) {
 
 
 // 完工订单
-function finishOrder(callback, objStr, goodsStr, payType, service_price, additional_service_price) {
+function finishOrder(callback, objStr, goodsStr, payType, service_price, additional_service_price, guarantee, guarantee_date_type) {
   var remoteUrl = getApp().globalData.serverIp + "js/orderview/commitOrderViewStatus";
   wx.request({
     url: remoteUrl,
@@ -228,7 +228,9 @@ function finishOrder(callback, objStr, goodsStr, payType, service_price, additio
       goodsStr: goodsStr,
       pay_type: payType,
       service_price: service_price,
-      additional_service_price: additional_service_price
+      additional_service_price: additional_service_price,
+      guarantee: guarantee,
+      guarantee_date_type: guarantee_date_type
     },
     method: 'POST',
     header: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -267,7 +269,7 @@ function getUserOrderNOPAY(callback, dispatching_id) {
     method: 'POST',
     header: { 'content-type': 'application/x-www-form-urlencoded' },
     success: function (res) {
-      console.log(res);
+      console.log('getUserOrderNOPAY----->>' + JSON.stringify(res));
       callback(res);
     }
   })

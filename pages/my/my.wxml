@@ -7,6 +7,10 @@
          <view class="level-val">{{userphone}}</view> 
       </view>
     </view>
+    <view class="seting-view" bindtap="addgoods">
+      <icon class="iconfont icon-mysss icon-kefu" /> 
+      <text class="my-title">添加商品</text>
+    </view>
     <view class="seting-view" bindtap="gomyorder">
       <icon class="iconfont icon-mysss icon-kefu" /> 
       <text class="my-title">我的订单收益</text>

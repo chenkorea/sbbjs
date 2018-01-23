@@ -46,3 +46,7 @@
 .display-inline-block {
   display: inline-block;
 }
+
+.w80 {
+  width: 80%;
+}

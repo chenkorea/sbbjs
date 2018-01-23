@@ -14,6 +14,11 @@
   <label class="title col-0">支付总额：</label> 
   <label class="title-value">{{zhifuprice}}</label>
  </view> 
+ <view class="top grid"> 
+  <label class="title col-0">保修时间：</label>
+  <input class="input_base1 input_h30 col-1" name="guarantee" value="{{guarantee}}" bindinput="bindguaranteePInput" type='number'></input>
+  <label class="title col-0">月</label>
+ </view> 
 
  <view class="top bottom grid"> 
   <label class="title col-0">支付方式：</label> 

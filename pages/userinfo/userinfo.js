@@ -79,6 +79,7 @@ Page({
       deletedIdNumberImageIds: deletedIdNumberImageIdsTmp
     });
   },
+  
   bindChooseIdNumberImageTap: function (e) { // 选择身份证照片
     var _this = this;
 

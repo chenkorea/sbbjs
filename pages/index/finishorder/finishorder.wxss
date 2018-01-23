@@ -91,10 +91,16 @@
  font: 300 28rpx/30px "microsoft yahei"; 
 }
   
-.input_base { 
+.input_base {
+ border: 2rpx solid #F0F0F0;
+ padding-left: 10rpx;
+ margin-right: 50rpx;
+} 
+  
+.input_base1 { 
  border: 2rpx solid #F0F0F0; 
  padding-left: 10rpx; 
- margin-right: 50rpx; 
+  width: 80px;
 } 
 .input_h30{ 
  height: 30px; 

@@ -2,6 +2,7 @@
 //获取应用实例
 var app = getApp();
 var Util = require('../../utils/address.js')
+var payUtil = require('../../utils/wxpay.js')
 var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 var qqmapsdk;
 var timer;
@@ -36,7 +37,7 @@ Page({
     inputThreeValue: '',
     allPrice: '',
     payment: '在线支付',
-    payments: ['在线支付', '现金支付'],
+    payments: ['在线支付', '技师代付'],
     fdmindex: 0,
     weixinUserInfo: {},
     orderAllCount: 0,
@@ -72,7 +73,7 @@ Page({
     if (e.detail.value == 0) {
       this.setData({ payment: '在线支付' });
     } else {
-      this.setData({ payment: '现金支付' });
+      this.setData({ payment: '技师代付' });
     }
     this.setData({
       fdmindex: e.detail.value
@@ -365,10 +366,9 @@ Page({
       }
     })
   },
-
   /**
-   * 获取微信登录
-   */
+    * 获取微信登录
+  */
   wxLogin: function (e) {
     var that = this;
     wx.login({
@@ -901,6 +901,7 @@ Page({
     });
   },
   bindChangeStatus: function (e) {
+
     var that = this;
     var formId = e.detail.formId;
     var userInfo = app.getUserInfo();
@@ -937,13 +938,16 @@ Page({
 
     var jsonStr = JSON.stringify(obj);
     var jsonGoodsStr = JSON.stringify(goods);
+
     if (id == '05') {
       // 跳转
       var item = e.currentTarget.dataset.item;
       that.getFinishNeedStatus(item, jsonStr);
       that.setData({ jsonclStrTemp: JSON.stringify(item)});
       that.setData({ jsonStrTemp: jsonStr })
-    } else {
+    } else if(id == '06'){
+      payUtil.wxLogin(e)
+    } else{
       that.commitOrderViewStatus(jsonStr, id, jsonGoodsStr, payType, orderId, obj, orderItem);
       console.log(jsonStr)
     }
