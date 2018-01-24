@@ -1,3 +1,5 @@
+var Util = require('../utils/address.js')
+
 /**
  * 获取微信登录
  */
@@ -25,7 +27,7 @@ function getOpenId(code, e) {
   }
   var that = this;
   wx.request({
-    url: getApp().globalData.serverIp + 'openkey/getWXopenId',
+    url: getApp().globalData.serverIp + 'openkey/getWXJSopenId',
     method: 'POST',
     header: {
       'content-type': 'application/x-www-form-urlencoded'
@@ -74,6 +76,7 @@ function xiadan(opendId, e) {
           wx.showToast({
             title: 'prepay_id获取失败',
           })
+          console.log('prepay_id == prepay_idprepay_id获取失败');
         } else {
           console.log('prepay_id == ' + prepay_id);
           sign(prepay_id, e);
