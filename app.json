@@ -11,14 +11,14 @@
     "pages/my/orderprocess/orderprocess",
     "pages/my/myorder/myorder",
     "pages/userinfo/userinfo",
-    "pages/login/register/register",
     "pages/keymarkets/keymarkets",
     "pages/keymarkets/goodsdetail/goodsdetail",
     "pages/keymarkets/goodsclsfy/goodsclsfy",
     "pages/index/finishorder/finishorder",
     "pages/my/updatepwd/updatepwd",
     "pages/login/findpwd/findpwd",
-    "pages/login/changepwd/changepwd"
+    "pages/login/changepwd/changepwd",
+    "pages/login/reg/newregister"
   ],
   "window": {
     "backgroundTextStyle": "light",
