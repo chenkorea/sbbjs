@@ -452,7 +452,7 @@ Page({
           })
         } else if (pants == '2') {
           prevPage.setData({
-            orderstatus: '4',//由技师代付客户消费金额，客户现金支付给技师
+            orderstatus: '5',//由技师代付客户消费金额，客户现金支付给技师
             isCommitSuccess: true
           })
         }
