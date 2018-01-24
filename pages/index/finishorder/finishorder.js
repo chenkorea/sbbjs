@@ -407,7 +407,7 @@ Page({
 
     var pants = '1';
     if (this.data.payment == '技师代付') {
-      this.data.processObj.process_stage = '06';
+      this.data.processObj.process_stage = '07';
       pants = '2';
     } else if (this.data.payment == '在线支付') {
       this.data.processObj.process_stage = '06';
