@@ -84,10 +84,10 @@ Page({
   bindViewTap: function () {
     var that = this;
     if (that.data.isagree) {
-      if (!app.phoneRe.test(that.data.reg_phone_num)) {
+      if (app.isBlank(that.data.reg_phone_num)) {
         wx.showModal({
           title: '提示',
-          content: '手机号码格式有误',
+          content: '手机号码不能为空',
           showCancel: false
         })
       } else if (app.isBlank(that.data.reg_passwd) || (that.data.reg_passwd.length < 6)) {

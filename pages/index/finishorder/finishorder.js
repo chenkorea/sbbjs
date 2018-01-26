@@ -18,7 +18,7 @@ Page({
     payment: '在线支付',
     payments: [
       { name: '1', value: '在线支付', checked: true },
-      { name: '2', value: '技师代付'}],
+      { name: '2', value: '现金支付'}],
     fdmindex: 0,
     processObj:{},
     service_price:'',
@@ -36,7 +36,7 @@ Page({
     if (e.detail.value == '1') {
       this.setData({ payment: '在线支付' });
     } else {//2
-      this.setData({ payment: '技师代付' });
+      this.setData({ payment: '现金支付' });
     }
     this.setData({
       fdmindex: e.detail.value
@@ -406,7 +406,7 @@ Page({
     console.log(selcAr);
 
     var pants = '1';
-    if (this.data.payment == '技师代付') {
+    if (this.data.payment == '现金支付') {
       this.data.processObj.process_stage = '07';
       pants = '2';
     } else if (this.data.payment == '在线支付') {
@@ -452,7 +452,7 @@ Page({
           })
         } else if (pants == '2') {
           prevPage.setData({
-            orderstatus: '5',//由技师代付客户消费金额，客户现金支付给技师
+            orderstatus: '5',//由现金支付客户消费金额，客户现金支付给技师
             isCommitSuccess: true
           })
         }
@@ -520,7 +520,7 @@ Page({
     this.setData({ zhifuprice: userOrder.tatal_price })
     
     if (userOrder.user_id == undefined || userOrder.user_id == '') {
-      this.setData({ payment: '技师代付' });
+      this.setData({ payment: '现金支付' });
       this.setData({ isShowPay: false});
     } else {
       this.setData({ isShowPay: true });

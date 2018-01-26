@@ -16,7 +16,7 @@ Page({
   //事件处理函数
   bindViewTap: function () {
     var that = this;
-    if (!app.phoneRe.test(that.data.fogphone)) {
+    if (app.isBlank(that.data.fogphone)) {
       wx.showModal({
         title: "提示",
         content: "手机号格式不正确！",
