@@ -114,13 +114,13 @@ Page({
     });
   },
 
-  // bindSummaryInput: function (e) { // 输入商品简介
-  //   var _this = this;
-  //   console.log(e.detail.value)
-  //   _this.setData({
-  //     summary: e.detail.value
-  //   });
-  // },
+  bindSummaryInput: function (e) { // 输入商品简介
+    var _this = this;
+    console.log(e.detail.value)
+    _this.setData({
+      summary: e.detail.value
+    });
+  },
 
   bindTextAreaBlur: function (e) {
     var _this = this;
