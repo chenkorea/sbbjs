@@ -52,3 +52,39 @@
   width: 100%;
   height: 100%;
 }
+
+.ct-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content:stretch;
+  padding:20rpx;
+  border-bottom: 0.9rpx solid #F0F0F0;
+}
+
+.order-item {
+  border-bottom: 10rpx solid #F4F4F4;
+  padding: 20rpx;
+}
+
+.order-no {
+  color: gray;
+  font-size: 28rpx;
+  width: 23%;
+  justify-content: left;
+  align-items: center;
+}
+
+.order-status {
+  flex: 1;
+  display: flex;
+  padding-top: 15rpx;
+  padding-bottom: 15rpx;
+  padding-left: 0rpx;
+  flex-direction: row;
+  color: #333333;
+  font-size: 28rpx;
+  justify-content: baseline;
+  text-align: center;
+  align-items: center;
+}

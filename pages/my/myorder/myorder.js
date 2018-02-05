@@ -8,7 +8,8 @@ Page({
     userOrder: {},
     hasGuarantee:true,
     selectPicAr: [],
-    imageWidth: getApp().screenWidth / 4 - 10
+    imageWidth: getApp().screenWidth / 4 - 10,
+    hasFinish:false,
   },
   //事件处理函数
   bindViewTap: function () {
@@ -65,6 +66,9 @@ Page({
       this.setData({ hasGuarantee: false })
     }
     var that = this
+    if (userOrder && userOrder['current_status'] && userOrder.current_status>'05'){
+      that.setData({ hasFinish: true })
+    }
     that.setData({ userOrder: userOrder})
     that.getUserOrderPic(userOrder.order_id);
   }
