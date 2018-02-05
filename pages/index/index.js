@@ -388,10 +388,14 @@ Page({
       header: {
         'content-type': 'application/x-www-form-urlencoded'
       },
-      data: { code: code },
+      data: { 
+        code: code ,
+        isOld: '1'
+      },
       success: function (res) {
         var openIdStr = res.data.content[0];
         var jsonObj = JSON.parse(openIdStr);
+        console.log('open_id = -------------');
         console.log('open_id = ' + jsonObj.openid);
         that.setData({ open_id: jsonObj.openid });
         var userInfo = app.getUserInfo();
