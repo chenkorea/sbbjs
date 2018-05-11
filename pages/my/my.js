@@ -45,4 +45,9 @@ Page({
       url: './addgoods/addgoods',
     })
   },
+	recordordermessage:function() {
+		wx.navigateTo({
+			url: './recordordermessage/recordordermessage',
+		})
+	}
 })
