@@ -8,6 +8,7 @@
     "pages/index/index",
     "pages/my/money/money",
     "pages/my/addgoods/addgoods",
+		"pages/my/recordordermessage/recordordermessage",
     "pages/my/orderprocess/orderprocess",
     "pages/my/myorder/myorder",
     "pages/userinfo/userinfo",
