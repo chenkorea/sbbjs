@@ -20,6 +20,8 @@
   /* background: #cfd6af; */
   background: white;
   border-radius: 20rpx;
+	display: flex;
+	flex-direction:column;
 }
 
 .userinfo-title-view {
