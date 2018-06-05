@@ -135,6 +135,7 @@ Page({
 
 	//是否上架
 	switch1Change: function (e) {
+		var _this = this;
 		if (e.detail.value) {
 			_this.setData({
 				status: 1

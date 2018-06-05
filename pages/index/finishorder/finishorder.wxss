@@ -190,3 +190,64 @@ radio{
   font-size: 28rpx;
   height: 40rpx;
 }
+
+.userinfo-view .userinfo-text {
+  width: 100%;
+  color: black;
+  padding: 20rpx 0rpx;
+  display: block;
+  font-size: 32rpx;
+}
+
+
+.userinfo-image-list .userinfo-image, .userinfo-image-list .userinfo-image-plus {
+  float: left;
+  width: 180rpx;
+  height: 180rpx;
+  margin: 10rpx;
+  padding: 0rpx;
+  text-align: center;
+  background: ghostwhite;
+}
+
+.userinfo-image-list .userinfo-image {
+  position: relative;
+}
+
+.userinfo-image-list .userinfo-image-plus {
+  border: 1px solid white;
+  line-height: 180rpx;
+}
+
+.userinfo-image-list .userinfo-image .userinfo-image-minus {
+  top: 0rpx;
+  left: 140rpx;
+  width: 40rpx;
+  height: 40rpx;
+  z-index: 100;
+  position: absolute;
+  vertical-align: top;
+}
+
+.userinfo-image-list .userinfo-image .userinfo-image-image {
+  top: 0rpx;
+  left: 0rpx;
+  width: 180rpx;
+  height: 180rpx;
+  z-index: 10;
+  position: absolute;
+}
+
+.userinfo-image-list .userinfo-image .userinfo-image-image image {
+  width: 180rpx;
+  height: 180rpx;
+}
+
+.userinfo-view-bg {
+  padding: 0rpx 0rpx 30rpx 0rpx;
+  /* background: #cfd6af; */
+  background: white;
+  border-radius: 20rpx;
+	display: flex;
+	flex-direction:column;
+}
