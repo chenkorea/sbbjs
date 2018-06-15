@@ -29,7 +29,8 @@ Page({
     savebutton:"save-en-button",
     loopid:[],
     guarantee:0,
-    guarantee_date_type:'1'
+    guarantee_date_type:'1',
+		idNumberImageItems:[]
   },
   listenerRadioGroup: function (e) {
     //改变index值，通过setData()方法重绘界面
@@ -433,33 +434,34 @@ Page({
       if(wx.hideLoading()){wx.hideLoading();}
       var code = data.data.code;
       if (code == "1") {
-        // 上传数据成功
-        wx.showModal({
-          title: '提交订单成功',
-          content: '订单已完工成功！',
-          showCancel: false,
-        })
 
-        var pages = getCurrentPages(); 
-        var currPage = pages[pages.length - 1]; //当前页面
-        var prevPage = pages[pages.length - 2]; 
-        //上一个页面 //直接调用上一个页面的setData()方法，把数据存到上一个页面中去 
-        console.log(pants + prevPage.data.orderstatus)
-        if (pants == '1') {
-          prevPage.setData({
-            orderstatus: '4',
-            isCommitSuccess: true
-          })
-        } else if (pants == '2') {
-          prevPage.setData({
-            orderstatus: '5',//由现金支付客户消费金额，客户现金支付给技师
-            isCommitSuccess: true
-          })
-        }
-
-        // 推送消息
-        that.sendJPushMsg(that.data.userOrder.user_id, '06');
-        wx.navigateBack({})
+				if (that.data.idNumberImageItems.length > 0) {
+					for (var i = 0; i < that.data.idNumberImageItems.length; i++) {
+						var eTmp = that.data.idNumberImageItems[i];
+						app.uploadFile({
+							url: "phone/openkey/uploadMobileFile",
+							name: "file",
+							loading: true,
+							filePath: eTmp.path,
+							formData: {
+								parent_id: that.data.processObj.order_id,
+								file_type: "18",
+								operator_name: app.getUserInfo().name,
+								personId: app.getUserInfo().id,
+							},
+							loadingMsg: "正在上传商品图片",
+							completeAllFn: function () {
+								// //上传完成
+								// _this.initData();
+								// // 启用保存按钮
+								// _this.setData({
+								// 	saveBtnDisabled: ""
+								// });
+							}
+						});
+					}
+				}
+				that.commitFinish(pants);
       } else {
         wx.showToast({
           title: '提交订单失败！',
@@ -468,6 +470,31 @@ Page({
     }, oneStr, twoStr, pants, prone, prtwo
       , that.data.guarantee,that.data.guarantee_date_type)
   },
+
+	commitFinish:function(pants) {
+		var pages = getCurrentPages();
+		var currPage = pages[pages.length - 1]; //当前页面
+		var prevPage = pages[pages.length - 2];
+		//上一个页面 //直接调用上一个页面的setData()方法，把数据存到上一个页面中去 
+		console.log(pants + prevPage.data.orderstatus)
+		var pants = this.type;
+		if (pants == '1') {
+			prevPage.setData({
+				orderstatus: '4',
+				isCommitSuccess: true
+			})
+		} else if (pants == '2') {
+			prevPage.setData({
+				orderstatus: '5',//由现金支付客户消费金额，客户现金支付给技师
+				isCommitSuccess: true
+			})
+		}
+
+		// 推送消息
+		this.sendJPushMsg(this.data.userOrder.user_id, '06');
+		wx.navigateBack({})
+	},
+
   /**
    * 获取商品
    */
@@ -653,5 +680,81 @@ Page({
     }
     var cun = servicePrice + addiservicePrice + allP;
     this.setData({ zhifuprice: ''+cun})
-  }
+  },
+
+	bindChooseIdNumberImageTap: function (e) { // 选择商品照片
+		var _this = this;
+
+		wx.chooseImage({
+			count: 9,
+			sizeType: ["original"],
+			success: function (res) {
+				var idNumberImageItemsTmp = _this.data.idNumberImageItems;
+
+				for (var i = 0; i < res.tempFiles.length; i++) {
+					var file = res.tempFiles[i];
+
+					idNumberImageItemsTmp.push({
+						id: "",
+						path: file.path,
+						index: idNumberImageItemsTmp.length
+					});
+				}
+
+				_this.setData({
+					idNumberImageItems: idNumberImageItemsTmp
+				});
+			}
+		});
+	},
+
+	bindPreviewIdNumberImageTap: function (e) { // 预览身份证照片
+		var _this = this;
+		// 取出数组索引
+		var index = e.currentTarget.dataset.index;
+		var idNumberImagePaths = [];
+
+		if (_this.data.idNumberImageItems.length > 0) {
+			for (var i = 0; i < _this.data.idNumberImageItems.length; i++) {
+				var eTmp = _this.data.idNumberImageItems[i];
+
+				idNumberImagePaths.push(eTmp.path);
+			}
+		}
+
+		if (idNumberImagePaths.length > 0) {
+			var currIdNumberImagePath = idNumberImagePaths[index];
+
+			wx.previewImage({
+				current: currIdNumberImagePath, // 当前显示图片的http链接
+				urls: idNumberImagePaths
+			});
+		}
+	},
+	bindDeleteIdNumberImageTap: function (e) { // 删除身份证照片
+		var _this = this;
+		// 取出数组索引
+		var index = e.currentTarget.dataset.index;
+		var idNumberImageItemsTmp1 = _this.data.idNumberImageItems;
+
+		// 删除 index 指定的元素，并返回
+		var idNumberImageTmp = idNumberImageItemsTmp1.splice(index, 1)[0];
+
+		// 从新整理数组
+		var idNumberImageItemsTmp2 = [];
+
+		for (var i = 0; i < idNumberImageItemsTmp1.length; i++) {
+			var eTmp = idNumberImageItemsTmp1[i];
+
+			idNumberImageItemsTmp2.push({
+				id: app.getString(eTmp.id),
+				path: app.getString(eTmp.path),
+				index: idNumberImageItemsTmp2.length
+			});
+		}
+
+		_this.setData({
+			idNumberImageItems: idNumberImageItemsTmp2,
+		});
+	},
 })

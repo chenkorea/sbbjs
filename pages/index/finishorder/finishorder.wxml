@@ -1,6 +1,7 @@
 <!--finishorder.wxml-->
 
 <view class="main_view">
+  <view class="userinfo-view-bg">
  <view class="drawer_content"> 
  <view class="top grid"> 
   <label class="title col-0">服务费用：</label> 
@@ -39,6 +40,21 @@
  </view>
  </view> 
 
+  <view class="userinfo-view">
+      <text class="userinfo-text">上传现场图片（可上传多张）：</text>
+
+      <view class="userinfo-image-list">
+        <block wx:for="{{idNumberImageItems}}">
+          <template is="idNumberImageItem" data="{{item}}" />
+        </block>
+
+        <view class="userinfo-image-plus" bindtap="bindChooseIdNumberImageTap">
+          <icon class="iconfont icon-plus f-s-50 c-white" />
+        </view>
+      </view>
+    </view>
+
+
  <view class="null_view"></view>
 
  <view class="goods_item" wx:for="{{selctgoodsAr}}" wx:key="{{index}}">
@@ -55,3 +71,17 @@
 
   <!-- 提交按钮 -->
   <button class="{{savebutton}}" bindtap="saveData">提交</button>
+</view>
+
+	
+<template name="idNumberImageItem">
+  <view class="userinfo-image">
+    <view class="userinfo-image-minus" data-index="{{item.index}}" bindtap="bindDeleteIdNumberImageTap">
+      <icon class="iconfont icon-guanbi3 f-s-35 c-red" />
+    </view>
+
+    <view class="userinfo-image-image" data-index="{{item.index}}" bindtap="bindPreviewIdNumberImageTap">
+      <image class="" src="{{item.path}}" />
+    </view>
+  </view>
+</template>

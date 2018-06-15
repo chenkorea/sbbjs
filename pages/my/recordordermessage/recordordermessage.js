@@ -1,13 +1,14 @@
 // 获取应用实例
 var app = getApp();
-
+var Util = require('../../../utils/address.js')
 Page({
 	data: {
+		id: '',
 		user_phone: "", //客户电话
 		user_name: "", //客户名字
-		type: "", //服务项目id
-		address: "请选择服务地址", //服务地址
-		toptype: "", //服务大类data_code
+		service_item_id: "", //服务项目id
+		service_address: "请选择服务地址", //服务地址
+		service_type: "", //服务大类data_code
 		id_card: "", //身份证ID
 		car_card: "", //行驶证号
 		drive_card: "", //驾驶证号
@@ -31,11 +32,13 @@ Page({
 		otherFocus:false,
 		priceFocus:false,
 		addPriceFocus:false,
+		addressFocus: false,
 		saveBtnDisabled: "",
 		longitude:'',
 		latitude:'',
 		isNeed:'0',
-		isAddrFirst:true
+		isAddrFirst:true,
+		idNumberImageItems: [], // 商品图片
 	},
 
 	bindMultiPickerChange: function (e) {
@@ -46,7 +49,7 @@ Page({
 		var categoryName = this.data.multiArray[0][this.data.multiIndex[0]].service_item + '—' + this.data.multiArray[1][this.data.multiIndex[1]].service_item;
 		this.setData({
 			category_name: categoryName,
-			type: this.data.multiArray[1][this.data.multiIndex[1]].id
+			service_item_id: this.data.multiArray[1][this.data.multiIndex[1]].id
 		})
 
 		this.getFinishNeedStatus();
@@ -78,13 +81,14 @@ Page({
 		this.setData(data);
 	
 		var categoryName = data.multiArray[0][data.multiIndex[0]].service_item + '—' + data.multiArray[1][data.multiIndex[1]].service_item;
-		var topType = this.data.multiArray[1][this.data.multiIndex[1]].service_type;
+		var service_type = this.data.multiArray[1][this.data.multiIndex[1]].service_type;
+		console.log('service_type=', service_type);
 		this.setData({
 			isFirst: false,
 			category_name: categoryName,
-			toptype: topType,
-			serviceType: topType,
-			type: data.multiArray[1][data.multiIndex[1]].id
+			service_type: service_type,
+			serviceType: service_type,
+			service_item_id: data.multiArray[1][data.multiIndex[1]].id
 		})
 		console.log(data.multiIndex[0], data.multiArray[0], this.data.multiArray[1][this.data.multiIndex[1]].id);
 	},
@@ -139,10 +143,17 @@ Page({
 		});
 	},
 
-	bindAddpriceInput: function (e) { // 输入附加服务费
+	bindAddpriceInput:function(e) {
 		var _this = this;
 		_this.setData({
 			additional_service_price: e.detail.value
+		});
+	},
+
+	bindServiceAddrInput: function (e) { // 输入服务地址
+		var _this = this;
+		_this.setData({
+			service_address: e.detail.value
 		});
 	},
 
@@ -229,21 +240,23 @@ Page({
 			selcAr[i] = orders;
 		}
 		var addGoodsStr = JSON.stringify(selcAr);
-
+		console.log('service_typedfds=',_this.data.service_type);
+		console.log('service_item_id=', _this.data.service_item_id);
 		app.request({
 			url: "/phone/js/user/saveRecordOrder",
 			data: {
+				orderId: _this.data.id,
 				js_id: app.getUserInfo().id,
 				js_name: app.getUserInfo().name,
 				js_phone: app.getUserInfo().phone,
 				user_phone: _this.data.user_phone,
 				user_name: _this.data.user_name,
 				id_card: _this.data.id_card,
-				service_type: _this.data.toptype,
-				service_item_id: _this.data.type,
+				service_type: _this.data.service_type,
+				service_item_id: _this.data.service_item_id,
 				service_price: _this.data.service_price,
 				additional_service_price: _this.data.additional_service_price,
-				service_address: _this.data.address,
+				service_address: _this.data.service_address,
 				car_card: _this.data.car_card,
 				drive_card: _this.data.drive_card,
 				other_card: _this.data.other_card,
@@ -254,7 +267,35 @@ Page({
 			loadingMsg: "正在保存",
 			successFn: function (res) {
 				if (res.data.code == '1') {
-					
+					_this.setData({
+						id: res.data.content[0].id
+					});
+					if (_this.data.idNumberImageItems.length > 0) {
+						for (var i = 0; i < _this.data.idNumberImageItems.length; i++) {
+							var eTmp = _this.data.idNumberImageItems[i];
+							app.uploadFile({
+								url: "phone/openkey/uploadMobileFile",
+								name: "file",
+								loading: true,
+								filePath: eTmp.path,
+								formData: {
+									parent_id: res.data.content[0].id,
+									file_type: "5",
+									operator_name: app.getUserInfo().name,
+									personId: app.getUserInfo().id,
+								},
+								loadingMsg: "正在上传商品图片",
+								completeAllFn: function () {
+									// //上传完成
+									// _this.initData();
+									// // 启用保存按钮
+									// _this.setData({
+									// 	saveBtnDisabled: ""
+									// });
+								}
+							});
+						}
+					} 
 					wx.showToast({
 						title: "保存成功！",
 						duration: 3000,
@@ -266,6 +307,7 @@ Page({
 					_this.setData({
 						saveBtnDisabled: ""
 					});
+				
 				}
 				
 			},
@@ -276,18 +318,20 @@ Page({
 
 	initData: function () {
 		this.setData({
+			id: "",
 			user_phone: "",//客户电话
 			user_name : "", //客户名字
-			type : "", //服务项目id
-			address : "", //服务地址
-			toptype : "", //服务大类data_code
+			service_item_id : "", //服务项目id
+			service_address : "", //服务地址
+			service_type : "", //服务大类data_code
 			id_card : "", //身份证ID
 			car_card : "", //行驶证号
 			drive_card : "", //驾驶证号
 			other_card : "", //其他号
 			service_price : "", //服务费
 			additional_service_price : "", //额外服务费。
-      selctgoodsAr : []
+      selctgoodsAr : [],
+			idNumberImageItems: []
 		
 		});
 		wx.removeStorage({
@@ -315,11 +359,32 @@ Page({
 
 				that.setData({
 					isAddrFirst:false,
-					address: addre,
+					service_address: addre,
 					longitude: res.longitude,
 					latitude: res.latitude
 				})
 			},
+		})
+	},
+
+	getCurrentLoc: function () {
+		Util.getLocationInfoCT(function (e) {
+			if (!((typeof e === "undefined") || (e == null))) {
+				wx.setStorageSync("latObj", e);
+				console.log(e);
+				console.log('ctQQLoc' + e.latitude + ' ' + e.longitude + ' ')
+			}
+		})
+	},
+
+	getLocationInfoct: function() {
+		var _this = this;
+		Util.getCityName(function (e) {
+			if (!((typeof e === "undefined") || (e == null))) {
+				_this.setData({
+					service_address:e.address
+				});
+			}
 		})
 	},
 
@@ -345,8 +410,8 @@ Page({
 					console.log(JSON.stringify(res.data.content));
 					_this.setData({
 						typeTopOpt: res.data.content,
-						// toptype: res.data.content[0].data_code,
-						// serviceType: res.data.content[0].data_code,
+						service_type: res.data.content[0].data_code,
+						serviceType: res.data.content[0].data_code,
 						// type: res.data.content[0].children[0].id,
 						multiArray: allArray
 					})
@@ -367,7 +432,7 @@ Page({
 
 		app.request({
 			url: "/phone/js/orderview/getFinishNeedStatus",
-			data: {service_item_id: _this.data.type},
+			data: { service_item_id: _this.data.service_item_id},
 			method: "GET",
 			loading: true,
 			loadingMsg: "正在加载...",
@@ -432,9 +497,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
 	onUnload: function () {
-		for (var i = 0; i < this.data.loopid; i++) {
-			clearInterval(this.data.loopid[i]);//关闭定时器
-		}
+	
 		wx.removeStorage({
 			key: 'selctgoodsAr',
 			success: function (res) { },
@@ -452,9 +515,85 @@ Page({
 		//分类全部下载，前台过滤
 		_this.getServiceTopType();
 		// _this.getServiceType();
+		_this.getLocationInfoct();
 	},
 
 	onReady: function () { // 初始化
 		var _this = this;
-	}
+	},
+	bindChooseIdNumberImageTap: function (e) { // 选择商品照片
+		var _this = this;
+
+		wx.chooseImage({
+			count: 9,
+			sizeType: ["original"],
+			success: function (res) {
+				var idNumberImageItemsTmp = _this.data.idNumberImageItems;
+
+				for (var i = 0; i < res.tempFiles.length; i++) {
+					var file = res.tempFiles[i];
+
+					idNumberImageItemsTmp.push({
+						id: "",
+						path: file.path,
+						index: idNumberImageItemsTmp.length
+					});
+				}
+
+				_this.setData({
+					idNumberImageItems: idNumberImageItemsTmp
+				});
+			}
+		});
+	},
+
+	bindPreviewIdNumberImageTap: function (e) { // 预览身份证照片
+		var _this = this;
+		// 取出数组索引
+		var index = e.currentTarget.dataset.index;
+		var idNumberImagePaths = [];
+
+		if (_this.data.idNumberImageItems.length > 0) {
+			for (var i = 0; i < _this.data.idNumberImageItems.length; i++) {
+				var eTmp = _this.data.idNumberImageItems[i];
+
+				idNumberImagePaths.push(eTmp.path);
+			}
+		}
+
+		if (idNumberImagePaths.length > 0) {
+			var currIdNumberImagePath = idNumberImagePaths[index];
+
+			wx.previewImage({
+				current: currIdNumberImagePath, // 当前显示图片的http链接
+				urls: idNumberImagePaths
+			});
+		}
+	},
+	bindDeleteIdNumberImageTap: function (e) { // 删除身份证照片
+		var _this = this;
+		// 取出数组索引
+		var index = e.currentTarget.dataset.index;
+		var idNumberImageItemsTmp1 = _this.data.idNumberImageItems;
+
+		// 删除 index 指定的元素，并返回
+		var idNumberImageTmp = idNumberImageItemsTmp1.splice(index, 1)[0];
+
+		// 从新整理数组
+		var idNumberImageItemsTmp2 = [];
+
+		for (var i = 0; i < idNumberImageItemsTmp1.length; i++) {
+			var eTmp = idNumberImageItemsTmp1[i];
+
+			idNumberImageItemsTmp2.push({
+				id: app.getString(eTmp.id),
+				path: app.getString(eTmp.path),
+				index: idNumberImageItemsTmp2.length
+			});
+		}
+
+		_this.setData({
+			idNumberImageItems: idNumberImageItemsTmp2,
+		});
+	},
 });
